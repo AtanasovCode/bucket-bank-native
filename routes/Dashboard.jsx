@@ -85,7 +85,10 @@ const Dashboard = ({ navigation }) => {
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>
             <Header />
             <StatusBar style="light" />
-            <View>
+            <Text style={[styles.title, {color: theme.light}]}>
+                Buckets
+            </Text>
+            <View style={{marginLeft: "3%", marginRight: "3%"}}>
                 {
                     loading ?
                         <Text style={{ color: "#fff" }}>Loading...</Text>
@@ -130,6 +133,11 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
+    },
+    title: {
+        textAlign: "center",
+        fontSize: 20,
+        marginBottom: "15%",
     },
     add: {
         padding: "5%",

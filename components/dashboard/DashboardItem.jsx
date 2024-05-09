@@ -24,14 +24,14 @@ const DashboardItem = ({
 
     return (
         <TouchableHighlight
-            style={styles.container}
+            style={[styles.container, {backgroundColor: theme.inactive}]}
             onPress={() => {
                 saveID(id)
             }}>
             <View style={styles.itemContainer}>
                 <Text style={[
                     styles.name,
-                    {color: theme.white}
+                    {color: theme.text}
                 ]}>
                     {name}
                 </Text>
@@ -51,9 +51,10 @@ const DashboardItem = ({
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        marginBottom: 12,
+        marginBottom: "5%",
         flexDirection: 'column',
         padding: 26,
+        borderRadius: 15,
     },
     itemContainer: {
         flexDirection: 'row',
