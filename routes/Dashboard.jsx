@@ -22,8 +22,6 @@ const Dashboard = () => {
 
     const [loading, setLoading] = useState(true);
     const [buckets, setBuckets] = useState([]);
-    const [name, setName] = useState("");
-    const [goal, setGoal] = useState("");
 
     const saveData = async (value) => {
         try {
@@ -82,32 +80,6 @@ const Dashboard = () => {
 
     return (
         <View style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>
-            <TextInput
-                style={{ padding: 15, color: "#fff", backgroundColor: "#383535", margin: 24, }}
-                value={name}
-                placeholder="Name"
-                placeholderTextColor={"#ada6a6"}
-                onChangeText={(value) => {
-                    setName(value)
-                }}
-            />
-            <TextInput
-                style={{ padding: 15, color: "#fff", backgroundColor: "#383535", margin: 24, }}
-                value={goal}
-                placeholder="Goal"
-                placeholderTextColor={"#ada6a6"}
-                onChangeText={(value) => {
-                    setGoal(value)
-                }}
-            />
-
-            <Button
-                title="Save Bucket"
-                onPress={() => {
-                    saveBucket(name, goal)
-                }}
-            />
-
             <View>
                 {
                     loading ?

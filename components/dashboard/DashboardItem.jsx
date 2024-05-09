@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import { formatMoney, formatName } from '../Utils';
 import { theme } from '../../Colors';
 
@@ -23,7 +23,7 @@ const DashboardItem = ({
     }
 
     return (
-        <TouchableOpacity
+        <TouchableHighlight
             style={styles.container}
             onPress={() => {
                 saveID(id)
@@ -44,7 +44,7 @@ const DashboardItem = ({
                     {formatMoney(saved)} $
                 </Text>
             </View>
-        </TouchableOpacity>
+        </TouchableHighlight>
     );
 };
 
