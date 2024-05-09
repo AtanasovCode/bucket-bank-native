@@ -6,10 +6,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "../Colors";
 import Header from "../components/Header";
+import * as Crypto from 'expo-crypto';
 
 const Input = ({
     navigation,
+    route,
 }) => {
+
+    const { saveBucket } = route.params;
 
     const [name, setName] = useState("");
     const [goal, setGoal] = useState("");
@@ -21,6 +25,14 @@ const Input = ({
     useEffect(() => {
         firstInputRef.current.focus();
     }, [])
+
+    const checkInputs = () => {
+        name && goal ? setInputs(true) : setInputs(false);
+    }
+
+    useEffect(() => {
+        checkInputs();
+    }, [name, goal])
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
@@ -74,6 +86,12 @@ const Input = ({
                 <View style={[styles.saveContainer, styles.wrapper]}>
                     <TouchableHighlight
                         style={[styles.save, { backgroundColor: inputs ? theme.accent : theme.inactive }]}
+                        onPress={() => {
+                            if (inputs) {
+                                saveBucket(name, goal);
+                                navigation.navigate("Dashboard");
+                            }
+                        }}
                     >
                         <Text style={{ color: inputs ? theme.white : theme.light }}>
                             Save

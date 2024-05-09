@@ -26,15 +26,6 @@ const Dashboard = ({ navigation }) => {
     const [loading, setLoading] = useState(true);
     const [buckets, setBuckets] = useState([]);
 
-    const saveData = async (value) => {
-        try {
-            const jsonValue = JSON.stringify(value);
-            await AsyncStorage.setItem("buckets", jsonValue)
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
     const getData = async () => {
         try {
             const value = await AsyncStorage.getItem("buckets");
@@ -50,6 +41,15 @@ const Dashboard = ({ navigation }) => {
         }
     }
 
+    const clearAsyncStorage = async () => {
+        try {
+            await AsyncStorage.clear();
+            console.log('AsyncStorage cleared successfully.');
+        } catch (error) {
+            console.error('Error clearing AsyncStorage:', error);
+        }
+    };
+
     const saveBucket = (name, goal) => {
         const savedBucket = {
             id: Crypto.randomUUID(),
@@ -62,33 +62,31 @@ const Dashboard = ({ navigation }) => {
         setBuckets([savedBucket, ...buckets])
     }
 
-    const clearAsyncStorage = async () => {
+    const saveData = async (value) => {
         try {
-            await AsyncStorage.clear();
-            console.log('AsyncStorage cleared successfully.');
-        } catch (error) {
-            console.error('Error clearing AsyncStorage:', error);
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem("buckets", jsonValue)
+        } catch (e) {
+            console.log(e)
         }
-    };
+    }
+
+    useEffect(() => {
+        saveData(buckets);
+    }, [buckets])
 
     useEffect(() => {
         getData()
-        console.log("Get data effect active")
     }, [])
-
-    useEffect(() => {
-        console.log(buckets);
-        saveData(buckets);
-    }, [buckets])
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>
             <Header />
             <StatusBar style="light" />
-            <Text style={[styles.title, {color: theme.light}]}>
+            <Text style={[styles.title, { color: theme.light }]}>
                 Buckets
             </Text>
-            <View style={{marginLeft: "3%", marginRight: "3%"}}>
+            <View style={{ marginLeft: "3%", marginRight: "3%" }}>
                 {
                     loading ?
                         <Text style={{ color: "#fff" }}>Loading...</Text>
@@ -110,7 +108,9 @@ const Dashboard = ({ navigation }) => {
                 <TouchableHighlight
                     style={[styles.add, { backgroundColor: theme.accent }]}
                     onPress={() => {
-                        navigation.navigate("Input");
+                        navigation.navigate("Input", {
+                            saveBucket: saveBucket,
+                        });
                     }}
                 >
                     <AntDesign name="plus" size={24} color="#FFF" />
