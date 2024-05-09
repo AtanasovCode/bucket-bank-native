@@ -6,10 +6,17 @@ import {
     TextInput,
     Button,
 } from "react-native";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Crypto from 'expo-crypto';
 import { theme } from "../Colors";
 
+import DashboardItem from "../components/dashboard/DashboardItem";
+
+
+
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const Dashboard = () => {
 
@@ -44,12 +51,24 @@ const Dashboard = () => {
 
     const saveBucket = (name, goal) => {
         const savedBucket = {
+            id: Crypto.randomUUID(),
             name: name,
             goal: goal,
+            saved: 0,
+            payments: [],
         }
 
         setBuckets([savedBucket, ...buckets])
     }
+
+    const clearAsyncStorage = async () => {
+        try {
+            await AsyncStorage.clear();
+            console.log('AsyncStorage cleared successfully.');
+        } catch (error) {
+            console.error('Error clearing AsyncStorage:', error);
+        }
+    };
 
     useEffect(() => {
         getData()
@@ -62,7 +81,7 @@ const Dashboard = () => {
     }, [buckets])
 
     return (
-        <View style={[styles.container, { backgroundColor: theme.background }]}>
+        <View style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>
             <TextInput
                 style={{ padding: 15, color: "#fff", backgroundColor: "#383535", margin: 24, }}
                 value={name}
@@ -89,25 +108,20 @@ const Dashboard = () => {
                 }}
             />
 
-            <Text style={{color: "#fff"}}>
-                {name}
-            </Text>
-
-            <View style={{ margin: 24 }}>
+            <View>
                 {
                     loading ?
                         <Text style={{ color: "#fff" }}>Loading...</Text>
                         :
                         buckets.map((bucket) => {
                             return (
-                                <View key={bucket.name} style={{ marginBottom: 26 }}>
-                                    <Text style={{ color: "#fff" }}>
-                                        {bucket.name}
-                                    </Text>
-                                    <Text style={{ color: "#fff" }}>
-                                        {bucket.goal}
-                                    </Text>
-                                </View>
+                                <DashboardItem
+                                    key={bucket.id}
+                                    id={bucket.id}
+                                    name={bucket.name}
+                                    goal={bucket.goal}
+                                    saved={bucket.saved}
+                                />
                             )
                         })
                 }
