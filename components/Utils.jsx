@@ -1,3 +1,4 @@
+
 const formatMoney = (money) => {
     return parseFloat(money).toFixed(2);
 };

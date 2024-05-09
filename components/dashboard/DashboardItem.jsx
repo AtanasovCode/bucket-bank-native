@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import { formatMoney, formatName } from '../Utils';
 import { theme } from '../../Colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -16,9 +17,11 @@ const DashboardItem = ({
     const saveID = async (id) => {
         try {
             const jsonValue = JSON.stringify(id);
-            await AsyncStorage.setItem("selectedId", id);
+            await AsyncStorage.setItem("selectedId", jsonValue);
         } catch (e) {
             console.log(e);
+        } finally {
+            navigation.navigate("Bucket");
         }
     }
 

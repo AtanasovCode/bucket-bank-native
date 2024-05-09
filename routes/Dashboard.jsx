@@ -4,13 +4,13 @@ import {
     View,
     Text,
     TouchableHighlight,
+    Image,
 } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Crypto from 'expo-crypto';
 import { theme } from "../Colors";
-import { AntDesign } from '@expo/vector-icons';
 import { StatusBar } from "expo-status-bar";
 
 import Header from "../components/Header";
@@ -23,7 +23,6 @@ const height = Dimensions.get("window").height;
 
 const Dashboard = ({ navigation }) => {
 
-    const [loading, setLoading] = useState(true);
     const [buckets, setBuckets] = useState([]);
 
     const getData = async () => {
@@ -36,8 +35,6 @@ const Dashboard = ({ navigation }) => {
             }
         } catch (e) {
             console.log("Error getting data");
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -88,20 +85,19 @@ const Dashboard = ({ navigation }) => {
             </Text>
             <View style={{ marginLeft: "3%", marginRight: "3%" }}>
                 {
-                    loading ?
-                        <Text style={{ color: "#fff" }}>Loading...</Text>
-                        :
-                        buckets.map((bucket) => {
-                            return (
-                                <DashboardItem
-                                    key={bucket.id}
-                                    id={bucket.id}
-                                    name={bucket.name}
-                                    goal={bucket.goal}
-                                    saved={bucket.saved}
-                                />
-                            )
-                        })
+
+                    buckets.map((bucket) => {
+                        return (
+                            <DashboardItem
+                                key={bucket.id}
+                                id={bucket.id}
+                                name={bucket.name}
+                                goal={bucket.goal}
+                                saved={bucket.saved}
+                                navigation={navigation}
+                            />
+                        )
+                    })
                 }
             </View>
             <View style={[styles.wrapper, { backgroundColor: theme.background }]}>
@@ -113,7 +109,10 @@ const Dashboard = ({ navigation }) => {
                         });
                     }}
                 >
-                    <AntDesign name="plus" size={24} color="#FFF" />
+                    <Image
+                        source={require("../assets/plus.png")}
+                        style={{ height: 20, width: 20, }}
+                    />
                 </TouchableHighlight>
             </View>
         </SafeAreaView>

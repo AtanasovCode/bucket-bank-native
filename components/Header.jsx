@@ -18,7 +18,10 @@ const Header = ({
                         navigation.goBack();
                     }}
                 >
-                    <Ionicons name="arrow-back" size={28} color="#FFF" />
+                   <Image 
+                        source={require("../assets/back.png")}
+                        style={{width: 25, height: 25}}
+                   />
                 </TouchableHighlight>
             }
             <Image

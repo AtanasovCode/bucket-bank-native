@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 //importing routes
 import Dashboard from "./routes/Dashboard";
 import Input from "./routes/Input";
+import Bucket from "./routes/Bucket";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,13 @@ const App = () => {
         <Stack.Screen
           name="Input"
           component={Input}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Bucket"
+          component={Bucket}
           options={{
             headerShown: false,
           }}
