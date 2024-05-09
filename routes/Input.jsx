@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { View, Text, TextInput, TouchableHighlight } from "react-native";
 import { StyleSheet, Dimensions, } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -14,6 +14,8 @@ const Input = ({
     const [name, setName] = useState("");
     const [goal, setGoal] = useState("");
 
+    const secondInputRef = useRef(null);
+
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <Header />
@@ -26,6 +28,10 @@ const Input = ({
                     value={name}
                     placeholder="New Bike"
                     placeholderTextColor={"#ada6a6"}
+                    returnKeyType="next"
+                    onSubmitEditing={() => {
+                        secondInputRef.current.focus();
+                    }}
                     onChangeText={(value) => {
                         setName(value)
                     }}
@@ -41,6 +47,7 @@ const Input = ({
                     placeholder="800,00 $"
                     keyboardType="numeric"
                     placeholderTextColor={"#ada6a6"}
+                    ref={secondInputRef}
                     onChangeText={(value) => {
                         setGoal(value)
                     }}
