@@ -18,9 +18,15 @@ const Input = ({
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-            <Header />
+            <Header 
+                navigation={navigation}
+                back={true} 
+            />
+            <Text style={[styles.title]}>
+                Add new bucket
+            </Text>
             <View style={[styles.wrapper]}>
-                <Text style={[styles.text]}>
+                <Text style={[styles.label]}>
                     Bucket Name
                 </Text>
                 <TextInput
@@ -38,13 +44,15 @@ const Input = ({
                 />
             </View>
             <View style={[styles.wrapper]}>
-                <Text style={[styles.text]}>
+                <Text style={[styles.label]}>
                     Goal
                 </Text>
                 <TextInput
-                    style={[styles.input, styles.money, { backgroundColor: theme.inactive }]}
+                    style={[styles.input, {
+                        backgroundColor: theme.inactive, fontFamily: "monospace",
+                    }]}
                     value={goal}
-                    placeholder="800,00 $"
+                    placeholder="800.00"
                     keyboardType="numeric"
                     placeholderTextColor={"#ada6a6"}
                     ref={secondInputRef}
@@ -66,22 +74,26 @@ const styles = StyleSheet.create({
         marginLeft: 26,
         marginRight: 26,
     },
+    title: {
+        color: "#fff",
+        fontSize: 20,
+        textAlign: "center",
+        marginBottom: "15%",
+    },
     input: {
-        padding: 12,
+        padding: 10,
         paddingLeft: 26,
         paddingRight: 26,
         color: "#fff",
         borderRadius: 16,
-        fontSize: 16,
+        fontSize: 14,
+        fontFamily: "sans-serif",
     },
-    text: {
+    label: {
         color: "#fff",
-        fontSize: 18,
+        fontSize: 14,
         textAlign: "left",
         marginBottom: 12,
-    },
-    money: {
-        fontFamily: "monospace",
     },
 })
 
