@@ -6,10 +6,19 @@ import {
     Text,
     Image,
     TouchableHighlight,
+    FlatList,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, Dimensions } from "react-native";
+import { theme } from "../Colors";
+
+import Header from "../components/Header";
 
 
-const Bucket = () => {
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
+
+const Bucket = ({navigation}) => {
 
     const [selectedID, setSelectedID] = useState();
     const [bucket, setBucket] = useState({});
@@ -33,7 +42,6 @@ const Bucket = () => {
                 const parsedValue = JSON.parse(value);
                 console.log(parsedValue);
                 const selectedBucket = parsedValue.find((item) => item.id === selectedID);
-                console.log(selectedBucket);
 
                 setBucket(selectedBucket);
             }
@@ -58,19 +66,42 @@ const Bucket = () => {
     }, [bucket])
 
     return (
-        <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 64 }}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background, width: width }]}>
+            <Header navigation={navigation} back={true} />
             {
                 bucket ?
-                    <Text style={{ color: "#fff" }}>
-                        {bucket.name}
-                    </Text>
+                    <View style={[styles.container]}>
+                        <Text style={[styles.subTitle, { color: theme.light }]}>Bucket Name</Text>
+                        <Text style={[styles.title, { color: theme.text }]}>
+                            {bucket.name}
+                        </Text>
+                    </View>
                     :
                     <Text style={{ color: "#fff" }}>
                         Loading...
                     </Text>
             }
-        </View>
+        </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    title: {
+        fontSize: 32,
+        fontWeight: "700",
+        textAlign: "center",
+        marginLeft: "6%",
+        marginRight: "6%",
+    },
+    subTitle: {
+        fontSize: 14,
+        marginBottom: 8,
+        textAlign: "center",
+    },
+    money: {},
+})
 
 export default Bucket;
