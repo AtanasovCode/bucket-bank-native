@@ -3,15 +3,17 @@ import { useState } from "react";
 import {
     View,
     Text,
-    TextInput,
-    Button,
+    TouchableHighlight,
 } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
 import * as Crypto from 'expo-crypto';
 import { theme } from "../Colors";
 import { AntDesign } from '@expo/vector-icons';
+import { StatusBar } from "expo-status-bar";
 
+import Header from "../components/Header";
 import DashboardItem from "../components/dashboard/DashboardItem";
 
 
@@ -19,7 +21,7 @@ import DashboardItem from "../components/dashboard/DashboardItem";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const Dashboard = () => {
+const Dashboard = ({ navigation }) => {
 
     const [loading, setLoading] = useState(true);
     const [buckets, setBuckets] = useState([]);
@@ -80,7 +82,9 @@ const Dashboard = () => {
     }, [buckets])
 
     return (
-        <View style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>
+            <Header />
+            <StatusBar style="light" />
             <View>
                 {
                     loading ?
@@ -99,12 +103,17 @@ const Dashboard = () => {
                         })
                 }
             </View>
-            <View style={[styles.wrapper, {backgroundColor: theme.background}]}>
-                <View style={[styles.add, {backgroundColor: theme.accent}]}>
+            <View style={[styles.wrapper, { backgroundColor: theme.background }]}>
+                <TouchableHighlight
+                    style={[styles.add, { backgroundColor: theme.accent }]}
+                    onPress={() => {
+                        navigation.navigate("Input");
+                    }}
+                >
                     <AntDesign name="plus" size={24} color="#FFF" />
-                </View>
+                </TouchableHighlight>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
 
