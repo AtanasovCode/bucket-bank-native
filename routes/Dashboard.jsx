@@ -10,6 +10,7 @@ import { StyleSheet, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Crypto from 'expo-crypto';
 import { theme } from "../Colors";
+import { AntDesign } from '@expo/vector-icons';
 
 import DashboardItem from "../components/dashboard/DashboardItem";
 
@@ -98,6 +99,11 @@ const Dashboard = () => {
                         })
                 }
             </View>
+            <View style={[styles.wrapper, {backgroundColor: theme.background}]}>
+                <View style={[styles.add, {backgroundColor: theme.accent}]}>
+                    <AntDesign name="plus" size={24} color="#FFF" />
+                </View>
+            </View>
         </View>
     );
 }
@@ -105,6 +111,20 @@ const Dashboard = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    wrapper: {
+        padding: 26,
+        paddingBottom: 32,
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+    add: {
+        padding: "5%",
+        borderRadius: 50,
     },
 })
 
