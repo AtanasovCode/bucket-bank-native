@@ -1,124 +1,77 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import {
-    View,
-    Text,
-    TouchableHighlight,
-    Image,
-} from "react-native";
-import { StyleSheet, Dimensions } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TouchableHighlight, Image, StyleSheet, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as Crypto from 'expo-crypto';
-import { theme } from "../Colors";
 import { StatusBar } from "expo-status-bar";
-
 import Header from "../components/Header";
 import DashboardItem from "../components/dashboard/DashboardItem";
-
-
+import { theme } from "../Colors";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const Dashboard = ({ navigation }) => {
-
     const [buckets, setBuckets] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const getData = async () => {
         try {
             const value = await AsyncStorage.getItem("buckets");
             if (value !== null) {
-                console.log(JSON.parse(value));
                 const parsedValue = JSON.parse(value);
-                console.log(parsedValue);
                 setBuckets(parsedValue);
             }
         } catch (e) {
-            console.log("Error getting data");
-        }
-    }
-
-    const clearAsyncStorage = async () => {
-        try {
-            await AsyncStorage.clear();
-            console.log('AsyncStorage cleared successfully.');
-        } catch (error) {
-            console.error('Error clearing AsyncStorage:', error);
+            console.log("Error getting data:", e);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const saveBucket = (name, goal) => {
-        const savedBucket = {
-            id: Crypto.randomUUID(),
-            name: name,
-            goal: goal,
-            saved: 0,
-            payments: [],
-        }
-
-        setBuckets([savedBucket, ...buckets])
-    }
-
-    const saveData = async (value) => {
-        try {
-            const jsonValue = JSON.stringify(value);
-            await AsyncStorage.setItem("buckets", jsonValue)
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
     useEffect(() => {
-        saveData(buckets);
-    }, [buckets])
+        const unsubscribe = navigation.addListener("focus", () => {
+            setLoading(true); // Set loading state when the screen is focused
+            getData(); // Fetch data from AsyncStorage every time the screen is focused
+        });
 
-    useEffect(() => {
-        getData()
-    }, [])
+        return unsubscribe; // Cleanup function to remove the listener when the component is unmounted
+
+    }, [navigation]); // Dependency array containing the navigation object
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>
             <Header />
             <StatusBar style="light" />
-            <Text style={[styles.title, { color: theme.light }]}>
-                Buckets
-            </Text>
+            <Text style={[styles.title, { color: theme.light }]}>Buckets</Text>
             <View style={{ marginLeft: "3%", marginRight: "3%" }}>
-                {
-
-                    buckets.map((bucket) => {
-                        return (
-                            <DashboardItem
-                                key={bucket.id}
-                                id={bucket.id}
-                                name={bucket.name}
-                                goal={bucket.goal}
-                                saved={bucket.saved}
-                                navigation={navigation}
-                            />
-                        )
-                    })
-                }
+                {loading ? (
+                    <Text>Loading...</Text>
+                ) : (
+                    buckets.map((bucket) => (
+                        <DashboardItem
+                            key={bucket.id}
+                            id={bucket.id}
+                            name={bucket.name}
+                            goal={bucket.goal}
+                            saved={bucket.saved}
+                            navigation={navigation}
+                        />
+                    ))
+                )}
             </View>
             <View style={[styles.wrapper, { backgroundColor: theme.background }]}>
                 <TouchableHighlight
                     style={[styles.add, { backgroundColor: theme.accent }]}
                     onPress={() => {
-                        navigation.navigate("Input", {
-                            saveBucket: saveBucket,
-                        });
+                        navigation.navigate("Input");
                     }}
                 >
-                    <Image
-                        source={require("../assets/plus.png")}
-                        style={{ height: 20, width: 20, }}
-                    />
+                    <Image source={require("../assets/plus.png")} style={{ height: 20, width: 20 }} />
                 </TouchableHighlight>
             </View>
         </SafeAreaView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -143,6 +96,6 @@ const styles = StyleSheet.create({
         padding: "5%",
         borderRadius: 50,
     },
-})
+});
 
 export default Dashboard;

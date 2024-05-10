@@ -13,8 +13,7 @@ const Input = ({
     route,
 }) => {
 
-    const { saveBucket } = route.params;
-
+    const [buckets, setBuckets] = useState([]);
     const [name, setName] = useState("");
     const [goal, setGoal] = useState("");
     const [inputs, setInputs] = useState(false);
@@ -33,6 +32,52 @@ const Input = ({
     useEffect(() => {
         checkInputs();
     }, [name, goal])
+
+    const saveBucket = (name, goal) => {
+        const savedBucket = {
+            id: Crypto.randomUUID(),
+            name: name,
+            goal: goal,
+            saved: 0,
+            payments: [],
+        }
+
+        setBuckets([savedBucket, ...buckets])
+    }
+
+    const saveData = async (value) => {
+        try {
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem("buckets", jsonValue)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem("buckets");
+            if (value !== null) {
+                console.log(JSON.parse(value));
+                const parsedValue = JSON.parse(value);
+                console.log(parsedValue);
+                setBuckets(parsedValue);
+            }
+        } catch (e) {
+            console.log("Error getting data");
+        }
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
+
+    useEffect(() => {
+        if (inputs) {
+            saveData(buckets);
+            navigation.navigate("Dashboard");
+        }
+    }, [buckets])
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
@@ -89,7 +134,6 @@ const Input = ({
                         onPress={() => {
                             if (inputs) {
                                 saveBucket(name, goal);
-                                navigation.navigate("Dashboard");
                             }
                         }}
                     >
