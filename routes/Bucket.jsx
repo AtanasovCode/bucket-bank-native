@@ -46,7 +46,6 @@ const Bucket = ({ navigation }) => {
             const value = await AsyncStorage.getItem("buckets");
             if (value !== null) {
                 const parsedValue = JSON.parse(value);
-                console.log(parsedValue);
                 const selectedBucket = parsedValue.find((item) => item.id === selectedID);
 
                 setBucket(selectedBucket);
@@ -65,8 +64,8 @@ const Bucket = ({ navigation }) => {
     }, [selectedID])
 
     const DATA = [
-        <Overview />,
-        <Payments />
+        <Overview bucket={bucket} />,
+        <Payments bucket={bucket} />
     ];
 
     const renderItem = ({ item }) => {
@@ -79,7 +78,6 @@ const Bucket = ({ navigation }) => {
 
     const getVisible = (viewableItems) => {
         const visibleItemIds = viewableItems.viewableItems.map((item) => item.key);
-        console.log(visibleItemIds);
 
         visibleItemIds[0] === "0" ? setSelectedTab("overview") : setSelectedTab("payments");
     }

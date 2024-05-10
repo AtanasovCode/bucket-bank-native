@@ -31,6 +31,7 @@ const Dashboard = ({ navigation }) => {
             if (value !== null) {
                 console.log(JSON.parse(value));
                 const parsedValue = JSON.parse(value);
+                console.log(parsedValue);
                 setBuckets(parsedValue);
             }
         } catch (e) {
