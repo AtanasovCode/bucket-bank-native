@@ -30,13 +30,13 @@ const Dashboard = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener("focus", () => {
-            setLoading(true); // Set loading state when the screen is focused
-            getData(); // Fetch data from AsyncStorage every time the screen is focused
+            setLoading(true);
+            getData();
         });
 
-        return unsubscribe; // Cleanup function to remove the listener when the component is unmounted
+        return unsubscribe;
 
-    }, [navigation]); // Dependency array containing the navigation object
+    }, [navigation]);
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>

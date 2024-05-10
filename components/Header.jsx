@@ -1,6 +1,7 @@
 import { View, TouchableHighlight, Image } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
+import { theme } from "../Colors";
 
 const height = Dimensions.get("window").height;
 
@@ -9,7 +10,7 @@ const Header = ({
     back,
 }) => {
     return (
-        <View style={[styles.container, { height: height * 0.16 }]}>
+        <View style={[styles.container, { height: height * 0.16}]}>
             {
                 back &&
                 <TouchableHighlight 
