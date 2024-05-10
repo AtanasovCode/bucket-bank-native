@@ -2,16 +2,24 @@ import React from "react";
 import {
     View,
     Text,
- } from "react-native";
+} from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
- const Payments = ({navigation}) => {
+const Payments = ({ navigation }) => {
     return (
-        <View>
-            <Text>Payments</Text>
+        <View style={[styles.container, { width: width }]}>
+            <Text>Overview</Text>
         </View>
     );
- }
+}
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+})
 
- export default Payments;
+export default Payments;

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     View,
@@ -22,9 +22,12 @@ const height = Dimensions.get("window").height;
 
 const Bucket = ({ navigation }) => {
 
+    const flatListRef = useRef(null);
+
     const [selectedID, setSelectedID] = useState();
     const [bucket, setBucket] = useState({});
     const [selectedTab, setSelectedTab] = useState("overview");
+    const [viewableItems, setViewableItems] = useState([]);
 
     const getID = async () => {
         try {
@@ -68,10 +71,22 @@ const Bucket = ({ navigation }) => {
 
     const renderItem = ({ item }) => {
         return (
-            <View>
+            <View style={[styles.component]}>
                 {item}
             </View>
         );
+    }
+
+    const getVisible = (viewableItems) => {
+        const visibleItemIds = viewableItems.viewableItems.map((item) => item.key);
+        console.log(visibleItemIds);
+
+        visibleItemIds[0] === "0" ? setSelectedTab("overview") : setSelectedTab("payments");
+    }
+
+    const handleTabChange = (value) => {
+        const index = value === "overview" ? 0 : 1;
+        flatListRef.current.scrollToIndex({index: index, animated: true})
     }
 
     return (
@@ -96,6 +111,7 @@ const Bucket = ({ navigation }) => {
                     { backgroundColor: selectedTab === "overview" ? theme.accent : theme.inactive }]}
                     onPress={() => {
                         setSelectedTab("overview");
+                        handleTabChange("overview");
                     }}
                 >
                     <Text style={[styles.text, { color: selectedTab === "overview" ? "#000" : theme.text }]}>
@@ -107,6 +123,7 @@ const Bucket = ({ navigation }) => {
                     { backgroundColor: selectedTab === "payments" ? theme.accent : theme.inactive }]}
                     onPress={() => {
                         setSelectedTab("payments")
+                        handleTabChange("payments");
                     }}
                 >
                     <Text style={[styles.text, { color: selectedTab === "payments" ? "#000" : theme.text }]}>
@@ -115,12 +132,17 @@ const Bucket = ({ navigation }) => {
                 </TouchableHighlight>
             </View>
 
-            {/* <FlatList
+            <FlatList
                 data={DATA}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => String(index)}
                 horizontal={true}
-            /> */}
+                pagingEnabled={true}
+                ref={flatListRef}
+                style={{ flex: 1 }}
+                initialScrollIndex={0}
+                onViewableItemsChanged={getVisible}
+            />
         </SafeAreaView>
     );
 }
@@ -159,6 +181,9 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 15,
+    },
+    component: {
+        marginTop: "10%",
     },
 })
 
