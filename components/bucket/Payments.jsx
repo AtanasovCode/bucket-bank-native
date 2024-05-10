@@ -3,6 +3,7 @@ import {
     View,
     Text,
     Image,
+    TouchableHighlight,
 } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
 import { theme } from "../../Colors";
@@ -14,10 +15,17 @@ const Payments = ({ navigation }) => {
     return (
         <View style={[styles.container, { width: width }]}>
             <View style={[styles.wrapper]}>
-                <Image source={require('../../assets/history.png')} style={{width: 35, height: 35,}} />
-                <Text style={[styles.text, {color: theme.light}]}>
+                <Image source={require('../../assets/history.png')} style={{ width: 35, height: 35, }} />
+                <Text style={[styles.text, { color: theme.light }]}>
                     History
                 </Text>
+            </View>
+            <View style={[styles.addContainer, { backgroundColor: theme.background }]}>
+                <TouchableHighlight
+                    style={[styles.add, { backgroundColor: theme.accent }]}
+                >
+                    <Image source={require("../../assets/plus.png")} style={{ height: 20, width: 20 }} />
+                </TouchableHighlight>
             </View>
         </View>
     );
@@ -35,6 +43,20 @@ const styles = StyleSheet.create({
     },
     text: {},
     title: {},
+    addContainer: {
+        padding: 26,
+        paddingBottom: 32,
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+    add: {
+        padding: "5%",
+        borderRadius: 50,
+    },
 })
 
 export default Payments;
