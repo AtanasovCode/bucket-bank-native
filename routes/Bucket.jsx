@@ -13,15 +13,18 @@ import { StyleSheet, Dimensions } from "react-native";
 import { theme } from "../Colors";
 
 import Header from "../components/Header";
+import Overview from "../components/bucket/Overview";
+import Payments from "../components/bucket/Payments";
 
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const Bucket = ({navigation}) => {
+const Bucket = ({ navigation }) => {
 
     const [selectedID, setSelectedID] = useState();
     const [bucket, setBucket] = useState({});
+    const [selectedTab, setSelectedTab] = useState("overview");
 
     const getID = async () => {
         try {
@@ -52,25 +55,31 @@ const Bucket = ({navigation}) => {
 
     useEffect(() => {
         getID();
-        console.log("Getting ID");
     }, [])
 
     useEffect(() => {
         getData();
-        console.log(`Got ID: ${selectedID}`);
-        console.log("Getting Data");
     }, [selectedID])
 
-    useEffect(() => {
-        console.log(`Got Data: ${bucket}`)
-    }, [bucket])
+    const DATA = [
+        <Overview />,
+        <Payments />
+    ];
+
+    const renderItem = ({ item }) => {
+        return (
+            <View>
+                {item}
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, width: width }]}>
             <Header navigation={navigation} back={true} />
             {
                 bucket ?
-                    <View style={[styles.container]}>
+                    <View style={[styles.bucketWrapper]}>
                         <Text style={[styles.subTitle, { color: theme.light }]}>Bucket Name</Text>
                         <Text style={[styles.title, { color: theme.text }]}>
                             {bucket.name}
@@ -81,6 +90,37 @@ const Bucket = ({navigation}) => {
                         Loading...
                     </Text>
             }
+            <View style={[styles.tabContainer]}>
+                <TouchableHighlight style={[
+                    styles.tab,
+                    { backgroundColor: selectedTab === "overview" ? theme.accent : theme.inactive }]}
+                    onPress={() => {
+                        setSelectedTab("overview");
+                    }}
+                >
+                    <Text style={[styles.text, { color: selectedTab === "overview" ? "#000" : theme.text }]}>
+                        Overview
+                    </Text>
+                </TouchableHighlight>
+                <TouchableHighlight style={[
+                    styles.tab,
+                    { backgroundColor: selectedTab === "payments" ? theme.accent : theme.inactive }]}
+                    onPress={() => {
+                        setSelectedTab("payments")
+                    }}
+                >
+                    <Text style={[styles.text, { color: selectedTab === "payments" ? "#000" : theme.text }]}>
+                        Payments
+                    </Text>
+                </TouchableHighlight>
+            </View>
+
+            {/* <FlatList
+                data={DATA}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => String(index)}
+                horizontal={true}
+            /> */}
         </SafeAreaView>
     );
 }
@@ -88,6 +128,9 @@ const Bucket = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    bucketWrapper: {
+        marginBottom: "10%",
     },
     title: {
         fontSize: 32,
@@ -102,6 +145,21 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     money: {},
+    tabContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 26,
+    },
+    tab: {
+        padding: 12,
+        paddingLeft: 26,
+        paddingRight: 26,
+        borderRadius: 22,
+    },
+    text: {
+        fontSize: 15,
+    },
 })
 
 export default Bucket;
