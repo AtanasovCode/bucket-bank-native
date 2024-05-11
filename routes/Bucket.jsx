@@ -29,9 +29,6 @@ const Bucket = ({ navigation, route }) => {
     const [bucket, setBucket] = useState({});
     const [selectedTab, setSelectedTab] = useState("overview");
 
-
-    //checks if params have been sent from route
-    //updates bucket with new params (date and payment amount)
     useEffect(() => {
         if (route.params?.date && route.params?.amount) {
             const newPayment = {
@@ -41,6 +38,7 @@ const Bucket = ({ navigation, route }) => {
             };
             const updatedBucket = {
                 ...bucket,
+                saved: bucket.saved + route.params.amount,
                 payments: [...bucket.payments, newPayment],
             };
 
@@ -53,11 +51,14 @@ const Bucket = ({ navigation, route }) => {
                             item.id === selectedID ? updatedBucket : item
                         );
                         await setData("buckets", updatedBuckets);
+                        // Update local state immediately after AsyncStorage update
+                        setBucket(updatedBucket);
                     }
                 } catch (error) {
                     console.log("Error updating buckets in AsyncStorage:", error);
                 }
             };
+
 
             updateBuckets();
         }

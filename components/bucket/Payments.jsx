@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     paymentContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginBottom: "10%",
+        marginBottom: "7%",
         marginLeft: "6%",
         marginRight: "6%",
     },
