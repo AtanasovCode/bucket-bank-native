@@ -15,33 +15,6 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const Payments = ({ navigation, bucket }) => {
-
-    const [date, setDate] = useState(new Date(1598051730000));
-
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setDate(currentDate);
-    };
-
-    const showMode = (currentMode) => {
-        DateTimePickerAndroid.open({
-            value: date,
-            onChange,
-            mode: currentMode,
-            display: "spinner",
-            is24Hour: true,
-        });
-    };
-
-    const showDatepicker = () => {
-        showMode('date');
-    };
-
-    const showTimepicker = () => {
-        showMode('time');
-    };
-
-
     return (
         <View style={[styles.container, { width: width }]}>
             <View style={[styles.wrapper]}>
@@ -49,11 +22,6 @@ const Payments = ({ navigation, bucket }) => {
                 <Text style={[styles.text, { color: theme.light }]}>
                     History
                 </Text>
-            </View>
-            <View>
-                <Button onPress={showDatepicker} title="Show date picker!" />
-                <Button onPress={showTimepicker} title="Show time picker!" />
-                <Text>selected: {date.toLocaleString()}</Text>
             </View>
             <View style={[styles.addContainer, { backgroundColor: theme.background }]}>
                 <TouchableHighlight

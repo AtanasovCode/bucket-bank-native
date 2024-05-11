@@ -91,7 +91,7 @@ const Input = ({
             <View style={{ flex: 1, justifyContent: "space-between" }}>
                 <View>
                     <View style={[styles.wrapper]}>
-                        <Text style={[styles.label]}>
+                        <Text style={[styles.label, {color: theme.light}]}>
                             Bucket Name
                         </Text>
                         <TextInput
@@ -110,7 +110,7 @@ const Input = ({
                         />
                     </View>
                     <View style={[styles.wrapper]}>
-                        <Text style={[styles.label]}>
+                        <Text style={[styles.label, {color: theme.light}]}>
                             Goal
                         </Text>
                         <TextInput
@@ -152,9 +152,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     wrapper: {
-        marginBottom: 26,
-        marginLeft: 26,
-        marginRight: 26,
+        marginBottom: "8%",
+        marginLeft: "6%",
+        marginRight: "6%",
     },
     title: {
         fontSize: 20,
@@ -170,7 +170,6 @@ const styles = StyleSheet.create({
         fontFamily: "sans-serif",
     },
     label: {
-        color: "#fff",
         fontSize: 14,
         textAlign: "left",
         marginBottom: 12,
