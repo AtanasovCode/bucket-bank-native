@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Dimensions } from "react-native";
-import * as Crypto from 'expo-crypto';
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import Header from "../Header";
 import { theme } from "../../Colors";
@@ -42,22 +41,12 @@ const AddPayment = ({ navigation }) => {
         showMode('date');
     };
 
-    const savePayment = (date, payment) => {
-        let newPayment = {
-            id: Crypto.randomUUID(),
-            date: date,
-            amount: payment,
-        };
-
-
-    }
-
     useEffect(() => {
         date && payment ? setInputs(true) : setInputs(false);
     }, [date, payment])
 
     return (
-        <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <View>
                 <Header back={true} navigation={navigation} />
                 <Text style={[styles.title, { color: theme.light }]}>
@@ -98,7 +87,11 @@ const AddPayment = ({ navigation }) => {
                     style={[styles.save, { backgroundColor: inputs ? theme.accent : theme.inactive }]}
                     onPress={() => {
                         if (inputs) {
-                            savePayment(name, goal);
+                            navigation.navigate({
+                                name: "Bucket",
+                                params: {date: date.toLocaleDateString(), amount: payment},
+                                merge: true,
+                            })
                         }
                     }}
                 >

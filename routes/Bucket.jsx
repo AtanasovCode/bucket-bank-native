@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Dimensions } from "react-native";
+import * as Crypto from 'expo-crypto';
 import { theme } from "../Colors";
 
 import Header from "../components/Header";
@@ -20,7 +21,7 @@ import Payments from "../components/bucket/Payments";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const Bucket = ({ navigation }) => {
+const Bucket = ({ navigation, route }) => {
 
     const flatListRef = useRef(null);
 
@@ -28,6 +29,25 @@ const Bucket = ({ navigation }) => {
     const [bucket, setBucket] = useState({});
     const [selectedTab, setSelectedTab] = useState("overview");
     const [viewableItems, setViewableItems] = useState([]);
+
+    useEffect(() => {
+        if (route.params?.date && route.params?.amount) {
+            const newPayment = {
+                id: Crypto.randomUUID(),
+                date: route.params.date,
+                amount: route.params.amount,
+            };
+            const updatedBucket = {
+                ...bucket,
+                payments: [...bucket.payments, newPayment],
+            };
+            setBucket(updatedBucket);
+        }
+    }, [route.params?.date, route.params?.amount]);
+
+
+    console.log(bucket);
+
 
     const getID = async () => {
         try {
