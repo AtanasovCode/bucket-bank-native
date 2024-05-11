@@ -58,6 +58,9 @@ const Payments = ({ navigation, bucket }) => {
             <View style={[styles.addContainer, { backgroundColor: theme.background }]}>
                 <TouchableHighlight
                     style={[styles.add, { backgroundColor: theme.accent }]}
+                    onPress={() => {
+                        navigation.navigate("Payment");
+                    }}
                 >
                     <Image source={require("../../assets/plus.png")} style={{ height: 20, width: 20 }} />
                 </TouchableHighlight>

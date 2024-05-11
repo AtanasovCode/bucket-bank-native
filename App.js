@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Dashboard from "./routes/Dashboard";
 import Input from "./routes/Input";
 import Bucket from "./routes/Bucket";
+import AddPayment from "./components/bucket/AddPayment";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,13 @@ const App = () => {
         <Stack.Screen
           name="Bucket"
           component={Bucket}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Payment"
+          component={AddPayment}
           options={{
             headerShown: false,
           }}

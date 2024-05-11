@@ -65,8 +65,8 @@ const Bucket = ({ navigation }) => {
 
 
     const DATA = [
-        <Overview bucket={bucket} />,
-        <Payments bucket={bucket} />
+        <Overview bucket={bucket} navigation={navigation} />,
+        <Payments bucket={bucket} navigation={navigation} />
     ];
 
     const renderItem = ({ item }) => {
