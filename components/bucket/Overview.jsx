@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
     View,
     Text,
@@ -20,6 +21,12 @@ const Overview = ({
 
     const { goal, saved } = bucket ? bucket : "";
 
+    const [savedWidth, setSavedWidth] = useState(0);
+
+    const onLayout = (e) => {
+        setSavedWidth(e.nativeEvent.layout.width);
+      };
+
     return (
         <View style={[styles.container, { width: width }]}>
             <View style={[styles.wrapper]}>
@@ -28,15 +35,19 @@ const Overview = ({
                     style={[{ width: 45, height: 45 }]}
                 />
                 <Text style={[styles.text, { color: theme.light }]}>
-                    Balance
+                    Bucket Balance
                 </Text>
             </View>
             <View style={[styles.moneyWrapper]}>
-                <Text style={[styles.saved, { color: theme.money }]}>
-                    {formatMoney(saved)} $
+                <Text onLayout={onLayout} style={[styles.textWrapper, {marginBottom: 6}]}>
+                    <Text style={[styles.saved, { color: theme.money }]}>
+                        {formatMoney(saved)} $
+                    </Text>
                 </Text>
-                <Text style={[styles.goal, { color: theme.light }]}>
-                    / {formatMoney(goal)} $
+                <Text style={[styles.textWrapper, {width: savedWidth}, {textAlign: "right"}]}>
+                    <Text style={[styles.goal, { color: theme.light }]}>
+                        / {formatMoney(goal)} $
+                    </Text>
                 </Text>
             </View>
             <View style={[styles.wrapper, { gap: 6 }]}>
@@ -49,11 +60,11 @@ const Overview = ({
             </View>
             <View style={[styles.progressContainer]}>
                 <View style={[styles.progressText]}>
-                    <Text style={[{color: theme.light}]}>Progress</Text>
-                    <Text style={[{color: theme.accent}]}>{getProgress(saved, goal)}</Text>
+                    <Text style={[{ color: theme.light }]}>Progress</Text>
+                    <Text style={[{ color: theme.accent }]}>{getProgress(saved, goal)}</Text>
                 </View>
-                <View style={[styles.progressBar, {backgroundColor: theme.inactive}]}>
-                    <View style={[styles.progress, {width: getProgress(saved, goal), backgroundColor: theme.accent}]}></View>
+                <View style={[styles.progressBar, { backgroundColor: theme.inactive }]}>
+                    <View style={[styles.progress, { width: getProgress(saved, goal), backgroundColor: theme.accent }]}></View>
                 </View>
             </View>
         </View>
@@ -71,21 +82,23 @@ const styles = StyleSheet.create({
         gap: 16,
     },
     text: {
-        fontSize: 16,
+        fontSize: 15,
     },
     moneyWrapper: {
         marginTop: "10%",
         marginBottom: "10%",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    textWrapper: {
     },
     saved: {
         fontSize: 42,
         fontFamily: "monospace",
-        textAlign: "center",
     },
     goal: {
         fontFamily: "monospace",
-        fontSize: 15,
-        textAlign: "center",
+        fontSize: 14,
     },
     progressContainer: {
         marginLeft: "6%",

@@ -88,7 +88,7 @@ const Bucket = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.background, width: width }]}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background, width: width, height: height }]}>
             <Header navigation={navigation} back={true} />
             {
                 bucket ?
@@ -169,16 +169,18 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        gap: 26,
+        gap: 20,
+        marginLeft: "6%",
+        marginRight: "6%",
     },
     tab: {
-        padding: 12,
-        paddingLeft: 26,
-        paddingRight: 26,
-        borderRadius: 22,
+        padding: 8,
+        flex: 1,
+        borderRadius: 16,
     },
     text: {
         fontSize: 15,
+        textAlign: "center",
     },
     component: {
         marginTop: "10%",
