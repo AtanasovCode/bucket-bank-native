@@ -14,7 +14,7 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const Payments = ({ navigation, bucket }) => {
+const Payments = ({ navigation, bucket, setBucket, }) => {
     return (
         <View style={[styles.container, { width: width }]}>
             <View style={[styles.wrapper]}>

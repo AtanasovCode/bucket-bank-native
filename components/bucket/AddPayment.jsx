@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     View,
     Text,
@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Dimensions } from "react-native";
+import * as Crypto from 'expo-crypto';
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import Header from "../Header";
 import { theme } from "../../Colors";
@@ -18,6 +19,7 @@ const height = Dimensions.get("window").height;
 
 const AddPayment = ({ navigation }) => {
 
+    const [inputs, setInputs] = useState(false);
     const [date, setDate] = useState(new Date());
     const [payment, setPayment] = useState();
 
@@ -40,44 +42,70 @@ const AddPayment = ({ navigation }) => {
         showMode('date');
     };
 
-    const showTimepicker = () => {
-        showMode('time');
-    };
+    const savePayment = (date, payment) => {
+        let newPayment = {
+            id: Crypto.randomUUID(),
+            date: date,
+            amount: payment,
+        };
+
+
+    }
+
+    useEffect(() => {
+        date && payment ? setInputs(true) : setInputs(false);
+    }, [date, payment])
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
-            <Header back={true} navigation={navigation} />
-            <Text style={[styles.title, { color: theme.light }]}>
-                Add Payment
-            </Text>
+        <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
             <View>
-                <View style={[styles.wrapper]}>
-                    <Text style={[styles.label, { color: theme.light }]}>
-                        Date
-                    </Text>
-                    <TouchableHighlight
-                        style={[styles.input, { backgroundColor: theme.inactive }]}
-                        onPress={showDatepicker}
-                    >
-                        <Text style={{ color: theme.text }}>{date.toLocaleDateString()}</Text>
-                    </TouchableHighlight>
+                <Header back={true} navigation={navigation} />
+                <Text style={[styles.title, { color: theme.light }]}>
+                    New Payment
+                </Text>
+                <View>
+                    <View style={[styles.wrapper]}>
+                        <Text style={[styles.label, { color: theme.light }]}>
+                            Date
+                        </Text>
+                        <TouchableHighlight
+                            style={[styles.input, { backgroundColor: theme.inactive }]}
+                            onPress={showDatepicker}
+                        >
+                            <Text style={{ color: theme.text }}>{date.toLocaleDateString()}</Text>
+                        </TouchableHighlight>
+                    </View>
+                    <View style={[styles.wrapper]}>
+                        <Text style={[styles.label, { color: theme.light }]}>
+                            Payment Amount
+                        </Text>
+                        <TextInput
+                            style={[styles.input, {
+                                backgroundColor: theme.inactive, fontFamily: "monospace", color: theme.text
+                            }]}
+                            placeholderTextColor={"#ada6a6"}
+                            placeholder="150.00"
+                            keyboardType="numeric"
+                            onChangeText={(value) => {
+                                setPayment(value)
+                            }}
+                        />
+                    </View>
                 </View>
-                <View style={[styles.wrapper]}>
-                    <Text style={[styles.label, { color: theme.light }]}>
-                        Payment Amount
+            </View>
+            <View style={[styles.saveContainer, styles.wrapper]}>
+                <TouchableHighlight
+                    style={[styles.save, { backgroundColor: inputs ? theme.accent : theme.inactive }]}
+                    onPress={() => {
+                        if (inputs) {
+                            savePayment(name, goal);
+                        }
+                    }}
+                >
+                    <Text style={{ color: inputs ? theme.white : theme.light }}>
+                        Save
                     </Text>
-                    <TextInput
-                        style={[styles.input, {
-                            backgroundColor: theme.inactive, fontFamily: "monospace", color: theme.text
-                        }]}
-                        placeholderTextColor={"#ada6a6"}
-                        placeholder="150.00"
-                        keyboardType="numeric"
-                        onChangeText={(value) => {
-                            setPayment(value)
-                        }}
-                    />
-                </View>
+                </TouchableHighlight>
             </View>
         </SafeAreaView>
     );
@@ -85,7 +113,10 @@ const AddPayment = ({ navigation }) => {
 
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        flex: 1,
+        justifyContent: "space-between",
+    },
     title: {
         fontSize: 20,
         textAlign: "center",
@@ -97,9 +128,9 @@ const styles = StyleSheet.create({
         marginRight: "6%",
     },
     input: {
-        padding: 10,
-        paddingLeft: 26,
-        paddingRight: 26,
+        padding: 12,
+        paddingLeft: 20,
+        paddingRight: 20,
         borderRadius: 16,
         fontSize: 14,
         fontFamily: "sans-serif",
@@ -108,6 +139,21 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: "left",
         marginBottom: 12,
+        paddingLeft: 20,
+    },
+    saveContainer: {
+        paddingBottom: 22,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    save: {
+        alignItems: "center",
+        justifyContent: 'center',
+        padding: 18,
+        paddingLeft: 26,
+        paddingRight: 26,
+        width: "100%",
+        borderRadius: 16,
     },
 })
 
