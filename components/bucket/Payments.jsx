@@ -1,19 +1,46 @@
 import React from "react";
+import { useState } from "react";
 import {
     View,
     Text,
     Image,
+    Button,
     TouchableHighlight,
 } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
 import { theme } from "../../Colors";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const Payments = ({ navigation, bucket }) => {
 
-    console.log(bucket.payments.length);
+    const [date, setDate] = useState(new Date(1598051730000));
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setDate(currentDate);
+    };
+
+    const showMode = (currentMode) => {
+        DateTimePickerAndroid.open({
+            value: date,
+            onChange,
+            mode: currentMode,
+            display: "spinner",
+            is24Hour: true,
+        });
+    };
+
+    const showDatepicker = () => {
+        showMode('date');
+    };
+
+    const showTimepicker = () => {
+        showMode('time');
+    };
+
 
     return (
         <View style={[styles.container, { width: width }]}>
@@ -23,15 +50,11 @@ const Payments = ({ navigation, bucket }) => {
                     History
                 </Text>
             </View>
-            {
-                bucket.payments.length > 0 ?
-                <View>
-                    <Text style={{color: "#fff"}}>{payment.date}</Text>
-                    <Text style={{color: "#fff"}}>{payment.amount}</Text>
-                </View>
-                :
-                <Text style={{color: "#fff"}}>No payments found</Text>
-            }
+            <View>
+                <Button onPress={showDatepicker} title="Show date picker!" />
+                <Button onPress={showTimepicker} title="Show time picker!" />
+                <Text>selected: {date.toLocaleString()}</Text>
+            </View>
             <View style={[styles.addContainer, { backgroundColor: theme.background }]}>
                 <TouchableHighlight
                     style={[styles.add, { backgroundColor: theme.accent }]}
