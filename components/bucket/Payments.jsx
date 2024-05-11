@@ -11,7 +11,10 @@ import { theme } from "../../Colors";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const Payments = ({ navigation }) => {
+const Payments = ({ navigation, bucket }) => {
+
+    console.log(bucket.payments.length);
+
     return (
         <View style={[styles.container, { width: width }]}>
             <View style={[styles.wrapper]}>
@@ -20,6 +23,15 @@ const Payments = ({ navigation }) => {
                     History
                 </Text>
             </View>
+            {
+                bucket.payments.length > 0 ?
+                <View>
+                    <Text style={{color: "#fff"}}>{payment.date}</Text>
+                    <Text style={{color: "#fff"}}>{payment.amount}</Text>
+                </View>
+                :
+                <Text style={{color: "#fff"}}>No payments found</Text>
+            }
             <View style={[styles.addContainer, { backgroundColor: theme.background }]}>
                 <TouchableHighlight
                     style={[styles.add, { backgroundColor: theme.accent }]}
@@ -40,6 +52,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         gap: 16,
+        marginBottom: "10%",
     },
     text: {},
     title: {},

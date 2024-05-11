@@ -63,6 +63,7 @@ const Bucket = ({ navigation }) => {
         getData();
     }, [selectedID])
 
+
     const DATA = [
         <Overview bucket={bucket} />,
         <Payments bucket={bucket} />
@@ -84,7 +85,7 @@ const Bucket = ({ navigation }) => {
 
     const handleTabChange = (value) => {
         const index = value === "overview" ? 0 : 1;
-        flatListRef.current.scrollToIndex({index: index, animated: true})
+        flatListRef.current.scrollToIndex({ index: index, animated: true })
     }
 
     return (
