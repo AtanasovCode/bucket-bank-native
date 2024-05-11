@@ -28,8 +28,10 @@ const Bucket = ({ navigation, route }) => {
     const [selectedID, setSelectedID] = useState();
     const [bucket, setBucket] = useState({});
     const [selectedTab, setSelectedTab] = useState("overview");
-    const [viewableItems, setViewableItems] = useState([]);
 
+
+    //checks if params have been sent from route
+    //updates bucket with new params (date and payment amount)
     useEffect(() => {
         if (route.params?.date && route.params?.amount) {
             const newPayment = {
@@ -41,7 +43,23 @@ const Bucket = ({ navigation, route }) => {
                 ...bucket,
                 payments: [...bucket.payments, newPayment],
             };
-            setBucket(updatedBucket);
+
+            const updateBuckets = async () => {
+                try {
+                    const bucketsData = await AsyncStorage.getItem("buckets");
+                    if (bucketsData) {
+                        const parsedBuckets = JSON.parse(bucketsData);
+                        const updatedBuckets = parsedBuckets.map((item) =>
+                            item.id === selectedID ? updatedBucket : item
+                        );
+                        await setData("buckets", updatedBuckets);
+                    }
+                } catch (error) {
+                    console.log("Error updating buckets in AsyncStorage:", error);
+                }
+            };
+
+            updateBuckets();
         }
     }, [route.params?.date, route.params?.amount]);
 
@@ -75,12 +93,20 @@ const Bucket = ({ navigation, route }) => {
         }
     }
 
+    const setData = async (key, value) => {
+        try {
+            await AsyncStorage.setItem(key, JSON.stringify(value));
+        } catch (e) {
+            console.log("Error saving data");
+        }
+    };
+
     useEffect(() => {
         getID();
     }, [])
 
     useEffect(() => {
-        getData();
+        selectedID && getData();
     }, [selectedID])
 
 

@@ -15,6 +15,9 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const Payments = ({ navigation, bucket, setBucket, }) => {
+
+    console.log(bucket.payments && bucket.payments.length > 0 ? bucket.payments : "Empty");
+
     return (
         <View style={[styles.container, { width: width }]}>
             <View style={[styles.wrapper]}>
@@ -22,6 +25,24 @@ const Payments = ({ navigation, bucket, setBucket, }) => {
                 <Text style={[styles.text, { color: theme.light }]}>
                     History
                 </Text>
+            </View>
+            <View>
+            {
+                bucket.payments && bucket.payments.length > 0 ?
+                bucket.payments.map((item) => {
+                    return (
+                        <View key={item.id}>
+                            <Text style={{color: theme.text}}>{item.amount}</Text>
+                        </View>
+                    );
+                })
+                :
+                <View>
+                    <Text style={{color: theme.text}}>
+                        No payments found
+                    </Text>
+                </View>
+            }
             </View>
             <View style={[styles.addContainer, { backgroundColor: theme.background }]}>
                 <TouchableHighlight
