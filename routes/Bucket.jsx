@@ -182,7 +182,8 @@ const Bucket = ({ navigation, route }) => {
                 renderItem={renderItem}
                 keyExtractor={(item, index) => String(index)}
                 horizontal={true}
-                pagingEnabled={true}
+                pagingEnabled={false}
+                scrollEnabled={false}
                 ref={flatListRef}
                 style={{ flex: 1 }}
                 initialScrollIndex={0}
