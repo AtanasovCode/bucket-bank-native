@@ -34,6 +34,8 @@ const AddPayment = ({ navigation }) => {
             mode: currentMode,
             display: "spinner",
             is24Hour: true,
+            positiveButton: {label: "Done", textColor: "#fff"},
+            negativeButton: {label: "Cancel", textColor: "#fff"},
         });
     };
 

@@ -38,7 +38,7 @@ const Bucket = ({ navigation, route }) => {
             };
             const updatedBucket = {
                 ...bucket,
-                saved: bucket.saved + route.params.amount,
+                saved: parseFloat(bucket.saved) + parseFloat(route.params.amount),
                 payments: [...bucket.payments, newPayment],
             };
 

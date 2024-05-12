@@ -61,7 +61,7 @@ const Overview = ({
             <View style={[styles.progressContainer]}>
                 <View style={[styles.progressText]}>
                     <Text style={[{ color: theme.light }]}>Progress</Text>
-                    <Text style={[{ color: theme.accent }]}>{getProgress(saved, goal)}</Text>
+                    <Text style={[{ color: theme.money }]}>{getProgress(saved, goal)}</Text>
                 </View>
                 <View style={[styles.progressBar, { backgroundColor: theme.inactive }]}>
                     <View style={[styles.progress, { width: getProgress(saved, goal), backgroundColor: theme.accent }]}></View>
