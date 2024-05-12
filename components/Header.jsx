@@ -1,6 +1,5 @@
 import { View, TouchableHighlight, Image } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
 import { theme } from "../Colors";
 
 const height = Dimensions.get("window").height;
