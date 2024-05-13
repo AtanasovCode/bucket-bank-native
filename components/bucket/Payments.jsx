@@ -30,7 +30,7 @@ const Payments = ({ navigation, bucket, setBucket }) => {
                                     <Text style={[styles.text, { color: theme.text }]}>{item.date}</Text>
                                 </View>
                                 <View style={[styles.paymentWrapper]}>
-                                    <Text style={[{ color: theme.money, fontFamily: "monospace", fontSize: 16 }]}>
+                                    <Text style={[styles.text, { color: theme.money, fontFamily: "monospace"}]}>
                                         + {formatMoney(item.amount)} $
                                     </Text>
                                 </View>

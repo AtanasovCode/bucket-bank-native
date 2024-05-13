@@ -7,6 +7,7 @@ import Dashboard from "./routes/Dashboard";
 import Input from "./routes/Input";
 import Bucket from "./routes/Bucket";
 import AddPayment from "./components/bucket/AddPayment";
+import Settings from "./routes/Settings";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,13 @@ const App = () => {
         <Stack.Screen
           name="Payment"
           component={AddPayment}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
           options={{
             headerShown: false,
           }}

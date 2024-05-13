@@ -137,7 +137,7 @@ const Bucket = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, width: width, height: height }]}>
-            <Header navigation={navigation} back={true} />
+            <Header navigation={navigation} back={true} edit={true} />
             {
                 bucket ?
                     <View style={[styles.bucketWrapper]}>

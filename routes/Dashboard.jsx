@@ -56,8 +56,8 @@ const Dashboard = ({ navigation }) => {
     }, [navigation]);
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>
-            <Header />
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background, height: height, width: width }]}>
+            <Header settings={true} navigation={navigation} />
             <StatusBar style="light" />
             <Text style={[styles.title, { color: theme.light }]}>Buckets</Text>
             <ScrollView style={[styles.bucketsWrapper]}>

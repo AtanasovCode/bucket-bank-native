@@ -7,26 +7,56 @@ const height = Dimensions.get("window").height;
 const Header = ({
     navigation,
     back,
+    edit,
+    settings,
 }) => {
     return (
-        <View style={[styles.container, { height: height * 0.16}]}>
+        <View style={[styles.container, { height: height * 0.16 }]}>
             {
                 back &&
-                <TouchableHighlight 
+                <TouchableHighlight
                     style={[styles.back]}
                     onPress={() => {
                         navigation.goBack();
                     }}
                 >
-                   <Image 
+                    <Image
                         source={require("../assets/back.png")}
-                        style={{width: 25, height: 25}}
-                   />
+                        style={{ width: 25, height: 25 }}
+                    />
+                </TouchableHighlight>
+            }
+            {
+                settings &&
+                <TouchableHighlight
+                    style={[styles.settings]}
+                    onPress={() => {
+                        navigation.navigate("Settings")
+                    }}
+                >
+                    <Image
+                        source={require("../assets/setting.png")}
+                        style={{ width: 25, height: 25 }}
+                    />
                 </TouchableHighlight>
             }
             <Image
                 source={require("../assets/logo.png")}
             />
+            {
+                edit &&
+                <TouchableHighlight
+                    style={[styles.edit]}
+                    onPress={() => {
+
+                    }}
+                >
+                    <Image
+                        source={require("../assets/setting.png")}
+                        style={{ width: 25, height: 25 }}
+                    />
+                </TouchableHighlight>
+            }
         </View>
     );
 }
@@ -39,7 +69,15 @@ const styles = StyleSheet.create({
     },
     back: {
         position: "absolute",
-        left: 22,
+        left: "6%",
+    },
+    settings: {
+        position: "absolute",
+        left: "6%",
+    },
+    edit: {
+        position: "absolute",
+        right: "6%",
     },
 })
 
