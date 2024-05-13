@@ -32,7 +32,7 @@ const Overview = ({
             <View style={[styles.wrapper]}>
                 <Image
                     source={require('../../assets/bank.png')}
-                    style={[{ width: 45, height: 45 }]}
+                    style={[{ width: 25, height: 25 }]}
                 />
                 <Text style={[styles.text, { color: theme.light }]}>
                     Bucket Balance
@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         bottom: 0,
+        borderRadius: 12,
     },
     progressText: {
         flexDirection: "row",

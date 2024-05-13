@@ -12,7 +12,7 @@ const Payments = ({ navigation, bucket, setBucket }) => {
     return (
         <View style={[styles.container, { width: width }]}>
             <View style={[styles.wrapper]}>
-                <Image source={require('../../assets/history.png')} style={{ width: 35, height: 35 }} />
+                <Image source={require('../../assets/history.png')} style={{ height: 25, width: 25, }} />
                 <Text style={[styles.text, { color: theme.light }]}>
                     History
                 </Text>
@@ -25,13 +25,13 @@ const Payments = ({ navigation, bucket, setBucket }) => {
                                 <View style={[styles.paymentWrapper]}>
                                     <Image
                                         source={require('../../assets/save.png')}
-                                        style={{ width: 30, height: 30 }}
+                                        style={{ width: 25, height: 25 }}
                                     />
                                     <Text style={[styles.text, { color: theme.text }]}>{item.date}</Text>
                                 </View>
                                 <View style={[styles.paymentWrapper]}>
                                     <Text style={[{ color: theme.money, fontFamily: "monospace", fontSize: 16 }]}>
-                                        {formatMoney(item.amount)} $
+                                        + {formatMoney(item.amount)} $
                                     </Text>
                                 </View>
                             </View>

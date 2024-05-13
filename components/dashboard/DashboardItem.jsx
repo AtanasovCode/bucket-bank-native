@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
-import { formatMoney, formatName } from '../Utils';
+import { formatMoney, getProgress } from '../Utils';
 import { theme } from '../../Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DashboardItem = ({
     navigation,
-    id, 
+    id,
     name,
     goal,
     saved,
@@ -31,21 +31,28 @@ const DashboardItem = ({
             onPress={() => {
                 saveID(id)
             }}>
-            <View style={styles.itemContainer}>
-                <Text style={[
-                    styles.name,
-                    {color: theme.text}
-                ]}>
-                    {name}
-                </Text>
-                <Text 
-                    style={[
-                        styles.saved,
-                        {color: theme.money}
-                    ]}
-                >
-                    {formatMoney(saved)} $
-                </Text>
+            <View>
+                <View style={styles.itemContainer}>
+                    <Text style={[
+                        styles.name,
+                        { color: theme.text }
+                    ]}>
+                        {name}
+                    </Text>
+                    <Text
+                        style={[
+                            styles.saved,
+                            { color: theme.money }
+                        ]}
+                    >
+                        {formatMoney(saved)} $
+                    </Text>
+                </View>
+                <View style={[styles.progressContainer]}>
+                    <View style={[styles.progressBar, { backgroundColor: theme.inactive }]}>
+                        <View style={[styles.progress, { width: getProgress(saved, goal), backgroundColor: theme.accent }]}></View>
+                    </View>
+                </View>
             </View>
         </TouchableHighlight>
     );
@@ -71,6 +78,22 @@ const styles = StyleSheet.create({
         color: 'blue',
         textAlign: 'right',
         fontFamily: "monospace"
+    },
+    progressContainer: {
+        marginTop: "4%",
+    },
+    progressBar: {
+        padding: 2,
+        borderRadius: 12,
+        position: "relative",
+        overflow: "hidden",
+    },
+    progress: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        borderRadius: 12,
     },
 });
 
