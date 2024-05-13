@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
-        marginBottom: 26,
     },
     back: {
         position: "absolute",

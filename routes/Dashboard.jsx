@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableHighlight, Image, StyleSheet, Dimensions } from "react-native";
+import { 
+    View,
+    ScrollView,
+    Text, 
+    TouchableHighlight, 
+    Image,
+    StyleSheet, 
+    Dimensions 
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -52,7 +60,7 @@ const Dashboard = ({ navigation }) => {
             <Header />
             <StatusBar style="light" />
             <Text style={[styles.title, { color: theme.light }]}>Buckets</Text>
-            <View style={{ marginLeft: "3%", marginRight: "3%" }}>
+            <ScrollView style={[styles.bucketsWrapper]}>
                 {loading ? (
                     <Text>Loading...</Text>
                 ) : (
@@ -67,8 +75,8 @@ const Dashboard = ({ navigation }) => {
                         />
                     ))
                 )}
-            </View>
-            <View style={[styles.wrapper, { backgroundColor: theme.background }]}>
+            </ScrollView>
+            <View style={[styles.addContainer, { backgroundColor: theme.background }]}>
                 <TouchableHighlight
                     style={[styles.add, { backgroundColor: theme.accent }]}
                     onPress={() => {
@@ -86,23 +94,24 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    wrapper: {
-        padding: 26,
-        paddingBottom: 32,
-        alignItems: "center",
-        justifyContent: "center",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
+    bucketsWrapper: {
+        paddingLeft: "4%",
+        paddingRight: "4%",
+        paddingBottom: "3%",
     },
     title: {
         textAlign: "center",
-        fontSize: 20,
-        marginBottom: "15%",
+        fontSize: 18,
+        marginBottom: "8%",
+    },
+    addContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+        paddingTop: "4%",
+        paddingBottom: "4%",
     },
     add: {
-        padding: "5%",
+        padding: "3.5%",
         borderRadius: 50,
     },
 });
