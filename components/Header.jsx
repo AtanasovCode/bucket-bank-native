@@ -20,7 +20,6 @@ const Header = ({
 
     return (
         <View style={[styles.container, { height: height * 0.16, backgroundColor: theme.background }]}>
-            <StatusBar style="dark" />
             {
                 back &&
                 <TouchableHighlight
