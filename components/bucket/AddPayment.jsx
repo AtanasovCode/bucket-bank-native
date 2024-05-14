@@ -40,8 +40,8 @@ const AddPayment = ({ navigation }) => {
             mode: currentMode,
             display: "spinner",
             is24Hour: true,
-            positiveButton: { label: "Done", textColor: "#fff" },
-            negativeButton: { label: "Cancel", textColor: "#fff" },
+            positiveButton: { label: "Done", textColor: colorScheme === "light" ? "#000" : "#FFF" },
+            negativeButton: { label: "Cancel", textColor: colorScheme === "light" ? "#000" : "#FFF" },
         });
     };
 
@@ -67,7 +67,7 @@ const AddPayment = ({ navigation }) => {
                         </Text>
                         <TouchableHighlight
                             style={[
-                                styles.input, 
+                                styles.input,
                                 { backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter }]}
                             onPress={showDatepicker}
                         >
@@ -80,8 +80,8 @@ const AddPayment = ({ navigation }) => {
                         </Text>
                         <TextInput
                             style={[styles.input, {
-                                backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, 
-                                fontFamily: "monospace", 
+                                backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter,
+                                fontFamily: "monospace",
                                 color: theme.text
                             }]}
                             placeholderTextColor={colorScheme === "dark" ? "#ada6a6" : theme.light}

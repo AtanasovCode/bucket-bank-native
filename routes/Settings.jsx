@@ -6,6 +6,7 @@ import {
     ScrollableHighlight,
     useColorScheme,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { lightTheme, darkTheme } from "../Colors";
 import Header from "../components/Header";
 
@@ -16,13 +17,13 @@ const Settings = ({ navigation }) => {
     const theme = colorScheme === "light" ? lightTheme : darkTheme;
 
     return (
-        <View style={{flex: 1, backgroundColor: theme.background}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: theme.background}}>
             <Header
                 navigation={navigation}
                 back={true}
             />
             <Text style={{color: theme.text}}>Settings</Text>
-        </View>
+        </SafeAreaView>
     );
 }
 
