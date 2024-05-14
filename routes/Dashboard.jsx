@@ -6,19 +6,26 @@ import {
     TouchableHighlight, 
     Image,
     StyleSheet, 
-    Dimensions 
+    Dimensions,
+    useColorScheme,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import Header from "../components/Header";
 import DashboardItem from "../components/dashboard/DashboardItem";
-import { theme } from "../Colors";
+import { lightTheme, darkTheme } from "../Colors";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const Dashboard = ({ navigation }) => {
+
+    const colorScheme = useColorScheme();
+
+    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+
+
     const [buckets, setBuckets] = useState([]);
     const [loading, setLoading] = useState(true);
 

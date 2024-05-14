@@ -7,11 +7,12 @@ import {
     Image,
     TouchableHighlight,
     FlatList,
+    useColorScheme,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Dimensions } from "react-native";
 import * as Crypto from 'expo-crypto';
-import { theme } from "../Colors";
+import { lightTheme, darkTheme } from "../Colors";
 
 import Header from "../components/Header";
 import Overview from "../components/bucket/Overview";
@@ -22,6 +23,10 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const Bucket = ({ navigation, route }) => {
+
+    const colorScheme = useColorScheme();
+
+    const theme = colorScheme === "light" ? lightTheme : darkTheme;
 
     const flatListRef = useRef(null);
 
@@ -154,7 +159,7 @@ const Bucket = ({ navigation, route }) => {
             <View style={[styles.tabContainer]}>
                 <TouchableHighlight style={[
                     styles.tab,
-                    { backgroundColor: selectedTab === "overview" ? theme.accent : theme.inactive }]}
+                    { backgroundColor: selectedTab === "overview" ? theme.accent : colorScheme === "dark" ? theme.inactive : theme.inactiveLighter }]}
                     onPress={() => {
                         setSelectedTab("overview");
                         handleTabChange("overview");
@@ -166,7 +171,7 @@ const Bucket = ({ navigation, route }) => {
                 </TouchableHighlight>
                 <TouchableHighlight style={[
                     styles.tab,
-                    { backgroundColor: selectedTab === "payments" ? theme.accent : theme.inactive }]}
+                    { backgroundColor: selectedTab === "payments" ? theme.accent : colorScheme === "dark" ? theme.inactive : theme.inactiveLighter }]}
                     onPress={() => {
                         setSelectedTab("payments")
                         handleTabChange("payments");

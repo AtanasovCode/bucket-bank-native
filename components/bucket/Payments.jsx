@@ -1,13 +1,17 @@
 import React from "react";
-import { View, Text, Image, TouchableHighlight, ScrollView } from "react-native";
+import { View, Text, Image, TouchableHighlight, ScrollView, useColorScheme } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
-import { theme } from "../../Colors";
+import { lightTheme, darkTheme } from "../../Colors";
 import { formatMoney } from "../Utils";
 
 const width = Dimensions.get("window").width;
 
 const Payments = ({ navigation, bucket, setBucket }) => {
-    console.log(bucket.payments && bucket.payments.length > 0 ? bucket.payments : "Empty");
+
+    const colorScheme = useColorScheme();
+
+    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+
 
     return (
         <View style={[styles.container, { width: width }]}>

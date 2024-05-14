@@ -1,6 +1,7 @@
-import { View, TouchableHighlight, Image } from "react-native";
+import { View, TouchableHighlight, Image, useColorScheme } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Dimensions } from "react-native";
-import { theme } from "../Colors";
+import { lightTheme, darkTheme } from "../Colors";
 
 const height = Dimensions.get("window").height;
 
@@ -10,8 +11,14 @@ const Header = ({
     edit,
     settings,
 }) => {
+
+    const colorScheme = useColorScheme();
+
+    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+
     return (
-        <View style={[styles.container, { height: height * 0.16 }]}>
+        <View style={[styles.container, { height: height * 0.16, backgroundColor: theme.background }]}>
+            <StatusBar style="dark" />
             {
                 back &&
                 <TouchableHighlight
@@ -41,7 +48,12 @@ const Header = ({
                 </TouchableHighlight>
             }
             <Image
-                source={require("../assets/logo.png")}
+                source={
+                    colorScheme === "light" ?
+                    require("../assets/logo-dark.png")
+                    :
+                    require("../assets/logo.png")
+                }
             />
             {
                 edit &&

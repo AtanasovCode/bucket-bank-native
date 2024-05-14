@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
+import { View, Text, TouchableHighlight, StyleSheet, useColorScheme } from 'react-native';
 import { formatMoney, getProgress } from '../Utils';
-import { theme } from '../../Colors';
+import { lightTheme, darkTheme } from '../../Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -13,6 +13,10 @@ const DashboardItem = ({
     goal,
     saved,
 }) => {
+
+    const colorScheme = useColorScheme();
+
+    const theme = colorScheme === "light" ? lightTheme : darkTheme;
 
     const saveID = async (id) => {
         try {

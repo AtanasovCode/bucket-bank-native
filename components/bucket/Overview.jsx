@@ -4,9 +4,10 @@ import {
     View,
     Text,
     Image,
+    useColorScheme,
 } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
-import { theme } from "../../Colors";
+import { lightTheme, darkTheme } from "../../Colors";
 import { formatMoney } from "../Utils";
 
 import { getRemaining, getProgress } from "../Utils";
@@ -18,6 +19,10 @@ const Overview = ({
     navigation,
     bucket,
 }) => {
+
+    const colorScheme = useColorScheme();
+
+    const theme = colorScheme === "light" ? lightTheme : darkTheme;
 
     const { goal, saved } = bucket ? bucket : "";
 
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
         marginTop: "10%",
     },
     progressBar: {
-        padding: 8,
+        padding: 3,
         borderRadius: 12,
         position: "relative",
         overflow: "hidden",

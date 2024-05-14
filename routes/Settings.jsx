@@ -5,11 +5,17 @@ import {
     Text,
     Image,
     ScrollableHighlight,
+    useColorScheme,
 } from "react-native";
-import { theme } from "../Colors";
+import { lightTheme, darkTheme } from "../Colors";
 import Header from "../components/Header";
 
 const Settings = ({ navigation }) => {
+
+    const colorScheme = useColorScheme();
+
+    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+
     return (
         <View style={{flex: 1, backgroundColor: theme.background}}>
             <Header

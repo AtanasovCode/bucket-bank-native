@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useState, useRef } from "react";
-import { View, Text, TextInput, TouchableHighlight } from "react-native";
+import { View, Text, TextInput, TouchableHighlight, useColorScheme } from "react-native";
 import { StyleSheet, Dimensions, } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { theme } from "../Colors";
+import { lightTheme, darkTheme } from "../Colors";
 import Header from "../components/Header";
 import * as Crypto from 'expo-crypto';
 
@@ -12,6 +12,10 @@ const Input = ({
     navigation,
     route,
 }) => {
+
+    const colorScheme = useColorScheme();
+
+    const theme = colorScheme === "light" ? lightTheme : darkTheme;
 
     const [buckets, setBuckets] = useState([]);
     const [name, setName] = useState("");
@@ -95,9 +99,9 @@ const Input = ({
                             Bucket Name
                         </Text>
                         <TextInput
-                            style={[styles.input, { backgroundColor: theme.inactive, color: theme.text }]}
+                            style={[styles.input, { backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.text }]}
                             value={name}
-                            placeholder="New Bike"
+                            placeholder="Enter name"
                             placeholderTextColor={theme.light}
                             ref={firstInputRef}
                             returnKeyType="next"
@@ -115,12 +119,12 @@ const Input = ({
                         </Text>
                         <TextInput
                             style={[styles.input, {
-                                backgroundColor: theme.inactive, fontFamily: "monospace", color: theme.text
+                                backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, fontFamily: "monospace", color: theme.text
                             }]}
                             value={goal}
-                            placeholder="800.00"
+                            placeholder="Enter goal"
                             keyboardType="numeric"
-                            placeholderTextColor={"#ada6a6"}
+                            placeholderTextColor={theme.light}
                             ref={secondInputRef}
                             onChangeText={(value) => {
                                 setGoal(value)
@@ -130,7 +134,7 @@ const Input = ({
                 </View>
                 <View style={[styles.saveContainer, styles.wrapper]}>
                     <TouchableHighlight
-                        style={[styles.save, { backgroundColor: inputs ? theme.accent : theme.inactive }]}
+                        style={[styles.save, { backgroundColor: inputs ? theme.accent : colorScheme === "dark" ? theme.inactive : theme.inactiveLighter }]}
                         onPress={() => {
                             if (inputs) {
                                 saveBucket(name, goal);

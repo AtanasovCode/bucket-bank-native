@@ -6,17 +6,23 @@ import {
     TouchableHighlight,
     TextInput,
     Image,
+    useColorScheme,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Dimensions } from "react-native";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import Header from "../Header";
-import { theme } from "../../Colors";
+import { lightTheme, darkTheme } from "../../Colors";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const AddPayment = ({ navigation }) => {
+
+    const colorScheme = useColorScheme();
+
+    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+
 
     const [inputs, setInputs] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -34,8 +40,8 @@ const AddPayment = ({ navigation }) => {
             mode: currentMode,
             display: "spinner",
             is24Hour: true,
-            positiveButton: {label: "Done", textColor: "#fff"},
-            negativeButton: {label: "Cancel", textColor: "#fff"},
+            positiveButton: { label: "Done", textColor: "#fff" },
+            negativeButton: { label: "Cancel", textColor: "#fff" },
         });
     };
 
@@ -60,7 +66,9 @@ const AddPayment = ({ navigation }) => {
                             Date
                         </Text>
                         <TouchableHighlight
-                            style={[styles.input, { backgroundColor: theme.inactive }]}
+                            style={[
+                                styles.input, 
+                                { backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter }]}
                             onPress={showDatepicker}
                         >
                             <Text style={{ color: theme.text }}>{date.toLocaleDateString()}</Text>
@@ -72,10 +80,12 @@ const AddPayment = ({ navigation }) => {
                         </Text>
                         <TextInput
                             style={[styles.input, {
-                                backgroundColor: theme.inactive, fontFamily: "monospace", color: theme.text
+                                backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, 
+                                fontFamily: "monospace", 
+                                color: theme.text
                             }]}
-                            placeholderTextColor={"#ada6a6"}
-                            placeholder="150.00"
+                            placeholderTextColor={colorScheme === "dark" ? "#ada6a6" : theme.light}
+                            placeholder="Enter payment"
                             keyboardType="numeric"
                             onChangeText={(value) => {
                                 setPayment(value)
@@ -86,18 +96,18 @@ const AddPayment = ({ navigation }) => {
             </View>
             <View style={[styles.saveContainer, styles.wrapper]}>
                 <TouchableHighlight
-                    style={[styles.save, { backgroundColor: inputs ? theme.accent : theme.inactive }]}
+                    style={[styles.save, { backgroundColor: inputs ? theme.accent : colorScheme === "light" ? theme.inactiveLighter : theme.inactive }]}
                     onPress={() => {
                         if (inputs) {
                             navigation.navigate({
                                 name: "Bucket",
-                                params: {date: date.toLocaleDateString(), amount: payment},
+                                params: { date: date.toLocaleDateString(), amount: payment },
                                 merge: true,
                             })
                         }
                     }}
                 >
-                    <Text style={{ color: inputs ? theme.white : theme.light }}>
+                    <Text style={{ color: inputs ? theme.text : theme.light }}>
                         Save
                     </Text>
                 </TouchableHighlight>
