@@ -9,6 +9,7 @@ import {
 import { StyleSheet, Dimensions } from "react-native";
 import { lightTheme, darkTheme } from "../../Colors";
 import { formatMoney } from "../Utils";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { getRemaining, getProgress } from "../Utils";
 
@@ -30,26 +31,27 @@ const Overview = ({
 
     const onLayout = (e) => {
         setSavedWidth(e.nativeEvent.layout.width);
-      };
+    };
 
     return (
         <View style={[styles.container, { width: width }]}>
             <View style={[styles.wrapper]}>
-                <Image
-                    source={require('../../assets/bank.png')}
-                    style={[{ width: 25, height: 25 }]}
+                <MaterialCommunityIcons 
+                    name="piggy-bank" 
+                    size={28} 
+                    color={theme.light} 
                 />
                 <Text style={[styles.text, { color: theme.light }]}>
                     Bucket Balance
                 </Text>
             </View>
             <View style={[styles.moneyWrapper]}>
-                <Text onLayout={onLayout} style={[styles.textWrapper, {marginBottom: 6}]}>
+                <Text onLayout={onLayout} style={[styles.textWrapper, { marginBottom: 6 }]}>
                     <Text style={[styles.saved, { color: theme.money }]}>
                         {formatMoney(saved)} $
                     </Text>
                 </Text>
-                <Text style={[styles.textWrapper, {width: savedWidth}, {textAlign: "right"}]}>
+                <Text style={[styles.textWrapper, { width: savedWidth }, { textAlign: "right" }]}>
                     <Text style={[styles.goal, { color: theme.light }]}>
                         / {formatMoney(goal)} $
                     </Text>

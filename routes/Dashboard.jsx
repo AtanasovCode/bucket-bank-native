@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { 
+import {
     View,
     ScrollView,
-    Text, 
-    TouchableHighlight, 
-    Image,
-    StyleSheet, 
+    Text,
+    TouchableHighlight,
+    StyleSheet,
     Dimensions,
     useColorScheme,
 } from "react-native";
@@ -15,6 +14,7 @@ import { StatusBar } from "expo-status-bar";
 import Header from "../components/Header";
 import DashboardItem from "../components/dashboard/DashboardItem";
 import { lightTheme, darkTheme } from "../Colors";
+import { AntDesign } from '@expo/vector-icons';
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -90,7 +90,7 @@ const Dashboard = ({ navigation }) => {
                         navigation.navigate("Input");
                     }}
                 >
-                    <Image source={require("../assets/plus.png")} style={{ height: 20, width: 20 }} />
+                    <AntDesign name="plus" size={24} color="black" />
                 </TouchableHighlight>
             </View>
         </SafeAreaView>

@@ -4,7 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     View,
     Text,
-    Image,
     TouchableHighlight,
     FlatList,
     useColorScheme,

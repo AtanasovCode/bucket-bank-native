@@ -2,6 +2,8 @@ import { View, TouchableHighlight, Image, useColorScheme } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Dimensions } from "react-native";
 import { lightTheme, darkTheme } from "../Colors";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const height = Dimensions.get("window").height;
 
@@ -27,9 +29,10 @@ const Header = ({
                         navigation.goBack();
                     }}
                 >
-                    <Image
-                        source={require("../assets/back.png")}
-                        style={{ width: 25, height: 25 }}
+                    <MaterialCommunityIcons
+                        name="arrow-left"
+                        size={28}
+                        color={colorScheme === "light" ? "#000" : "#FFF"}
                     />
                 </TouchableHighlight>
             }
@@ -41,18 +44,19 @@ const Header = ({
                         navigation.navigate("Settings")
                     }}
                 >
-                    <Image
-                        source={require("../assets/setting.png")}
-                        style={{ width: 25, height: 25 }}
+                    <Ionicons
+                        name="settings-sharp"
+                        size={28}
+                        color={colorScheme === "light" ? "#000" : "#FFF"}
                     />
                 </TouchableHighlight>
             }
             <Image
                 source={
                     colorScheme === "light" ?
-                    require("../assets/logo-dark.png")
-                    :
-                    require("../assets/logo.png")
+                        require("../assets/logo-dark.png")
+                        :
+                        require("../assets/logo.png")
                 }
             />
             {
@@ -63,9 +67,10 @@ const Header = ({
 
                     }}
                 >
-                    <Image
-                        source={require("../assets/setting.png")}
-                        style={{ width: 25, height: 25 }}
+                    <MaterialCommunityIcons 
+                        name="circle-edit-outline" 
+                        size={28} 
+                        color={colorScheme === "light" ? "#000" : "#FFF"} 
                     />
                 </TouchableHighlight>
             }

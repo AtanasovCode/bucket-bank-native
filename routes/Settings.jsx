@@ -3,7 +3,6 @@ import { useState } from "react";
 import {
     View,
     Text,
-    Image,
     ScrollableHighlight,
     useColorScheme,
 } from "react-native";

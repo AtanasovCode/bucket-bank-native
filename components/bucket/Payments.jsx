@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Text, Image, TouchableHighlight, ScrollView, useColorScheme } from "react-native";
+import { View, Text, TouchableHighlight, ScrollView, useColorScheme } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
 import { lightTheme, darkTheme } from "../../Colors";
 import { formatMoney } from "../Utils";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 const width = Dimensions.get("window").width;
 
@@ -16,7 +18,11 @@ const Payments = ({ navigation, bucket, setBucket }) => {
     return (
         <View style={[styles.container, { width: width }]}>
             <View style={[styles.wrapper]}>
-                <Image source={require('../../assets/history.png')} style={{ height: 25, width: 25, }} />
+                <MaterialCommunityIcons
+                    name="history"
+                    size={24}
+                    color={theme.light}
+                />
                 <Text style={[styles.text, { color: theme.light }]}>
                     History
                 </Text>
@@ -27,14 +33,15 @@ const Payments = ({ navigation, bucket, setBucket }) => {
                         bucket.payments.map((item) => (
                             <View key={item.id} style={[styles.paymentContainer]}>
                                 <View style={[styles.paymentWrapper]}>
-                                    <Image
-                                        source={require('../../assets/save.png')}
-                                        style={{ width: 25, height: 25 }}
+                                    <MaterialCommunityIcons
+                                        name="bank-plus"
+                                        size={22}
+                                        color={theme.light}
                                     />
                                     <Text style={[styles.text, { color: theme.text }]}>{item.date}</Text>
                                 </View>
                                 <View style={[styles.paymentWrapper]}>
-                                    <Text style={[styles.text, { color: theme.money, fontFamily: "monospace"}]}>
+                                    <Text style={[styles.text, { color: theme.money, fontFamily: "monospace" }]}>
                                         + {formatMoney(item.amount)} $
                                     </Text>
                                 </View>
@@ -42,9 +49,10 @@ const Payments = ({ navigation, bucket, setBucket }) => {
                         ))
                     ) : (
                         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 22 }}>
-                            <Image
-                                source={require('../../assets/empty.png')}
-                                style={{ width: 20, height: 20 }}
+                            <AntDesign 
+                                name="minuscircle" 
+                                size={24} 
+                                color={theme.light}
                             />
                             <Text style={{ color: theme.light, fontSize: 14 }}>
                                 No payments found
@@ -59,7 +67,7 @@ const Payments = ({ navigation, bucket, setBucket }) => {
                             navigation.navigate("Payment");
                         }}
                     >
-                        <Image source={require("../../assets/plus.png")} style={{ height: 20, width: 20 }} />
+                        <AntDesign name="plus" size={24} color="black" />
                     </TouchableHighlight>
                 </View>
             </View>
