@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
     View,
@@ -58,6 +58,22 @@ const Settings = ({ navigation }) => {
             console.log(e)
         }
     }
+
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem("currency");
+            if (value !== null) {
+                const parsedValue = JSON.parse(value);
+                setSelectedCurrency(parsedValue);
+            }
+        } catch (e) {
+            console.log("Error getting data:", e);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, [])
 
 
     return (

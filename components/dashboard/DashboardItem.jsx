@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableHighlight, StyleSheet, useColorScheme } from 'react-native';
 import { formatMoney, getProgress } from '../Utils';
 import { lightTheme, darkTheme } from '../../Colors';
@@ -16,6 +16,8 @@ const DashboardItem = ({
 
     const colorScheme = useColorScheme();
 
+    const [currency, setCurrency] = useState("$");
+
     const theme = colorScheme === "light" ? lightTheme : darkTheme;
 
     const saveID = async (id) => {
@@ -28,6 +30,22 @@ const DashboardItem = ({
             navigation.navigate("Bucket");
         }
     }
+
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem("currency");
+            if (value !== null) {
+                const parsedValue = JSON.parse(value);
+                setCurrency(parsedValue);
+            }
+        } catch (e) {
+            console.log("Error getting data:", e);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, [])
 
     return (
         <TouchableHighlight
@@ -49,7 +67,7 @@ const DashboardItem = ({
                             { color: theme.money }
                         ]}
                     >
-                        {formatMoney(saved)} $
+                        {formatMoney(saved)} {currency}
                     </Text>
                 </View>
                 <View style={[styles.progressContainer]}>
