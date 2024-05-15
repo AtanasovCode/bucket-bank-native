@@ -103,6 +103,7 @@ const Settings = ({ navigation }) => {
                                 themes.map((item) => {
                                     return (
                                         <Picker.Item
+                                            key={item.value}
                                             label={item.label}
                                             value={item.value}
                                             style={{ backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.light }}
@@ -132,6 +133,7 @@ const Settings = ({ navigation }) => {
                                 currencies.map((currency) => {
                                     return (
                                         <Picker.Item
+                                            key={currency.value}
                                             label={currency.label}
                                             value={currency.value}
                                             style={{ backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.light }}
