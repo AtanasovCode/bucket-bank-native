@@ -34,17 +34,20 @@ const Bucket = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState("overview");
 
     useEffect(() => {
-        if (route.params?.date && route.params?.amount) {
+        if (route.params?.date && route.params?.amount && route.params?.withdrawal) {
             const newPayment = {
                 id: Crypto.randomUUID(),
                 date: route.params.date,
                 amount: route.params.amount,
+                withdrawal: route.params.withdrawal,
             };
             const updatedBucket = {
                 ...bucket,
-                saved: parseFloat(bucket.saved) + parseFloat(route.params.amount),
+                saved: route.params.withdrawal ? parseFloat(bucket.saved) - parseFloat(route.params.amount) : parseFloat(bucket.saved) + parseFloat(route.params.amount),
                 payments: [...bucket.payments, newPayment],
             };
+
+
 
             const updateBuckets = async () => {
                 try {
@@ -66,7 +69,7 @@ const Bucket = ({ navigation, route }) => {
 
             updateBuckets();
         }
-    }, [route.params?.date, route.params?.amount]);
+    }, [route.params?.date, route.params?.amount, route.params?.withdrawal]);
 
 
     console.log(bucket);

@@ -8,6 +8,7 @@ import {
     Image,
     useColorScheme,
 } from "react-native";
+import Checkbox from "expo-checkbox";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Dimensions } from "react-native";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
@@ -27,11 +28,16 @@ const AddPayment = ({ navigation }) => {
     const [inputs, setInputs] = useState(false);
     const [date, setDate] = useState(new Date());
     const [payment, setPayment] = useState();
+    const [withdrawal, setWithdrawal] = useState(false);
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         setDate(currentDate);
     };
+
+    const markWithdrawal = () => {
+        setWithdrawal(!withdrawal);
+    }
 
     const showMode = (currentMode) => {
         DateTimePickerAndroid.open({
@@ -92,6 +98,18 @@ const AddPayment = ({ navigation }) => {
                             }}
                         />
                     </View>
+                    <View style={[styles.checkboxContainer]}>
+                        <Checkbox
+                            style={styles.checkbox}
+                            value={withdrawal}
+                            onValueChange={() => markWithdrawal()}
+                            color={theme.accent}
+                        />
+
+                        <Text style={[styles.checkboxText, { color: theme.light }]}>
+                            Mark as withdrawal (optional)
+                        </Text>
+                    </View>
                 </View>
             </View>
             <View style={[styles.saveContainer, styles.wrapper]}>
@@ -101,7 +119,7 @@ const AddPayment = ({ navigation }) => {
                         if (inputs) {
                             navigation.navigate({
                                 name: "Bucket",
-                                params: { date: date.toLocaleDateString(), amount: payment },
+                                params: { date: date.toLocaleDateString(), amount: payment, withdrawal: withdrawal },
                                 merge: true,
                             })
                         }
@@ -145,6 +163,19 @@ const styles = StyleSheet.create({
         textAlign: "left",
         marginBottom: 12,
         paddingLeft: 20,
+    },
+    checkboxContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginLeft: "6%",
+        marginRight: "6%",
+    },
+    checkboxText: {
+        fontSize: 14,
+        textAlign: "left",
+    },
+    checkbox: {
+        marginRight: "5%",
     },
     saveContainer: {
         paddingBottom: 22,

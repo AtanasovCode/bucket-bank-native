@@ -54,16 +54,25 @@ const Payments = ({ navigation, bucket, setBucket }) => {
                         bucket.payments.map((item) => (
                             <View key={item.id} style={[styles.paymentContainer]}>
                                 <View style={[styles.paymentWrapper]}>
-                                    <MaterialCommunityIcons
-                                        name="bank-plus"
-                                        size={22}
-                                        color={theme.light}
-                                    />
+                                    {
+                                        item.withdrawal ?
+                                            <MaterialCommunityIcons
+                                                name="bank-minus"
+                                                size={22}
+                                                color={theme.red}
+                                            />
+                                            :
+                                            <MaterialCommunityIcons
+                                                name="bank-plus"
+                                                size={22}
+                                                color={theme.light}
+                                            />
+                                    }
                                     <Text style={[styles.text, { color: theme.text }]}>{item.date}</Text>
                                 </View>
                                 <View style={[styles.paymentWrapper]}>
-                                    <Text style={[styles.text, { color: theme.money, fontFamily: "monospace" }]}>
-                                        + {formatMoney(item.amount)} {currency}
+                                    <Text style={[styles.text, { color: item.withdrawal ? theme.red : theme.money, fontFamily: "monospace" }]}>
+                                        {item.withdrawal ? "-" : "+"} {formatMoney(item.amount)} {currency}
                                     </Text>
                                 </View>
                             </View>

@@ -65,7 +65,7 @@ const Overview = ({
             </View>
             <View style={[styles.moneyWrapper]}>
                 <Text onLayout={onLayout} style={[styles.textWrapper, { marginBottom: 6 }]}>
-                    <Text style={[styles.saved, { color: theme.money }]}>
+                    <Text style={[styles.saved, { color: saved >= 0 ? theme.money : theme.red }]}>
                         {formatMoney(saved)} {currency}
                     </Text>
                 </Text>

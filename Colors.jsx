@@ -14,6 +14,7 @@ const darkTheme = {
     'money': "#ffffff",
     'text': "#EBEDF0",
     'light': "#A8A8A8",
+    'red': "#e34747",
 }
 
 const lightTheme = {
@@ -24,6 +25,7 @@ const lightTheme = {
     'money': "#000000",
     'text': "#090a0a",
     'light': "#403b3b",
+    'red': "#e34747",
 }
 
 const theme = {

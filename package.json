@@ -21,7 +21,8 @@
     "react-native-screens": "3.31.1",
     "@react-native-community/datetimepicker": "8.0.1",
     "expo-system-ui": "~3.0.4",
-    "@react-native-picker/picker": "2.7.5"
+    "@react-native-picker/picker": "2.7.5",
+    "expo-checkbox": "~3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
