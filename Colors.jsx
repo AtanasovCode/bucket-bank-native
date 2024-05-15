@@ -19,8 +19,9 @@ const darkTheme = {
 
 const lightTheme = {
     'background': "#f2f2fd",
-    'inactive': "#88878b",
+    'inactive': "#d5cece",
     'inactiveLighter': "#d5cece",
+    inactiveDarker: "#88878b",
     'accent': "#05d2d6",
     'money': "#0dd217",
     'text': "#090a0a",
