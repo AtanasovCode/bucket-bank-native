@@ -65,7 +65,7 @@ const Payments = ({ navigation, bucket, setBucket }) => {
                                             <MaterialCommunityIcons
                                                 name="bank-plus"
                                                 size={22}
-                                                color={theme.light}
+                                                color={theme.money}
                                             />
                                     }
                                     <Text style={[styles.text, { color: theme.text }]}>{item.date}</Text>

@@ -11,10 +11,10 @@ const darkTheme = {
     'background': "#090a1f",
     'inactive': "#082f49",
     'accent': "#4aade6",
-    'money': "#ffffff",
+    'money': "#a8f7ac",
     'text': "#EBEDF0",
     'light': "#A8A8A8",
-    'red': "#e34747",
+    'red': "#f36d6d",
 }
 
 const lightTheme = {
@@ -22,7 +22,7 @@ const lightTheme = {
     'inactive': "#88878b",
     'inactiveLighter': "#d5cece",
     'accent': "#05d2d6",
-    'money': "#000000",
+    'money': "#0dd217",
     'text': "#090a0a",
     'light': "#403b3b",
     'red': "#e34747",

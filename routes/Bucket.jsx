@@ -34,7 +34,8 @@ const Bucket = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState("overview");
 
     useEffect(() => {
-        if (route.params?.date && route.params?.amount && route.params?.withdrawal) {
+        if (route.params?.date && route.params?.amount !== undefined && route.params?.withdrawal === true || route.params?.withdrawal === false) {
+            console.log(`PARAMS: ${route.params}`);
             const newPayment = {
                 id: Crypto.randomUUID(),
                 date: route.params.date,
@@ -44,7 +45,7 @@ const Bucket = ({ navigation, route }) => {
             const updatedBucket = {
                 ...bucket,
                 saved: route.params.withdrawal ? parseFloat(bucket.saved) - parseFloat(route.params.amount) : parseFloat(bucket.saved) + parseFloat(route.params.amount),
-                payments: [...bucket.payments, newPayment],
+                payments: [newPayment, ...bucket.payments],
             };
 
 
@@ -71,8 +72,6 @@ const Bucket = ({ navigation, route }) => {
         }
     }, [route.params?.date, route.params?.amount, route.params?.withdrawal]);
 
-
-    console.log(bucket);
 
 
     const getID = async () => {

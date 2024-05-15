@@ -64,7 +64,7 @@ const DashboardItem = ({
                     <Text
                         style={[
                             styles.saved,
-                            { color: theme.money }
+                            { color: saved >= 0 ? theme.money : theme.red }
                         ]}
                     >
                         {formatMoney(saved)} {currency}

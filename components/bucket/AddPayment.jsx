@@ -35,9 +35,6 @@ const AddPayment = ({ navigation }) => {
         setDate(currentDate);
     };
 
-    const markWithdrawal = () => {
-        setWithdrawal(!withdrawal);
-    }
 
     const showMode = (currentMode) => {
         DateTimePickerAndroid.open({
@@ -102,7 +99,7 @@ const AddPayment = ({ navigation }) => {
                         <Checkbox
                             style={styles.checkbox}
                             value={withdrawal}
-                            onValueChange={() => markWithdrawal()}
+                            onValueChange={setWithdrawal}
                             color={theme.accent}
                         />
 
