@@ -63,13 +63,13 @@ const Header = ({
                 <TouchableHighlight
                     style={[styles.edit]}
                     onPress={() => {
-
+                        navigation.navigate("Edit")
                     }}
                 >
-                    <MaterialCommunityIcons 
-                        name="circle-edit-outline" 
-                        size={28} 
-                        color={colorScheme === "light" ? "#000" : "#FFF"} 
+                    <MaterialCommunityIcons
+                        name="circle-edit-outline"
+                        size={28}
+                        color={colorScheme === "light" ? "#000" : "#FFF"}
                     />
                 </TouchableHighlight>
             }
