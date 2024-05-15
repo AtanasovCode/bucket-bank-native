@@ -26,10 +26,6 @@ const EditBucket = ({ navigation }) => {
     const firstInputRef = useRef(null);
     const secondInputRef = useRef(null);
 
-    useEffect(() => {
-        firstInputRef.current.focus();
-    }, [])
-
     const checkInputs = () => {
         name && goal ? setInputs(true) : setInputs(false);
     }
@@ -66,11 +62,17 @@ const EditBucket = ({ navigation }) => {
 
     useEffect(() => {
         getID();
+        firstInputRef.current.focus();
     }, [])
 
     useEffect(() => {
         selectedID && getData();
     }, [selectedID])
+
+    useEffect(() => {
+        setName(bucket.name);
+        setGoal(bucket.goal);
+    }, [bucket])
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
