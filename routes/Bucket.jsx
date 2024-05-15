@@ -35,7 +35,6 @@ const Bucket = ({ navigation, route }) => {
 
     useEffect(() => {
         if (route.params?.date && route.params?.amount !== undefined && route.params?.withdrawal === true || route.params?.withdrawal === false) {
-            console.log(`PARAMS: ${route.params}`);
             const newPayment = {
                 id: Crypto.randomUUID(),
                 date: route.params.date,
@@ -71,6 +70,35 @@ const Bucket = ({ navigation, route }) => {
             updateBuckets();
         }
     }, [route.params?.date, route.params?.amount, route.params?.withdrawal]);
+
+    useEffect(() => {
+        if (route.params?.name && route.params.goal) {
+            const updatedBucket = {
+                ...bucket,
+                name: route.params.name,
+                goal: route.params.goal,
+            }
+
+            const updateBuckets = async () => {
+                try {
+                    const bucketsData = await AsyncStorage.getItem("buckets");
+                    if (bucketsData) {
+                        const parsedBuckets = JSON.parse(bucketsData);
+                        const updatedBuckets = parsedBuckets.map((item) =>
+                            item.id === selectedID ? updatedBucket : item
+                        );
+                        await setData("buckets", updatedBuckets);
+                        // Update local state immediately after AsyncStorage update
+                        setBucket(updatedBucket);
+                    }
+                } catch (error) {
+                    console.log("Error updating buckets in AsyncStorage:", error);
+                }
+            };
+
+            updateBuckets();
+        }
+    }, [route.params?.name, route.params?.goal])
 
 
 

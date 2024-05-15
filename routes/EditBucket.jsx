@@ -11,6 +11,8 @@ import { StyleSheet, Dimensions } from "react-native";
 import Header from "../components/Header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const height = Dimensions.get("window").height;
+
 
 const EditBucket = ({ navigation }) => {
 
@@ -75,7 +77,7 @@ const EditBucket = ({ navigation }) => {
     }, [bucket])
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background, height: height }]}>
             <Header
                 navigation={navigation}
                 back={true}
@@ -120,6 +122,24 @@ const EditBucket = ({ navigation }) => {
                     />
                 </View>
             </View>
+            <View style={[styles.saveContainer]}>
+                <TouchableHighlight
+                    style={[styles.save, { backgroundColor: inputs ? theme.accent : theme.inactive }]}
+                    onPress={() => {
+                        if (inputs) {
+                            navigation.navigate({
+                                name: "Bucket",
+                                params: { name: name, goal: goal},
+                                merge: true,
+                            })
+                        }
+                    }}
+                >
+                    <Text style={{ color: inputs ? theme.white : theme.light }}>
+                        Save
+                    </Text>
+                </TouchableHighlight>
+            </View>
         </SafeAreaView >
     );
 }
@@ -150,6 +170,25 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: "left",
         marginBottom: 12,
+    },
+    saveContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: "5%",
+        marginLeft: "6%",
+        marginRight: "6%",
+    },
+    save: {
+        alignItems: "center",
+        justifyContent: 'center',
+        padding: 18,
+        paddingLeft: 26,
+        paddingRight: 26,
+        width: "100%",
+        borderRadius: 16,
     },
 
 })
