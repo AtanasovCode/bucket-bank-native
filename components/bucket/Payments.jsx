@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableHighlight, ScrollView, useColorScheme } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
 import { lightTheme, darkTheme } from "../../Colors";
 import { formatMoney } from "../Utils";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const width = Dimensions.get("window").width;
 
@@ -13,6 +14,26 @@ const Payments = ({ navigation, bucket, setBucket }) => {
     const colorScheme = useColorScheme();
 
     const theme = colorScheme === "light" ? lightTheme : darkTheme;
+
+    const [currency, setCurrency] = useState("$");
+
+
+
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem("currency");
+            if (value !== null) {
+                const parsedValue = JSON.parse(value);
+                setCurrency(parsedValue);
+            }
+        } catch (e) {
+            console.log("Error getting data:", e);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, [])
 
 
     return (
@@ -42,16 +63,16 @@ const Payments = ({ navigation, bucket, setBucket }) => {
                                 </View>
                                 <View style={[styles.paymentWrapper]}>
                                     <Text style={[styles.text, { color: theme.money, fontFamily: "monospace" }]}>
-                                        + {formatMoney(item.amount)} $
+                                        + {formatMoney(item.amount)} {currency}
                                     </Text>
                                 </View>
                             </View>
                         ))
                     ) : (
                         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 22 }}>
-                            <AntDesign 
-                                name="minuscircle" 
-                                size={24} 
+                            <AntDesign
+                                name="minuscircle"
+                                size={24}
                                 color={theme.light}
                             />
                             <Text style={{ color: theme.light, fontSize: 14 }}>
