@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { lightTheme, darkTheme } from "../Colors";
 import Header from "../components/Header";
 import { Picker } from "@react-native-picker/picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Settings = ({ navigation }) => {
 
@@ -21,7 +22,7 @@ const Settings = ({ navigation }) => {
 
     const theme = colorScheme === "light" ? lightTheme : darkTheme;
 
-    const [currencies, setCurrencies] = useState([
+    const currencies = [
         { label: "US Dollar (USD) - $", value: "$" },
         { label: "Euro (EUR) - €", value: "€" },
         { label: "Japanese Yen (JPY) - ¥", value: "¥" },
@@ -29,19 +30,34 @@ const Settings = ({ navigation }) => {
         { label: "Australian Dollar (AUD) - A$", value: "A$" },
         { label: "Canadian Dollar (CAD) - CA$", value: "CA$" },
         { label: "Swiss Franc (CHF) - CHF", value: "CHF" },
-        { label: "Swedish Krona (SEK) - SEK", value: "SEK" }, 
+        { label: "Swedish Krona (SEK) - SEK", value: "SEK" },
         { label: "New Zealand Dollar (NZD) - NZ$", value: "NZ$" },
         { label: "South Korean Won (KRW) - ₩", value: "₩" },
         { label: "Singapore Dollar (SGD) - S$", value: "S$" },
         { label: "Mexican Peso (MXN) - Mex$", value: "Mex$" },
         { label: "Indian Rupee (INR) - ₹", value: "₹" },
         { label: "Brazilian Real (BRL) - R$", value: "R$" },
-        { label: "Thai Baht (THB) - ฿", value: "THB" }, 
+        { label: "Thai Baht (THB) - ฿", value: "THB" },
         { label: "Indonesian Rupiah (IDR) - Rp", value: "IDR" },
         { label: "UAE Dirham (AED) - AED", value: "AED" },
         { label: "Philippine Peso (PHP) - ₱", value: "PHP" },
         { label: "Polish Złoty (PLN) - zł", value: "PLN" },
-    ]);
+    ];
+
+    const themes = [
+        { label: "Automatic", value: "automatic" },
+        { label: "Dark", value: "dark" },
+        { label: "Light", value: "light" },
+    ];
+
+    const saveData = async (key, value) => {
+        try {
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem(key, jsonValue)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
 
     return (
@@ -62,25 +78,22 @@ const Settings = ({ navigation }) => {
                             { backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.text }]}
                             selectedValue={selectedTheme}
                             mode="dropdown"
-                            onValueChange={(itemValue, itemIndex) =>
-                                setSelectedTheme(itemValue)
-                            }
+                            onValueChange={(itemValue, itemIndex) => {
+                                setSelectedTheme(itemValue);
+                                saveData("theme", itemValue);
+                            }}
                         >
-                            <Picker.Item
-                                label="Automatic"
-                                value="automatic"
-                                style={{ backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.light }}
-                            />
-                            <Picker.Item
-                                label="Dark"
-                                value="dark"
-                                style={{ backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.light }}
-                            />
-                            <Picker.Item
-                                label="Light"
-                                value="light"
-                                style={{ backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.light }}
-                            />
+                            {
+                                themes.map((item) => {
+                                    return (
+                                        <Picker.Item
+                                            label={item.label}
+                                            value={item.value}
+                                            style={{ backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.light }}
+                                        />
+                                    );
+                                })
+                            }
                         </Picker>
                     </View>
                 </View>
@@ -94,9 +107,10 @@ const Settings = ({ navigation }) => {
                             { backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.text }]}
                             selectedValue={selectedCurrency}
                             mode="dropdown"
-                            onValueChange={(itemValue, itemIndex) =>
-                                setSelectedCurrency(itemValue)
-                            }
+                            onValueChange={(itemValue, itemIndex) => {
+                                setSelectedCurrency(itemValue);
+                                saveData("currency", itemValue);
+                            }}
                         >
                             {
                                 currencies.map((currency) => {
