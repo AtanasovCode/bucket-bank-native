@@ -78,48 +78,50 @@ const EditBucket = ({ navigation }) => {
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, height: height }]}>
-            <Header
-                navigation={navigation}
-                back={true}
-            />
-            <Text style={[styles.title, { color: theme.light }]}>Edit Bucket</Text>
-            <View>
-                <View style={[styles.wrapper]}>
-                    <Text style={[styles.label, { color: theme.light }]}>
-                        Bucket Name
-                    </Text>
-                    <TextInput
-                        style={[styles.input, { backgroundColor: theme.inactive, color: theme.text }]}
-                        value={name}
-                        placeholder="Enter name"
-                        placeholderTextColor={theme.light}
-                        ref={firstInputRef}
-                        returnKeyType="next"
-                        onSubmitEditing={() => {
-                            secondInputRef.current.focus();
-                        }}
-                        onChangeText={(value) => {
-                            setName(value)
-                        }}
-                    />
-                </View>
-                <View style={[styles.wrapper]}>
-                    <Text style={[styles.label, { color: theme.light }]}>
-                        Goal
-                    </Text>
-                    <TextInput
-                        style={[styles.input, {
-                            backgroundColor: theme.inactive, fontFamily: "monospace", color: theme.text
-                        }]}
-                        value={goal}
-                        placeholder="Enter goal"
-                        keyboardType="numeric"
-                        placeholderTextColor={theme.light}
-                        ref={secondInputRef}
-                        onChangeText={(value) => {
-                            setGoal(value)
-                        }}
-                    />
+            <View style={[styles.infoWrapper]}>
+                <Header
+                    navigation={navigation}
+                    back={true}
+                />
+                <Text style={[styles.title, { color: theme.light }]}>Edit Bucket</Text>
+                <View>
+                    <View style={[styles.wrapper]}>
+                        <Text style={[styles.label, { color: theme.light }]}>
+                            Bucket Name
+                        </Text>
+                        <TextInput
+                            style={[styles.input, { backgroundColor: theme.inactive, color: theme.text }]}
+                            value={name}
+                            placeholder="Enter name"
+                            placeholderTextColor={theme.light}
+                            ref={firstInputRef}
+                            returnKeyType="next"
+                            onSubmitEditing={() => {
+                                secondInputRef.current.focus();
+                            }}
+                            onChangeText={(value) => {
+                                setName(value)
+                            }}
+                        />
+                    </View>
+                    <View style={[styles.wrapper]}>
+                        <Text style={[styles.label, { color: theme.light }]}>
+                            Goal
+                        </Text>
+                        <TextInput
+                            style={[styles.input, {
+                                backgroundColor: theme.inactive, fontFamily: "monospace", color: theme.text
+                            }]}
+                            value={goal}
+                            placeholder="Enter goal"
+                            keyboardType="numeric"
+                            placeholderTextColor={theme.light}
+                            ref={secondInputRef}
+                            onChangeText={(value) => {
+                                setGoal(value)
+                            }}
+                        />
+                    </View>
                 </View>
             </View>
             <View style={[styles.saveContainer]}>
@@ -147,7 +149,9 @@ const EditBucket = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: "space-between",
     },
+    infoWrapper: {},
     title: {
         fontSize: 18,
         marginBottom: "10%",
@@ -174,12 +178,9 @@ const styles = StyleSheet.create({
     saveContainer: {
         alignItems: "center",
         justifyContent: "center",
-        position: "absolute",
-        left: 0,
-        right: 0,
-        bottom: "5%",
         marginLeft: "6%",
         marginRight: "6%",
+        marginBottom: "10%",
     },
     save: {
         alignItems: "center",

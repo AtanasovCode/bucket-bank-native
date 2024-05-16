@@ -176,10 +176,10 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 14,
         textAlign: "left",
-        marginBottom: 12,
+        marginBottom: "4%",
     },
     saveContainer: {
-        paddingBottom: 22,
+        paddingBottom: "6%",
         alignItems: "center",
         justifyContent: "center",
     },
