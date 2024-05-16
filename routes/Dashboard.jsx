@@ -19,7 +19,7 @@ import { AntDesign } from '@expo/vector-icons';
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const Dashboard = ({ navigation }) => {
+const Dashboard = ({ navigation, route }) => {
 
     const colorScheme = useColorScheme();
 
@@ -43,6 +43,14 @@ const Dashboard = ({ navigation }) => {
         }
     };
 
+    const updateData = async (key, value) => {
+        try {
+            await AsyncStorage.setItem(key, JSON.stringify(value));
+        } catch (e) {
+            console.log("Error saving data");
+        }
+    };
+
     const clearAsyncStorage = async () => {
         try {
             await AsyncStorage.clear();
@@ -61,6 +69,35 @@ const Dashboard = ({ navigation }) => {
         return unsubscribe;
 
     }, [navigation]);
+
+    useEffect(() => {
+        if (route.params?.delete === true && route.params?.id) {
+
+            const updateBuckets = async () => {
+                try {
+                    const bucketsData = await AsyncStorage.getItem("buckets");
+                    if (bucketsData) {
+                        const parsedBuckets = JSON.parse(bucketsData);
+
+                        const updatedBuckets = parsedBuckets.filter((item) => item.id !== route.params.id);
+
+                        await updateData("buckets", updatedBuckets);
+                        // Update local state immediately after AsyncStorage update
+                        setBuckets(updatedBuckets);
+                        // Clear the delete param after processing with a slight delay to ensure UI update
+                        setTimeout(() => {
+                            navigation.setParams({ delete: false, id: null });
+                        }, 100);
+                    }
+                } catch (error) {
+                    console.log("Error updating buckets in AsyncStorage:", error);
+                }
+            };
+
+            updateBuckets();
+        }
+    }, [route.params?.delete, route.params?.id])
+
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, height: height, width: width }]}>

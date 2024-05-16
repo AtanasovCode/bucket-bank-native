@@ -4,6 +4,7 @@ import {
     Text,
     TouchableHighlight,
     TextInput,
+    Alert,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -75,8 +76,33 @@ const EditBucket = ({ navigation }) => {
         setGoal(bucket.goal);
     }, [bucket])
 
-    console.log("color:")
-    console.log(theme.delete)
+
+    const showAlert = () => {
+        Alert.alert(
+            'Delete Bucket',
+            'Are you sure you want to delete this bucket?',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Delete',
+                    onPress: () => {
+                        navigation.navigate({
+                            name: "Dashboard",
+                            params: { delete: true, id: selectedID },
+                            merge: true,
+                        })
+                    },
+                    style: 'delete',
+                },
+            ],
+            {
+                cancelable: true,
+            },
+        );
+    }
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, height: height }]}>
@@ -125,11 +151,14 @@ const EditBucket = ({ navigation }) => {
                         />
                     </View>
                     <View style={[styles.wrapper]}>
+                        <Text style={[styles.label, { color: theme.light }]}>
+                            Finished saving?
+                        </Text>
                         <TouchableHighlight
-                            style={[styles.save, {backgroundColor: theme.inactive}]}
-                            onPress={() => {}}
+                            style={[styles.save, { backgroundColor: theme.inactive }]}
+                            onPress={showAlert}
                         >
-                            <Text style={{ color: theme.red}}>
+                            <Text style={{ color: theme.red }}>
                                 Delete Bucket
                             </Text>
                         </TouchableHighlight>
@@ -186,6 +215,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: "left",
         marginBottom: 12,
+    },
+    deleteContainer: {
+        marginLeft: "6%",
+        marginRight: "6%",
+        marginBottom: "10%",
     },
     saveContainer: {
         alignItems: "center",
