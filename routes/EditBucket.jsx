@@ -129,7 +129,7 @@ const EditBucket = ({ navigation }) => {
                         if (inputs) {
                             navigation.navigate({
                                 name: "Bucket",
-                                params: { name: name, goal: goal},
+                                params: { name: name, goal: goal },
                                 merge: true,
                             })
                         }

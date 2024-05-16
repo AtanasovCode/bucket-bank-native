@@ -35,6 +35,13 @@ const Payments = ({ navigation, bucket, setBucket }) => {
         getData();
     }, [])
 
+    const parseLocaleDateString = (dateString) => {
+        const [month, day, year] = dateString.split('/').map(Number);
+        return new Date(year, month - 1, day);
+    };
+
+
+    const sortedPayments = bucket.payments ? [...bucket.payments].sort((a, b) => parseLocaleDateString(b.date) - parseLocaleDateString(a.date)) : [];
 
     return (
         <View style={[styles.container, { width: width }]}>
@@ -51,7 +58,7 @@ const Payments = ({ navigation, bucket, setBucket }) => {
             <View style={{ flex: 1 }}>
                 <ScrollView style={{ flex: 1 }}>
                     {bucket.payments && bucket.payments.length > 0 ? (
-                        bucket.payments.map((item) => (
+                        sortedPayments.map((item) => (
                             <View key={item.id} style={[styles.paymentContainer]}>
                                 <View style={[styles.paymentWrapper]}>
                                     {
