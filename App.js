@@ -39,6 +39,7 @@ const App = () => {
       text: "#EBEDF0",
       light: "#A8A8A8",
       red: "#f36d6d",
+      delete: "#880505",
     }
   }
 

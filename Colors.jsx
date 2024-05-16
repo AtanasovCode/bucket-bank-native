@@ -8,13 +8,14 @@ const oldTheme = {
 }
 
 const darkTheme = {
-    'background': "#090a1f",
-    'inactive': "#082f49",
-    'accent': "#4aade6",
-    'money': "#a8f7ac",
-    'text': "#EBEDF0",
-    'light': "#A8A8A8",
-    'red': "#f36d6d",
+    background: "#090a1f",
+    inactive: "#082f49",
+    accent: "#4aade6",
+    money: "#a8f7ac",
+    text: "#EBEDF0",
+    light: "#A8A8A8",
+    red: "#f36d6d",
+    delete: "#880505",
 }
 
 const lightTheme = {
@@ -27,6 +28,7 @@ const lightTheme = {
     'text': "#090a0a",
     'light': "#403b3b",
     'red': "#e34747",
+    delete: "#f49f9f",
 }
 
 const theme = {

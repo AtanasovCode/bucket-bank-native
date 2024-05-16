@@ -64,7 +64,6 @@ const EditBucket = ({ navigation }) => {
 
     useEffect(() => {
         getID();
-        firstInputRef.current.focus();
     }, [])
 
     useEffect(() => {
@@ -75,6 +74,9 @@ const EditBucket = ({ navigation }) => {
         setName(bucket.name);
         setGoal(bucket.goal);
     }, [bucket])
+
+    console.log("color:")
+    console.log(theme.delete)
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, height: height }]}>
@@ -121,6 +123,16 @@ const EditBucket = ({ navigation }) => {
                                 setGoal(value)
                             }}
                         />
+                    </View>
+                    <View style={[styles.wrapper]}>
+                        <TouchableHighlight
+                            style={[styles.save, {backgroundColor: theme.inactive}]}
+                            onPress={() => {}}
+                        >
+                            <Text style={{ color: theme.red}}>
+                                Delete Bucket
+                            </Text>
+                        </TouchableHighlight>
                     </View>
                 </View>
             </View>

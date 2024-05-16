@@ -36,12 +36,14 @@ const Payments = ({ navigation, bucket, setBucket }) => {
     }, [])
 
     const parseLocaleDateString = (dateString) => {
-        const [month, day, year] = dateString.split('/').map(Number);
+        const [day, month, year] = dateString.split('/').map(Number);
         return new Date(year, month - 1, day);
     };
 
+    const sortedPayments = bucket.payments
+        ? [...bucket.payments].sort((a, b) => parseLocaleDateString(b.date).getTime() - parseLocaleDateString(a.date).getTime())
+        : [];
 
-    const sortedPayments = bucket.payments ? [...bucket.payments].sort((a, b) => parseLocaleDateString(b.date) - parseLocaleDateString(a.date)) : [];
 
     return (
         <View style={[styles.container, { width: width }]}>
