@@ -5,6 +5,7 @@ import {
     View,
     Text,
     useColorScheme,
+    ActivityIndicator,
 } from "react-native";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,6 +18,7 @@ const Settings = ({ navigation }) => {
     const { currentTheme, setThemePreference } = useContext(ThemeContext);
     const [selectedTheme, setSelectedTheme] = useState("automatic");
     const [selectedCurrency, setSelectedCurrency] = useState("dollar");
+    const [isLoading, setIsLoading] = useState(true);
 
     const colorScheme = useColorScheme();
     const theme = currentTheme;
@@ -71,13 +73,27 @@ const Settings = ({ navigation }) => {
     };
 
     useEffect(() => {
-        getData("currency", setSelectedCurrency);
-        getData("theme", setSelectedTheme);
+        const fetchSettings = async () => {
+            await getData("currency", setSelectedCurrency);
+            await getData("theme", setSelectedTheme);
+            setIsLoading(false);
+        };
+        fetchSettings();
     }, []);
 
     useEffect(() => {
-        setThemePreference(selectedTheme);
-    }, [selectedTheme, setThemePreference]);
+        if (!isLoading) {
+            setThemePreference(selectedTheme);
+        }
+    }, [selectedTheme, setThemePreference, isLoading]);
+
+    if (isLoading) {
+        return (
+            <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+                <ActivityIndicator size="large" color={theme.colors.accent} />
+            </SafeAreaView>
+        );
+    }
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
