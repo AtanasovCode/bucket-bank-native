@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState, useRef } from "react";
-import { View, Text, TextInput, TouchableHighlight, useColorScheme } from "react-native";
+import { View, Text, TextInput, TouchableHighlight } from "react-native";
+import { useTheme } from "@react-navigation/native";
 import { StyleSheet, Dimensions, } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,9 +14,8 @@ const Input = ({
     route,
 }) => {
 
-    const colorScheme = useColorScheme();
-
-    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+    const { colors } = useTheme();
+    const theme = colors;
 
     const [buckets, setBuckets] = useState([]);
     const [name, setName] = useState("");
@@ -99,7 +99,7 @@ const Input = ({
                             Bucket Name
                         </Text>
                         <TextInput
-                            style={[styles.input, { backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.text }]}
+                            style={[styles.input, { backgroundColor: theme.inactive, color: theme.text }]}
                             value={name}
                             placeholder="Enter name"
                             placeholderTextColor={theme.light}
@@ -119,7 +119,7 @@ const Input = ({
                         </Text>
                         <TextInput
                             style={[styles.input, {
-                                backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, fontFamily: "monospace", color: theme.text
+                                backgroundColor: theme.inactive, fontFamily: "monospace", color: theme.text
                             }]}
                             value={goal}
                             placeholder="Enter goal"
@@ -134,7 +134,7 @@ const Input = ({
                 </View>
                 <View style={[styles.saveContainer, styles.wrapper]}>
                     <TouchableHighlight
-                        style={[styles.save, { backgroundColor: inputs ? theme.accent : colorScheme === "dark" ? theme.inactive : theme.inactiveLighter }]}
+                        style={[styles.save, { backgroundColor: inputs ? theme.accent : theme.inactive}]}
                         onPress={() => {
                             if (inputs) {
                                 saveBucket(name, goal);

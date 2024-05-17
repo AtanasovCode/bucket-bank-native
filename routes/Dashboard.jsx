@@ -11,6 +11,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import { useTheme } from "@react-navigation/native";
 import Header from "../components/Header";
 import DashboardItem from "../components/dashboard/DashboardItem";
 import { lightTheme, darkTheme } from "../Colors";
@@ -23,7 +24,9 @@ const Dashboard = ({ navigation, route }) => {
 
     const colorScheme = useColorScheme();
 
-    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+    const { colors } = useTheme();
+
+    const theme = colors;
 
 
     const [buckets, setBuckets] = useState([]);
@@ -118,6 +121,7 @@ const Dashboard = ({ navigation, route }) => {
                             goal={bucket.goal}
                             saved={bucket.saved}
                             navigation={navigation}
+                            theme={theme}
                         />
                     ))
                 )}

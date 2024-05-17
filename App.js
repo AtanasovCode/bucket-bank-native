@@ -7,7 +7,7 @@ import { ThemeContext, ThemeProvider } from "./components/ThemeContext";
 import Dashboard from "./routes/Dashboard";
 import Input from "./routes/Input";
 import Bucket from "./routes/Bucket";
-import AddPayment from "./components/bucket/AddPayment";
+import AddPayment from "./routes/AddPayment";
 import Settings from "./routes/Settings";
 import EditBucket from "./routes/EditBucket";
 

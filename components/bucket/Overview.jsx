@@ -2,11 +2,8 @@ import React, { useState, useEffect } from "react";
 import {
     View,
     Text,
-    Image,
-    useColorScheme,
 } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
-import { lightTheme, darkTheme } from "../../Colors";
 import { formatMoney } from "../Utils";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,11 +16,8 @@ const height = Dimensions.get("window").height;
 const Overview = ({
     navigation,
     bucket,
+    theme,
 }) => {
-
-    const colorScheme = useColorScheme();
-
-    const theme = colorScheme === "light" ? lightTheme : darkTheme;
 
     const [currency, setCurrency] = useState("$");
 

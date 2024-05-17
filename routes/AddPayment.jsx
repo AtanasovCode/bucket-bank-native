@@ -5,24 +5,23 @@ import {
     Text,
     TouchableHighlight,
     TextInput,
-    Image,
-    useColorScheme,
 } from "react-native";
 import Checkbox from "expo-checkbox";
+import { useTheme } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Dimensions } from "react-native";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import Header from "../Header";
-import { lightTheme, darkTheme } from "../../Colors";
+import Header from "../components/Header";
+import { lightTheme, darkTheme } from "../Colors";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const AddPayment = ({ navigation }) => {
 
-    const colorScheme = useColorScheme();
+    const { colors, dark } = useTheme()
 
-    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+    const theme = colors;
 
 
     const [inputs, setInputs] = useState(false);
@@ -43,8 +42,8 @@ const AddPayment = ({ navigation }) => {
             mode: currentMode,
             display: "spinner",
             is24Hour: true,
-            positiveButton: { label: "Done", textColor: colorScheme === "light" ? "#000" : "#FFF" },
-            negativeButton: { label: "Cancel", textColor: colorScheme === "light" ? "#000" : "#FFF" },
+            positiveButton: { label: "Done", textColor: dark ? "#fff" : "#000" },
+            negativeButton: { label: "Cancel", textColor: dark ? "#fff" : "#000" },
         });
     };
 
@@ -71,7 +70,7 @@ const AddPayment = ({ navigation }) => {
                         <TouchableHighlight
                             style={[
                                 styles.input,
-                                { backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter }]}
+                                { backgroundColor: theme.inactive}]}
                             onPress={showDatepicker}
                         >
                             <Text style={{ color: theme.text }}>{date.toLocaleDateString()}</Text>
@@ -83,11 +82,11 @@ const AddPayment = ({ navigation }) => {
                         </Text>
                         <TextInput
                             style={[styles.input, {
-                                backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter,
+                                backgroundColor: theme.inactive,
                                 fontFamily: "monospace",
                                 color: theme.text
                             }]}
-                            placeholderTextColor={colorScheme === "dark" ? "#ada6a6" : theme.light}
+                            placeholderTextColor={dark ? theme.light : "#ada6a6"}
                             placeholder="Enter payment"
                             keyboardType="numeric"
                             onChangeText={(value) => {
@@ -111,7 +110,7 @@ const AddPayment = ({ navigation }) => {
             </View>
             <View style={[styles.saveContainer, styles.wrapper]}>
                 <TouchableHighlight
-                    style={[styles.save, { backgroundColor: inputs ? theme.accent : colorScheme === "light" ? theme.inactiveLighter : theme.inactive }]}
+                    style={[styles.save, { backgroundColor: inputs ? theme.accent : theme.inactive }]}
                     onPress={() => {
                         if (inputs) {
                             navigation.navigate({

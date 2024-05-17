@@ -12,13 +12,10 @@ const DashboardItem = ({
     name,
     goal,
     saved,
+    theme,
 }) => {
 
-    const colorScheme = useColorScheme();
-
     const [currency, setCurrency] = useState("$");
-
-    const theme = colorScheme === "light" ? lightTheme : darkTheme;
 
     const saveID = async (id) => {
         try {

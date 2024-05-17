@@ -8,6 +8,7 @@ import {
     FlatList,
     useColorScheme,
 } from "react-native";
+import { useTheme } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Dimensions } from "react-native";
 import * as Crypto from 'expo-crypto';
@@ -23,9 +24,8 @@ const height = Dimensions.get("window").height;
 
 const Bucket = ({ navigation, route }) => {
 
-    const colorScheme = useColorScheme();
-
-    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+    const { colors } = useTheme();
+    const theme = colors;
 
     const flatListRef = useRef(null);
 
@@ -146,8 +146,17 @@ const Bucket = ({ navigation, route }) => {
 
 
     const DATA = [
-        <Overview bucket={bucket} navigation={navigation} />,
-        <Payments bucket={bucket} setBucket={setBucket} navigation={navigation} />
+        <Overview
+            bucket={bucket}
+            navigation={navigation}
+            theme={theme}
+        />,
+        <Payments
+            bucket={bucket}
+            setBucket={setBucket}
+            navigation={navigation}
+            theme={theme}
+        />
     ];
 
     const renderItem = ({ item }) => {
@@ -188,7 +197,7 @@ const Bucket = ({ navigation, route }) => {
             <View style={[styles.tabContainer]}>
                 <TouchableHighlight style={[
                     styles.tab,
-                    { backgroundColor: selectedTab === "overview" ? theme.accent : colorScheme === "dark" ? theme.inactive : theme.inactiveLighter }]}
+                    { backgroundColor: selectedTab === "overview" ? theme.accent : theme.inactive }]}
                     onPress={() => {
                         setSelectedTab("overview");
                         handleTabChange("overview");
@@ -200,7 +209,7 @@ const Bucket = ({ navigation, route }) => {
                 </TouchableHighlight>
                 <TouchableHighlight style={[
                     styles.tab,
-                    { backgroundColor: selectedTab === "payments" ? theme.accent : colorScheme === "dark" ? theme.inactive : theme.inactiveLighter }]}
+                    { backgroundColor: selectedTab === "payments" ? theme.accent : theme.inactive }]}
                     onPress={() => {
                         setSelectedTab("payments")
                         handleTabChange("payments");
