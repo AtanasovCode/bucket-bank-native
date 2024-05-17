@@ -17,7 +17,7 @@ const height = Dimensions.get("window").height;
 
 const EditBucket = ({ navigation }) => {
 
-    const { colors } = useTheme();
+    const { colors, dark } = useTheme();
     const theme = colors;
 
     const [selectedID, setSelectedID] = useState();

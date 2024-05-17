@@ -1,5 +1,5 @@
 import { View, TouchableHighlight, Image, useColorScheme } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { useTheme } from "@react-navigation/native";
 import { StyleSheet, Dimensions } from "react-native";
 import { lightTheme, darkTheme } from "../Colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -14,9 +14,8 @@ const Header = ({
     settings,
 }) => {
 
-    const colorScheme = useColorScheme();
-
-    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+    const { colors, dark } = useTheme();
+    const theme = colors;
 
     return (
         <View style={[styles.container, { height: height * 0.16, backgroundColor: theme.background }]}>
@@ -31,7 +30,7 @@ const Header = ({
                     <MaterialCommunityIcons
                         name="arrow-left"
                         size={28}
-                        color={colorScheme === "light" ? "#000" : "#FFF"}
+                        color={dark ? "#fff" : "#000"}
                     />
                 </TouchableHighlight>
             }
@@ -46,16 +45,16 @@ const Header = ({
                     <Ionicons
                         name="settings-sharp"
                         size={25}
-                        color={colorScheme === "light" ? "#000" : "#FFF"}
+                        color={dark ? "#fff" : "#000"}
                     />
                 </TouchableHighlight>
             }
             <Image
                 source={
-                    colorScheme === "light" ?
-                        require("../assets/logo-dark.png")
-                        :
+                    dark ?
                         require("../assets/logo.png")
+                        :
+                        require("../assets/logo-dark.png")
                 }
             />
             {
@@ -69,7 +68,7 @@ const Header = ({
                     <MaterialCommunityIcons
                         name="circle-edit-outline"
                         size={28}
-                        color={colorScheme === "light" ? "#000" : "#FFF"}
+                        color={dark ? "#fff" : "#000"}
                     />
                 </TouchableHighlight>
             }

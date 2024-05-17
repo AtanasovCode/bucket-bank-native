@@ -1,26 +1,25 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+// src/routes/Settings.js
+
+import React, { useEffect, useContext, useState } from "react";
 import {
     View,
     Text,
-    ScrollableHighlight,
     useColorScheme,
 } from "react-native";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { lightTheme, darkTheme } from "../Colors";
 import Header from "../components/Header";
 import { Picker } from "@react-native-picker/picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ThemeContext } from "../components/ThemeContext";
 
 const Settings = ({ navigation }) => {
-
+    const { currentTheme, setThemePreference } = useContext(ThemeContext);
     const [selectedTheme, setSelectedTheme] = useState("automatic");
     const [selectedCurrency, setSelectedCurrency] = useState("dollar");
 
     const colorScheme = useColorScheme();
-
-    const theme = colorScheme === "light" ? lightTheme : darkTheme;
+    const theme = currentTheme;
 
     const currencies = [
         { label: "US Dollar (USD) - $", value: "$" },
@@ -74,81 +73,67 @@ const Settings = ({ navigation }) => {
     useEffect(() => {
         getData("currency", setSelectedCurrency);
         getData("theme", setSelectedTheme);
-    }, [])
+    }, []);
 
+    useEffect(() => {
+        setThemePreference(selectedTheme);
+    }, [selectedTheme, setThemePreference]);
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-            <Header
-                navigation={navigation}
-                back={true}
-            />
-            <Text style={[styles.title, { color: theme.light }]}>Settings</Text>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+            <Header navigation={navigation} back={true} />
+            <Text style={[styles.title, { color: theme.colors.light }]}>Settings</Text>
             <View style={[styles.wrapper]}>
                 <View style={[styles.settingWrapper]}>
-                    <Text style={[styles.name, { color: theme.text }]}>
-                        Theme
-                    </Text>
+                    <Text style={[styles.name, { color: theme.colors.text }]}>Theme</Text>
                     <View style={[styles.pickerWrapper]}>
                         <Picker
-                            style={[styles.picker,
-                            { backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.text }]}
+                            style={[styles.picker, { backgroundColor: colorScheme === "dark" ? theme.colors.inactive : theme.colors.inactiveLighter, color: theme.colors.text }]}
                             selectedValue={selectedTheme}
                             mode="dropdown"
-                            onValueChange={(itemValue, itemIndex) => {
+                            onValueChange={(itemValue) => {
                                 setSelectedTheme(itemValue);
                                 saveData("theme", itemValue);
                             }}
                         >
-                            {
-                                themes.map((item) => {
-                                    return (
-                                        <Picker.Item
-                                            key={item.value}
-                                            label={item.label}
-                                            value={item.value}
-                                            style={{ backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.light }}
-                                        />
-                                    );
-                                })
-                            }
+                            {themes.map((item) => (
+                                <Picker.Item
+                                    key={item.value}
+                                    label={item.label}
+                                    value={item.value}
+                                    style={{ backgroundColor: colorScheme === "dark" ? theme.colors.inactive : theme.colors.inactiveLighter, color: theme.colors.light }}
+                                />
+                            ))}
                         </Picker>
                     </View>
                 </View>
                 <View style={[styles.settingWrapper]}>
-                    <Text style={[styles.name, { color: theme.text }]}>
-                        Currency
-                    </Text>
+                    <Text style={[styles.name, { color: theme.colors.text }]}>Currency</Text>
                     <View style={[styles.pickerWrapper]}>
                         <Picker
-                            style={[styles.picker,
-                            { backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.text }]}
+                            style={[styles.picker, { backgroundColor: colorScheme === "dark" ? theme.colors.inactive : theme.colors.inactiveLighter, color: theme.colors.text }]}
                             selectedValue={selectedCurrency}
                             mode="dropdown"
-                            onValueChange={(itemValue, itemIndex) => {
+                            onValueChange={(itemValue) => {
                                 setSelectedCurrency(itemValue);
                                 saveData("currency", itemValue);
                             }}
                         >
-                            {
-                                currencies.map((currency) => {
-                                    return (
-                                        <Picker.Item
-                                            key={currency.value}
-                                            label={currency.label}
-                                            value={currency.value}
-                                            style={{ backgroundColor: colorScheme === "dark" ? theme.inactive : theme.inactiveLighter, color: theme.light }}
-                                        />
-                                    );
-                                })
-                            }
+                            {currencies.map((item) => (
+                                <Picker.Item
+                                    key={item.value}
+                                    label={item.label}
+                                    value={item.value}
+                                    style={{ backgroundColor: colorScheme === "dark" ? theme.colors.inactive : theme.colors.inactiveLighter, color: theme.colors.light }}
+                                />
+                            ))}
                         </Picker>
                     </View>
                 </View>
             </View>
         </SafeAreaView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
