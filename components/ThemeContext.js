@@ -9,13 +9,13 @@ export const ThemeProvider = ({ children }) => {
         dark: false,
         colors: {
             background: "#f2f2fd",
-            inactive: "#88878b",
+            inactive: "#d5cece",
             inactiveLighter: "#d5cece",
             accent: "#05d2d6",
-            money: "#0dd217",
+            money: "#04910b",
             text: "#090a0a",
             light: "#403b3b",
-            red: "#e34747",
+            red: "#a00404",
         }
     }
 
