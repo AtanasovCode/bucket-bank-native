@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { formatMoney } from '../Utils';
 
 const DataItem = ({ iconComponent, text, theme, flex, total, currency }) => {
     return (
@@ -9,7 +10,9 @@ const DataItem = ({ iconComponent, text, theme, flex, total, currency }) => {
                 <Text style={{ color: theme.light }}>{text}</Text>
             </View>
             <Text style={[styles.total, { color: theme.light }]}>
-                {total} {currency && currency}
+                {
+                    currency ? `${formatMoney(total)} ${currency}` : (total)
+                }
             </Text>
         </View>
     );
