@@ -75,6 +75,8 @@ const Dashboard = ({ navigation, route }) => {
             }
         } catch (e) {
             console.log("Error getting data:", e);
+        } finally {
+            console.log("Changed Currency");
         }
     };
 
@@ -93,6 +95,14 @@ const Dashboard = ({ navigation, route }) => {
 
         return unsubscribe;
 
+    }, [navigation]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener("focus", () => {
+            getCurrency();
+        });
+
+        return unsubscribe;
     }, [navigation]);
 
     useEffect(() => {
