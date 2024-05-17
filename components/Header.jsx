@@ -45,7 +45,7 @@ const Header = ({
                 >
                     <Ionicons
                         name="settings-sharp"
-                        size={28}
+                        size={25}
                         color={colorScheme === "light" ? "#000" : "#FFF"}
                     />
                 </TouchableHighlight>

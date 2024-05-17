@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useColorScheme } from "react-native";
 
 //importing routes
@@ -43,10 +44,37 @@ const App = () => {
     }
   }
 
+  const [themePreference, setThemePreference] = useState("automatic");
+
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("theme");
+      if (value !== null) {
+        const parsedValue = JSON.parse(value);
+        setThemePreference(parsedValue);
+      }
+    } catch (e) {
+      console.log("Error getting data:", e);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [])
+
   const colorScheme = useColorScheme();
 
+  const getTheme = () => {
+    if(themePreference === "automatic") {
+      return colorScheme === "light" ? lightTheme : darkTheme
+    } else {
+      return themePreference === "light" ? lightTheme : darkTheme;
+    }
+  }
+
   return (
-    <NavigationContainer theme={colorScheme === "light" ? lightTheme : darkTheme}>
+    <NavigationContainer theme={getTheme()}>
       <Stack.Navigator initialRouteName="Dashboards">
         <Stack.Screen
           name="Dashboard"

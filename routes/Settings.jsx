@@ -59,12 +59,12 @@ const Settings = ({ navigation }) => {
         }
     }
 
-    const getData = async () => {
+    const getData = async (key, setValue) => {
         try {
-            const value = await AsyncStorage.getItem("currency");
+            const value = await AsyncStorage.getItem(key);
             if (value !== null) {
                 const parsedValue = JSON.parse(value);
-                setSelectedCurrency(parsedValue);
+                setValue(parsedValue);
             }
         } catch (e) {
             console.log("Error getting data:", e);
@@ -72,7 +72,8 @@ const Settings = ({ navigation }) => {
     };
 
     useEffect(() => {
-        getData();
+        getData("currency", setSelectedCurrency);
+        getData("theme", setSelectedTheme);
     }, [])
 
 

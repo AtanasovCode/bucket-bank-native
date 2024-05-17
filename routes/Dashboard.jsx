@@ -60,6 +60,8 @@ const Dashboard = ({ navigation, route }) => {
         }
     };
 
+    //useEffect(() => {clearAsyncStorage()}, [])
+
     useEffect(() => {
         const unsubscribe = navigation.addListener("focus", () => {
             setLoading(true);
