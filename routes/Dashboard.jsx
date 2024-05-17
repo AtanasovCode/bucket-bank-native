@@ -14,7 +14,7 @@ import { StatusBar } from "expo-status-bar";
 import { useTheme } from "@react-navigation/native";
 import Header from "../components/Header";
 import DashboardItem from "../components/dashboard/DashboardItem";
-import { lightTheme, darkTheme } from "../Colors";
+import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 const width = Dimensions.get("window").width;
@@ -113,17 +113,23 @@ const Dashboard = ({ navigation, route }) => {
                 {loading ? (
                     <Text>Loading...</Text>
                 ) : (
-                    buckets.map((bucket) => (
-                        <DashboardItem
-                            key={bucket.id}
-                            id={bucket.id}
-                            name={bucket.name}
-                            goal={bucket.goal}
-                            saved={bucket.saved}
-                            navigation={navigation}
-                            theme={theme}
-                        />
-                    ))
+                    buckets.length ?
+                        buckets.map((bucket) => (
+                            <DashboardItem
+                                key={bucket.id}
+                                id={bucket.id}
+                                name={bucket.name}
+                                goal={bucket.goal}
+                                saved={bucket.saved}
+                                navigation={navigation}
+                                theme={theme}
+                            />
+                        ))
+                        :
+                        <View style={[styles.emptyContainer]}>
+                            <Entypo name="bucket" size={24} color={theme.light} />
+                            <Text style={[{ color: theme.light }]}>No buckets found</Text>
+                        </View>
                 )}
             </ScrollView>
             <View style={[styles.addContainer, { backgroundColor: theme.background }]}>
@@ -145,14 +151,20 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     bucketsWrapper: {
-        paddingLeft: "4%",
-        paddingRight: "4%",
-        paddingBottom: "3%",
+        marginLeft: "4%",
+        marginRight: "4%",
+        marginBottom: "3%",
     },
     title: {
         textAlign: "center",
         fontSize: 18,
         marginBottom: "8%",
+    },
+    emptyContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 16,
     },
     addContainer: {
         alignItems: "center",
