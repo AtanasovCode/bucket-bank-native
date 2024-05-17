@@ -32,6 +32,8 @@ const Dashboard = ({ navigation, route }) => {
 
     const [buckets, setBuckets] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [currency, setCurrency] = useState("$");
+
 
     const getData = async () => {
         try {
@@ -63,6 +65,23 @@ const Dashboard = ({ navigation, route }) => {
             console.error('Error clearing AsyncStorage:', error);
         }
     };
+
+    const getCurrency = async () => {
+        try {
+            const value = await AsyncStorage.getItem("currency");
+            if (value !== null) {
+                const parsedValue = JSON.parse(value);
+                setCurrency(parsedValue);
+            }
+        } catch (e) {
+            console.log("Error getting data:", e);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+        getCurrency();
+    }, [])
 
     //useEffect(() => {clearAsyncStorage()}, [])
 
@@ -106,11 +125,12 @@ const Dashboard = ({ navigation, route }) => {
 
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.background, height: height, width: width }]}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>
             <Header settings={true} navigation={navigation} />
             <StatusBar style="light" />
-            <DashboardData 
+            <DashboardData
                 buckets={buckets}
+                currency={currency}
                 theme={theme}
             />
             <Text style={[styles.title, { color: theme.light }]}>Buckets</Text>
@@ -128,6 +148,7 @@ const Dashboard = ({ navigation, route }) => {
                                 saved={bucket.saved}
                                 navigation={navigation}
                                 theme={theme}
+                                currency={currency}
                             />
                         ))
                         :
@@ -137,7 +158,7 @@ const Dashboard = ({ navigation, route }) => {
                         </View>
                 )}
             </ScrollView>
-            <Add 
+            <Add
                 navigation={navigation}
                 theme={theme}
                 screen="Input"

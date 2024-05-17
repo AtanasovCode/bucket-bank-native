@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const DataItem = ({ iconComponent, text, theme, flex, total }) => {
+const DataItem = ({ iconComponent, text, theme, flex, total, currency }) => {
     return (
         <View style={[styles.dataWrapper, { backgroundColor: theme.inactive, flex: flex }]}>
             <View style={styles.dataTitle}>
                 {iconComponent}
                 <Text style={{ color: theme.light }}>{text}</Text>
             </View>
-            <Text style={[styles.total, {color: theme.light}]}>{total}</Text>
+            <Text style={[styles.total, { color: theme.light }]}>
+                {total} {currency && currency}
+            </Text>
         </View>
     );
 }

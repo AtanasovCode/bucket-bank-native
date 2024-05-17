@@ -13,9 +13,8 @@ const DashboardItem = ({
     goal,
     saved,
     theme,
+    currency,
 }) => {
-
-    const [currency, setCurrency] = useState("$");
 
     const saveID = async (id) => {
         try {
@@ -27,22 +26,6 @@ const DashboardItem = ({
             navigation.navigate("Bucket");
         }
     }
-
-    const getData = async () => {
-        try {
-            const value = await AsyncStorage.getItem("currency");
-            if (value !== null) {
-                const parsedValue = JSON.parse(value);
-                setCurrency(parsedValue);
-            }
-        } catch (e) {
-            console.log("Error getting data:", e);
-        }
-    };
-
-    useEffect(() => {
-        getData();
-    }, [])
 
     return (
         <TouchableHighlight

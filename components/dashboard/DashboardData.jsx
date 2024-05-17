@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Entypo, FontAwesome5, FontAwesome6, FontAwesome } from '@expo/vector-icons';
 import DataItem from './DataItem'; // Assuming DataItem is in the same directory
 
-const DashboardData = ({ theme, buckets }) => {
+const DashboardData = ({ theme, buckets, currency }) => {
 
     const getTotalSaved = () => {
         let total = 0;
@@ -26,6 +26,7 @@ const DashboardData = ({ theme, buckets }) => {
                     theme={theme}
                     flex= {1.4}
                     total={getTotalSaved()}
+                    currency={currency}
                 />
                 <DataItem
                     iconComponent={<Entypo name="bucket" size={24} color={theme.light} />}
