@@ -1,0 +1,76 @@
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { Entypo, FontAwesome5, FontAwesome6, FontAwesome } from '@expo/vector-icons';
+import DataItem from './DataItem'; // Assuming DataItem is in the same directory
+
+const DashboardData = ({ theme, buckets }) => {
+
+    const getTotalSaved = () => {
+        let total = 0;
+
+        buckets.map((bucket) => {
+            total += bucket.saved;
+        })
+
+        console.log(total);
+        return total;
+    }
+
+    return (
+        <View style={styles.container}>
+            <Text style={[styles.title, { color: theme.light }]}>Dashboard</Text>
+            <View style={styles.wrapper}>
+                <DataItem
+                    iconComponent={<FontAwesome6 name="vault" size={24} color={theme.light} />}
+                    text="Total Saved:"
+                    theme={theme}
+                    flex= {1.4}
+                    total={getTotalSaved()}
+                />
+                <DataItem
+                    iconComponent={<Entypo name="bucket" size={24} color={theme.light} />}
+                    text="Total Buckets"
+                    theme={theme}
+                    flex= {1}
+                    total={buckets.length}
+                />
+            </View>
+            <View style={styles.wrapper}>
+                <DataItem
+                    iconComponent={<FontAwesome name="th-list" size={24} color={theme.light} />}
+                    text="Remaining"
+                    theme={theme}
+                    flex= {1}
+                    total={buckets.length}
+                />
+                <DataItem
+                    iconComponent={<FontAwesome5 name="check-double" size={24} color={theme.light} />}
+                    text="Complete"
+                    theme={theme}
+                    flex= {1.4}
+                    total={0}
+                />
+            </View>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        marginLeft: "6%",
+        marginRight: "6%",
+        marginBottom: "6%",
+    },
+    wrapper: {
+        flexDirection: "row",
+        gap: 10,
+        marginBottom: 10,
+    },
+    title: {
+        fontSize: 20,
+        textAlign: "center",
+        marginBottom: "10%",
+    },
+});
+
+export default DashboardData;

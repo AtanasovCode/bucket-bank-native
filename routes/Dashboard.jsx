@@ -14,8 +14,9 @@ import { StatusBar } from "expo-status-bar";
 import { useTheme } from "@react-navigation/native";
 import Header from "../components/Header";
 import DashboardItem from "../components/dashboard/DashboardItem";
+import DashboardData from "../components/dashboard/DashboardData";
 import { Entypo } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import Add from "../components/Add";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -108,6 +109,10 @@ const Dashboard = ({ navigation, route }) => {
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, height: height, width: width }]}>
             <Header settings={true} navigation={navigation} />
             <StatusBar style="light" />
+            <DashboardData 
+                buckets={buckets}
+                theme={theme}
+            />
             <Text style={[styles.title, { color: theme.light }]}>Buckets</Text>
             <ScrollView style={[styles.bucketsWrapper]}>
                 {loading ? (
@@ -132,16 +137,11 @@ const Dashboard = ({ navigation, route }) => {
                         </View>
                 )}
             </ScrollView>
-            <View style={[styles.addContainer, { backgroundColor: theme.background }]}>
-                <TouchableHighlight
-                    style={[styles.add, { backgroundColor: theme.accent }]}
-                    onPress={() => {
-                        navigation.navigate("Input");
-                    }}
-                >
-                    <AntDesign name="plus" size={24} color="black" />
-                </TouchableHighlight>
-            </View>
+            <Add 
+                navigation={navigation}
+                theme={theme}
+                screen="Input"
+            />
         </SafeAreaView>
     );
 };
@@ -165,16 +165,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         gap: 16,
-    },
-    addContainer: {
-        alignItems: "center",
-        justifyContent: "center",
-        paddingTop: "4%",
-        paddingBottom: "4%",
-    },
-    add: {
-        padding: "3.5%",
-        borderRadius: 50,
     },
 });
 

@@ -5,6 +5,7 @@ import { formatMoney } from "../Utils";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Add from "../Add";
 
 const width = Dimensions.get("window").width;
 
@@ -94,16 +95,11 @@ const Payments = ({ navigation, bucket, theme }) => {
                         </View>
                     )}
                 </ScrollView>
-                <View style={[styles.addContainer, { backgroundColor: theme.background }]}>
-                    <TouchableHighlight
-                        style={[styles.add, { backgroundColor: theme.accent }]}
-                        onPress={() => {
-                            navigation.navigate("Payment");
-                        }}
-                    >
-                        <AntDesign name="plus" size={24} color="black" />
-                    </TouchableHighlight>
-                </View>
+                <Add 
+                    navigation={navigation}
+                    theme={theme}
+                    screen="Payment"
+                />
             </View>
         </View>
     );
