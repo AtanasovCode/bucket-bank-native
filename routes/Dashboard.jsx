@@ -62,6 +62,8 @@ const Dashboard = ({ navigation, route }) => {
         }
     };
 
+    //useEffect(() => {clearAsyncStorage()}, [])
+
     const getCurrency = async () => {
         try {
             const value = await AsyncStorage.getItem("currency");

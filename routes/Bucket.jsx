@@ -41,13 +41,17 @@ const Bucket = ({ navigation, route }) => {
                 amount: route.params.amount,
                 withdrawal: route.params.withdrawal,
             };
+
+            const newSavedValue = route.params.withdrawal
+                ? parseFloat(bucket.saved) - parseFloat(route.params.amount)
+                : parseFloat(bucket.saved) + parseFloat(route.params.amount);
+
             const updatedBucket = {
                 ...bucket,
-                saved: route.params.withdrawal ? parseFloat(bucket.saved) - parseFloat(route.params.amount) : parseFloat(bucket.saved) + parseFloat(route.params.amount),
+                saved: newSavedValue,
                 payments: [newPayment, ...bucket.payments],
+                complete: newSavedValue >= bucket.goal,
             };
-
-
 
             const updateBuckets = async () => {
                 try {
@@ -66,10 +70,10 @@ const Bucket = ({ navigation, route }) => {
                 }
             };
 
-
             updateBuckets();
         }
     }, [route.params?.date, route.params?.amount, route.params?.withdrawal]);
+
 
     useEffect(() => {
         if (route.params?.name && route.params.goal) {

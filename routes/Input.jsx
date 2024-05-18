@@ -43,6 +43,7 @@ const Input = ({
             name: name,
             goal: goal,
             saved: 0,
+            complete: false,
             payments: [],
         }
 

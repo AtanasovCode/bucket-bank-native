@@ -5,15 +5,18 @@ import DataItem from './DataItem'; // Assuming DataItem is in the same directory
 
 const DashboardData = ({ theme, buckets, currency }) => {
 
-    const getTotalSaved = () => {
+    const getValue = (value) => {
         let total = 0;
+        let complete = 0;
+        let uncomplete = 0;
 
         buckets.map((bucket) => {
             total += bucket.saved;
+            if(bucket.complete) complete++;
+            if(!bucket.complete) uncomplete++;
         })
 
-        console.log(total);
-        return total;
+        return value === "total" ? total : value === "complete" ? complete : uncomplete;
     }
 
     return (
@@ -25,7 +28,7 @@ const DashboardData = ({ theme, buckets, currency }) => {
                     text="Total Saved:"
                     theme={theme}
                     flex= {1.4}
-                    total={getTotalSaved()}
+                    total={getValue("total")}
                     currency={currency}
                 />
                 <DataItem
@@ -42,14 +45,14 @@ const DashboardData = ({ theme, buckets, currency }) => {
                     text="Remaining"
                     theme={theme}
                     flex= {1}
-                    total={buckets.length}
+                    total={getValue("uncomplete")}
                 />
                 <DataItem
                     iconComponent={<FontAwesome5 name="check-double" size={24} color={theme.light} />}
                     text="Complete"
                     theme={theme}
                     flex= {1.4}
-                    total={0}
+                    total={getValue("complete")}
                 />
             </View>
         </View>
