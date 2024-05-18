@@ -30,7 +30,7 @@ const Header = ({
                     <MaterialCommunityIcons
                         name="arrow-left"
                         size={28}
-                        color={dark ? "#fff" : "#000"}
+                        color={theme.light}
                     />
                 </TouchableHighlight>
             }
@@ -45,7 +45,7 @@ const Header = ({
                     <Ionicons
                         name="settings-sharp"
                         size={25}
-                        color={dark ? "#fff" : "#000"}
+                        color={theme.light}
                     />
                 </TouchableHighlight>
             }
@@ -68,7 +68,7 @@ const Header = ({
                     <MaterialCommunityIcons
                         name="circle-edit-outline"
                         size={28}
-                        color={dark ? "#fff" : "#000"}
+                        color={theme.light}
                     />
                 </TouchableHighlight>
             }

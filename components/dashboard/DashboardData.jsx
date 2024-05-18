@@ -17,7 +17,7 @@ const DashboardData = ({ theme, buckets, currency }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: theme.background}]}>
             <Text style={[styles.title, { color: theme.light }]}>Dashboard</Text>
             <View style={styles.wrapper}>
                 <DataItem
@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
     container: {
         marginLeft: "6%",
         marginRight: "6%",
-        marginBottom: "6%",
+        paddingTop: "5%",
+        paddingBottom: "5%",
     },
     wrapper: {
         flexDirection: "row",

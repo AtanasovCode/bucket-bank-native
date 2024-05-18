@@ -34,7 +34,6 @@ const Dashboard = ({ navigation, route }) => {
     const [loading, setLoading] = useState(true);
     const [currency, setCurrency] = useState("$");
 
-
     const getData = async () => {
         try {
             const value = await AsyncStorage.getItem("buckets");
@@ -136,37 +135,38 @@ const Dashboard = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, minHeight: height, width: width }]}>
-            <Header settings={true} navigation={navigation} />
-            <StatusBar style="light" />
-            <DashboardData
-                buckets={buckets}
-                currency={currency}
-                theme={theme}
-            />
-            <Text style={[styles.title, { color: theme.light }]}>Buckets</Text>
-            <ScrollView style={[styles.bucketsWrapper]}>
-                {loading ? (
-                    <Text>Loading...</Text>
-                ) : (
-                    buckets.length ?
-                        buckets.map((bucket) => (
-                            <DashboardItem
-                                key={bucket.id}
-                                id={bucket.id}
-                                name={bucket.name}
-                                goal={bucket.goal}
-                                saved={bucket.saved}
-                                navigation={navigation}
-                                theme={theme}
-                                currency={currency}
-                            />
-                        ))
-                        :
-                        <View style={[styles.emptyContainer]}>
-                            <Entypo name="bucket" size={24} color={theme.light} />
-                            <Text style={[{ color: theme.light }]}>No buckets found</Text>
-                        </View>
-                )}
+            <ScrollView style={{ marginBottom: "10%" }} stickyHeaderIndices={[1]}>
+                <Header settings={true} navigation={navigation} />
+                <DashboardData
+                    buckets={buckets}
+                    currency={currency}
+                    theme={theme}
+                />
+                <Text style={[styles.title, { color: theme.light }]}>Buckets</Text>
+                <ScrollView style={[styles.bucketsWrapper]}>
+                    {loading ? (
+                        <Text>Loading...</Text>
+                    ) : (
+                        buckets.length ?
+                            buckets.map((bucket) => (
+                                <DashboardItem
+                                    key={bucket.id}
+                                    id={bucket.id}
+                                    name={bucket.name}
+                                    goal={bucket.goal}
+                                    saved={bucket.saved}
+                                    navigation={navigation}
+                                    theme={theme}
+                                    currency={currency}
+                                />
+                            ))
+                            :
+                            <View style={[styles.emptyContainer]}>
+                                <Entypo name="bucket" size={24} color={theme.light} />
+                                <Text style={[{ color: theme.light }]}>No buckets found</Text>
+                            </View>
+                    )}
+                </ScrollView>
             </ScrollView>
             <Add
                 navigation={navigation}

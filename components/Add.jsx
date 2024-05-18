@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     View,
     TouchableHighlight,
@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
-const Add = ({ 
+const Add = ({
     navigation,
     theme,
     screen,
@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingTop: "4%",
         paddingBottom: "4%",
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
     add: {
         padding: "3.5%",
