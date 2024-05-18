@@ -29,7 +29,7 @@ const DashboardItem = ({
 
     return (
         <TouchableHighlight
-            style={[styles.container]}
+            style={[styles.container, {backgroundColor: theme.background}]}
             onPress={() => {
                 saveID(id)
             }}>
@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
         width: '100%',
         marginBottom: "5%",
         flexDirection: 'column',
-        padding: "5%",
+        paddingBottom: "5%",
+        paddingTop: "5%",
     },
     itemContainer: {
         flexDirection: 'row',

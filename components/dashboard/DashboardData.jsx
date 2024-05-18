@@ -58,8 +58,6 @@ const DashboardData = ({ theme, buckets, currency }) => {
 
 const styles = StyleSheet.create({
     container: {
-        marginLeft: "6%",
-        marginRight: "6%",
         paddingTop: "5%",
         paddingBottom: "5%",
     },
