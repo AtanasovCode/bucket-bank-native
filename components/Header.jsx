@@ -3,7 +3,6 @@ import { useTheme } from "@react-navigation/native";
 import { StyleSheet, Dimensions } from "react-native";
 import { lightTheme, darkTheme } from "../Colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
 
 const height = Dimensions.get("window").height;
 
@@ -30,21 +29,6 @@ const Header = ({
                     <MaterialCommunityIcons
                         name="arrow-left"
                         size={28}
-                        color={theme.light}
-                    />
-                </TouchableHighlight>
-            }
-            {
-                settings &&
-                <TouchableHighlight
-                    style={[styles.settings]}
-                    onPress={() => {
-                        navigation.navigate("Settings")
-                    }}
-                >
-                    <Ionicons
-                        name="settings-sharp"
-                        size={25}
                         color={theme.light}
                     />
                 </TouchableHighlight>

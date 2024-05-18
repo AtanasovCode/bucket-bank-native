@@ -5,8 +5,10 @@ import {
     FlatList,
     StyleSheet,
     Dimensions,
+    TouchableHighlight,
     useColorScheme,
 } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
@@ -14,6 +16,7 @@ import Header from "../components/Header";
 import DashboardItem from "../components/dashboard/DashboardItem";
 import DashboardData from "../components/dashboard/DashboardData";
 import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import Add from "../components/Add";
 
 const width = Dimensions.get("window").width;
@@ -21,7 +24,7 @@ const height = Dimensions.get("window").height;
 
 const Dashboard = ({ navigation, route }) => {
     const colorScheme = useColorScheme();
-    const { colors } = useTheme();
+    const { colors, dark } = useTheme();
     const theme = colors;
 
     const [buckets, setBuckets] = useState([]);
@@ -138,9 +141,22 @@ const Dashboard = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={[styles.container, { minHeight: height, width: width }]}>
+            <StatusBar style={dark ? "light" : "dark"} />
             <View style={styles.headerContainer}>
                 <Header settings={true} navigation={navigation} />
             </View>
+            <TouchableHighlight
+                style={[styles.settings]}
+                onPress={() => {
+                    navigation.navigate("Settings")
+                }}
+            >
+                <Ionicons
+                    name="settings-sharp"
+                    size={25}
+                    color={theme.light}
+                />
+            </TouchableHighlight>
             <FlatList
                 contentContainerStyle={[styles.contentContainer]}
                 style={[styles.bucketsWrapper, {}]}
@@ -179,6 +195,12 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingTop: "5%",
         zIndex: 1,
+    },
+    settings: {
+        position: "absolute",
+        left: "6%",
+        top: "6%",
+        zIndex: 10,
     },
     contentContainer: {
         paddingTop: height * 0.16,
