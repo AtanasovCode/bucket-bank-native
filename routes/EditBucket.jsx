@@ -83,33 +83,6 @@ const EditBucket = ({ navigation }) => {
     }, [bucket])
 
 
-    const showAlert = () => {
-        Alert.alert(
-            'Delete Bucket',
-            'Are you sure you want to delete this bucket?',
-            [
-                {
-                    text: 'Cancel',
-                    style: 'cancel',
-                },
-                {
-                    text: 'Delete',
-                    onPress: () => {
-                        navigation.navigate({
-                            name: "Dashboard",
-                            params: { delete: true, id: selectedID },
-                            merge: true,
-                        })
-                    },
-                    style: 'delete',
-                },
-            ],
-            {
-                cancelable: true,
-            },
-        );
-    }
-
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, height: height }]}>
             <Modal
@@ -130,13 +103,27 @@ const EditBucket = ({ navigation }) => {
                         </Text>
 
                         <View style={styles.modalChoices}>
-                            <TouchableHighlight style={styles.modalOption}>
+                            <TouchableHighlight 
+                                style={styles.modalOption}
+                                onPress={() => {
+                                    setModalVisible(!modalVisible)
+                                }}
+                            >
                                 <View style={[styles.modalOption]}>
                                     <MaterialCommunityIcons name="cancel" size={24} color={theme.light} />
                                     <Text style={{ color: theme.light }}>Cancel</Text>
                                 </View>
                             </TouchableHighlight>
-                            <TouchableHighlight style={styles.modalOption}>
+                            <TouchableHighlight
+                                style={styles.modalOption}
+                                onPress={() => {
+                                    navigation.navigate({
+                                        name: "Dashboard",
+                                        params: { delete: true, id: selectedID },
+                                        merge: true,
+                                    })
+                                }}
+                            >
                                 <View style={[styles.modalOption]}>
                                     <MaterialIcons name="delete" size={24} color={theme.red} />
                                     <Text style={{ color: theme.light }}>Delete</Text>
@@ -286,7 +273,10 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, .5)"
     },
     modalWrapper: {
-        padding: "10%",
+        paddingTop: "10%",
+        paddingBottom: "10%",
+        paddingLeft: "5%",
+        paddingRight: "5%",
         width: width * 0.75,
         borderRadius: 16,
         borderWidth: 1,
