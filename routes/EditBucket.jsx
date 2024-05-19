@@ -5,14 +5,19 @@ import {
     TouchableHighlight,
     TextInput,
     Alert,
+    Modal,
+    Dimensions,
+    StyleSheet,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, Dimensions } from "react-native";
 import Header from "../components/Header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const height = Dimensions.get("window").height;
+const width = Dimensions.get("window").width;
 
 
 const EditBucket = ({ navigation }) => {
@@ -25,6 +30,7 @@ const EditBucket = ({ navigation }) => {
     const [name, setName] = useState("");
     const [goal, setGoal] = useState("");
     const [inputs, setInputs] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const firstInputRef = useRef(null);
     const secondInputRef = useRef(null);
@@ -106,6 +112,40 @@ const EditBucket = ({ navigation }) => {
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background, height: height }]}>
+            <Modal
+                animationType="fade"
+                visible={modalVisible}
+                transparent={true}
+                style={{ alignItem: "center", justifyContent: "center" }}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={[styles.modalContainer]}>
+                    <View style={[styles.modalWrapper, { backgroundColor: theme.inactive }]}>
+                        <Text style={[styles.title, { color: theme.light }]}>Delete Bucket</Text>
+                        <Text style={[styles.modalDescription, { color: theme.light }]}>
+                            Are you sure you want to delete bucket
+                            <Text style={[styles.bucketName, { color: theme.text }]}> {bucket.name}</Text>?
+                        </Text>
+
+                        <View style={styles.modalChoices}>
+                            <TouchableHighlight style={styles.modalOption}>
+                                <View style={[styles.modalOption]}>
+                                    <MaterialCommunityIcons name="cancel" size={24} color={theme.light} />
+                                    <Text style={{ color: theme.light }}>Cancel</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <TouchableHighlight style={styles.modalOption}>
+                                <View style={[styles.modalOption]}>
+                                    <MaterialIcons name="delete" size={24} color={theme.red} />
+                                    <Text style={{ color: theme.light }}>Delete</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
             <View style={[styles.infoWrapper]}>
                 <Header
                     navigation={navigation}
@@ -156,7 +196,9 @@ const EditBucket = ({ navigation }) => {
                         </Text>
                         <TouchableHighlight
                             style={[styles.save, { backgroundColor: theme.inactive }]}
-                            onPress={showAlert}
+                            onPress={() => {
+                                setModalVisible(!modalVisible);
+                            }}
                         >
                             <Text style={{ color: theme.red }}>
                                 Delete Bucket
@@ -237,7 +279,37 @@ const styles = StyleSheet.create({
         width: "100%",
         borderRadius: 16,
     },
-
+    modalContainer: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "rgba(0, 0, 0, .5)"
+    },
+    modalWrapper: {
+        padding: "10%",
+        width: width * 0.75,
+        borderRadius: 16,
+        borderWidth: 1,
+    },
+    modalDescription: {
+        textAlign: "center",
+    },
+    bucketName: {
+        fontWeight: "500",
+    },
+    modalChoices: {
+        flexDirection: "row",
+        gap: 16,
+        marginTop: "10%",
+        alignItems: "center",
+        justifyContent: "flex-end",
+    },
+    modalOption: {
+        flexDirection: "row",
+        gap: 6,
+        alignItems: "center",
+        justifyContent: "center",
+    },
 })
 
 export default EditBucket;

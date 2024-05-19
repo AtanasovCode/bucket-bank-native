@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableHighlight, ScrollView } from "react-native";
+import {
+    View,
+    Text,
+    TouchableHighlight,
+    ScrollView,
+    Modal,
+} from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
 import { formatMoney } from "../Utils";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Add from "../Add";
 
@@ -76,11 +83,31 @@ const Payments = ({ navigation, bucket, theme }) => {
                                     }
                                     <Text style={[styles.text, { color: theme.text }]}>{item.date}</Text>
                                 </View>
-                                <View style={[styles.paymentWrapper, {gap: 12}]}>
+                                <View style={[styles.paymentWrapper, { gap: 12 }]}>
                                     <Text style={[styles.text, { color: item.withdrawal ? theme.red : theme.money, fontFamily: "monospace" }]}>
                                         {item.withdrawal ? "-" : "+"} {formatMoney(item.amount)} {currency}
                                     </Text>
-                                    <Entypo name="dots-three-vertical" size={16} color={theme.light} />
+                                    <TouchableHighlight
+                                        style={[styles.editIconContainer]}
+                                        onPress={() => {
+                                            console.log("Click Modal")
+                                        }}
+                                    >
+                                        <Entypo
+                                            name="dots-three-vertical"
+                                            size={16}
+                                            color={theme.light}
+                                        />
+                                    </TouchableHighlight>
+                                    <Modal
+                                        animationType="slide"
+                                        transparent={true}
+                                        visible={modalVisible}
+                                        onRequestClose={() => {
+                                            setModalVisible(!modalVisible);
+                                        }}
+                                    >
+                                    </Modal>
                                 </View>
                             </View>
                         ))
@@ -127,6 +154,7 @@ const styles = StyleSheet.create({
         marginBottom: "7%",
         marginLeft: "6%",
         marginRight: "6%",
+        position: "relative",
     },
     paymentWrapper: {
         flexDirection: "row",
@@ -134,6 +162,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     title: {},
+    editIconContainer: {
+        padding: 6,
+        borderRadius: 12,
+    },
     addContainer: {
         alignItems: "center",
         justifyContent: "center",
