@@ -4,6 +4,7 @@ import { StyleSheet, Dimensions } from "react-native";
 import { formatMoney } from "../Utils";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Add from "../Add";
 
@@ -75,10 +76,11 @@ const Payments = ({ navigation, bucket, theme }) => {
                                     }
                                     <Text style={[styles.text, { color: theme.text }]}>{item.date}</Text>
                                 </View>
-                                <View style={[styles.paymentWrapper]}>
+                                <View style={[styles.paymentWrapper, {gap: 12}]}>
                                     <Text style={[styles.text, { color: item.withdrawal ? theme.red : theme.money, fontFamily: "monospace" }]}>
                                         {item.withdrawal ? "-" : "+"} {formatMoney(item.amount)} {currency}
                                     </Text>
+                                    <Entypo name="dots-three-vertical" size={16} color={theme.light} />
                                 </View>
                             </View>
                         ))
@@ -95,7 +97,7 @@ const Payments = ({ navigation, bucket, theme }) => {
                         </View>
                     )}
                 </ScrollView>
-                <Add 
+                <Add
                     navigation={navigation}
                     theme={theme}
                     screen="Payment"
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
     },
     paymentWrapper: {
         flexDirection: "row",
-        gap: 22,
+        gap: 18,
         alignItems: "center",
     },
     title: {},
