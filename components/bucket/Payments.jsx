@@ -12,8 +12,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Add from "../Add";
+import Popover from "react-native-popover-view/dist/Popover";
 
 const width = Dimensions.get("window").width;
 
@@ -87,27 +89,41 @@ const Payments = ({ navigation, bucket, theme }) => {
                                     <Text style={[styles.text, { color: item.withdrawal ? theme.red : theme.money, fontFamily: "monospace" }]}>
                                         {item.withdrawal ? "-" : "+"} {formatMoney(item.amount)} {currency}
                                     </Text>
-                                    <TouchableHighlight
-                                        style={[styles.editIconContainer]}
-                                        onPress={() => {
-                                            console.log("Click Modal")
+                                    <Popover
+                                        popoverStyle={{
+                                            backgroundColor: theme.inactive,
+                                            borderRadius: 16,
                                         }}
+                                        from={(
+                                            <TouchableHighlight
+                                                style={[styles.editIconContainer]}
+                                                onPress={() => {
+                                                    console.log("Click Modal")
+                                                }}
+                                            >
+                                                <Entypo
+                                                    name="dots-three-vertical"
+                                                    size={16}
+                                                    color={theme.light}
+                                                />
+                                            </TouchableHighlight>
+                                        )}
                                     >
-                                        <Entypo
-                                            name="dots-three-vertical"
-                                            size={16}
-                                            color={theme.light}
-                                        />
-                                    </TouchableHighlight>
-                                    <Modal
-                                        animationType="slide"
-                                        transparent={true}
-                                        visible={modalVisible}
-                                        onRequestClose={() => {
-                                            setModalVisible(!modalVisible);
-                                        }}
-                                    >
-                                    </Modal>
+                                        <View style={[styles.moreInfo]}>
+                                            <TouchableHighlight style={[styles.info]}>
+                                                <View style={[styles.moreInfoWrapper]}>
+                                                    <Feather name="edit-3" size={24} color={theme.light} />
+                                                    <Text style={[{ color: theme.light }]}>Edit</Text>
+                                                </View>
+                                            </TouchableHighlight>
+                                            <TouchableHighlight style={[styles.info]}>
+                                                <View style={[styles.moreInfoWrapper]}>
+                                                    <MaterialIcons name="delete" size={24} color={theme.red} />
+                                                    <Text style={[{ color: theme.light }]}>Delete</Text>
+                                                </View>
+                                            </TouchableHighlight>
+                                        </View>
+                                    </Popover>
                                 </View>
                             </View>
                         ))
@@ -154,7 +170,6 @@ const styles = StyleSheet.create({
         marginBottom: "7%",
         marginLeft: "6%",
         marginRight: "6%",
-        position: "relative",
     },
     paymentWrapper: {
         flexDirection: "row",
@@ -175,6 +190,23 @@ const styles = StyleSheet.create({
     add: {
         padding: "3.5%",
         borderRadius: 50,
+    },
+    moreInfo: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        width: width * 0.5,
+    },
+    info: {
+        flex: 1,
+        padding: "5%",
+        paddingVertical: "8%",
+    },
+    moreInfoWrapper: {
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row",
+        gap: 6,
     },
 })
 
