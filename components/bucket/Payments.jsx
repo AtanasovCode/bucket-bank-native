@@ -22,8 +22,8 @@ const width = Dimensions.get("window").width;
 const Payments = ({ navigation, bucket, theme }) => {
 
     const [currency, setCurrency] = useState("$");
-
-
+    const [modalVisible, setModalVisible] = useState(false);
+    const [visiblePopoverId, setVisiblePopoverId] = useState(null);
 
     const getData = async () => {
         try {
@@ -39,7 +39,7 @@ const Payments = ({ navigation, bucket, theme }) => {
 
     useEffect(() => {
         getData();
-    }, [])
+    }, []);
 
     const parseLocaleDateString = (dateString) => {
         const [day, month, year] = dateString.split('/').map(Number);
@@ -49,7 +49,6 @@ const Payments = ({ navigation, bucket, theme }) => {
     const sortedPayments = bucket.payments
         ? [...bucket.payments].sort((a, b) => parseLocaleDateString(b.date).getTime() - parseLocaleDateString(a.date).getTime())
         : [];
-
 
     return (
         <View style={[styles.container, { width: width }]}>
@@ -68,6 +67,56 @@ const Payments = ({ navigation, bucket, theme }) => {
                     {bucket.payments && bucket.payments.length > 0 ? (
                         sortedPayments.map((item) => (
                             <View key={item.id} style={[styles.paymentContainer]}>
+                                <Modal
+                                    animationType="fade"
+                                    visible={modalVisible}
+                                    transparent={true}
+                                    style={{ alignItem: "center", justifyContent: "center" }}
+                                    onRequestClose={() => {
+                                        setModalVisible(!modalVisible);
+                                    }}
+                                >
+                                    <View style={[styles.modalContainer]}>
+                                        <View style={[styles.modalWrapper, { backgroundColor: theme.inactive }]}>
+                                            <Text style={[styles.modalTitle, { color: theme.light }]}>Delete Payment</Text>
+                                            <Text style={[styles.modalDescription, { color: theme.light }]}>
+                                                Are you sure you want to delete the payment made on
+                                                <Text style={[styles.bucketName, { color: theme.text }]}> {item.date}</Text>,
+                                                payment amount 
+                                                <Text style={[styles.bucketName, { color: theme.text }]}> {formatMoney(item.amount)} {currency}</Text>
+                                            </Text>
+
+                                            <View style={styles.modalChoices}>
+                                                <TouchableHighlight
+                                                    style={styles.modalOption}
+                                                    onPress={() => {
+                                                        setModalVisible(!modalVisible);
+                                                    }}
+                                                >
+                                                    <View style={[styles.modalOption]}>
+                                                        <MaterialCommunityIcons name="cancel" size={24} color={theme.light} />
+                                                        <Text style={{ color: theme.light }}>Cancel</Text>
+                                                    </View>
+                                                </TouchableHighlight>
+                                                <TouchableHighlight
+                                                    style={styles.modalOption}
+                                                    onPress={() => {
+                                                        navigation.navigate({
+                                                            name: "Dashboard",
+                                                            params: { delete: true, id: selectedID },
+                                                            merge: true,
+                                                        });
+                                                    }}
+                                                >
+                                                    <View style={[styles.modalOption]}>
+                                                        <MaterialIcons name="delete" size={24} color={theme.red} />
+                                                        <Text style={{ color: theme.light }}>Delete</Text>
+                                                    </View>
+                                                </TouchableHighlight>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </Modal>
                                 <View style={[styles.paymentWrapper]}>
                                     {
                                         item.withdrawal ?
@@ -92,14 +141,15 @@ const Payments = ({ navigation, bucket, theme }) => {
                                     <Popover
                                         popoverStyle={{
                                             backgroundColor: theme.inactive,
-                                            borderRadius: 16,
+                                            borderRadius: 12,
                                         }}
+                                        arrowSize={{ width: 26, height: 22 }}
+                                        isVisible={visiblePopoverId === item.id}
+                                        onRequestClose={() => setVisiblePopoverId(null)}
                                         from={(
                                             <TouchableHighlight
                                                 style={[styles.editIconContainer]}
-                                                onPress={() => {
-                                                    console.log("Click Modal")
-                                                }}
+                                                onPress={() => setVisiblePopoverId(item.id)}
                                             >
                                                 <Entypo
                                                     name="dots-three-vertical"
@@ -116,7 +166,13 @@ const Payments = ({ navigation, bucket, theme }) => {
                                                     <Text style={[{ color: theme.light }]}>Edit</Text>
                                                 </View>
                                             </TouchableHighlight>
-                                            <TouchableHighlight style={[styles.info]}>
+                                            <TouchableHighlight
+                                                style={[styles.info]}
+                                                onPress={() => {
+                                                    setModalVisible(!modalVisible);
+                                                    setVisiblePopoverId(null);
+                                                }}
+                                            >
                                                 <View style={[styles.moreInfoWrapper]}>
                                                     <MaterialIcons name="delete" size={24} color={theme.red} />
                                                     <Text style={[{ color: theme.light }]}>Delete</Text>
@@ -148,7 +204,7 @@ const Payments = ({ navigation, bucket, theme }) => {
             </View>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -207,6 +263,45 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flexDirection: "row",
         gap: 6,
+    },
+    modalContainer: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "rgba(0, 0, 0, .2)"
+    },
+    modalWrapper: {
+        paddingTop: "10%",
+        paddingBottom: "10%",
+        paddingLeft: "5%",
+        paddingRight: "5%",
+        width: width * 0.75,
+        borderRadius: 16,
+        borderWidth: 1,
+    },
+    modalTitle: {
+        fontSize: 18,
+        textAlign: "center",
+        marginBottom: "5%",
+    },
+    modalDescription: {
+        textAlign: "center",
+    },
+    bucketName: {
+        fontWeight: "500",
+    },
+    modalChoices: {
+        flexDirection: "row",
+        gap: 16,
+        marginTop: "10%",
+        alignItems: "center",
+        justifyContent: "flex-end",
+    },
+    modalOption: {
+        flexDirection: "row",
+        gap: 6,
+        alignItems: "center",
+        justifyContent: "center",
     },
 })
 
