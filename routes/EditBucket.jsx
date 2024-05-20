@@ -98,7 +98,7 @@ const EditBucket = ({ navigation }) => {
                     <View style={[styles.modalWrapper, { backgroundColor: theme.inactive }]}>
                         <Text style={[styles.title, { color: theme.light }]}>Delete Bucket</Text>
                         <Text style={[styles.modalDescription, { color: theme.light }]}>
-                            Are you sure you want to delete bucket
+                            Are you sure you want to delete
                             <Text style={[styles.bucketName, { color: theme.text }]}> {bucket.name}</Text>?
                         </Text>
 
@@ -110,7 +110,7 @@ const EditBucket = ({ navigation }) => {
                                 }}
                             >
                                 <View style={[styles.modalOption]}>
-                                    <MaterialCommunityIcons name="cancel" size={24} color={theme.light} />
+                                    <MaterialCommunityIcons name="cancel" size={20} color={theme.light} />
                                     <Text style={{ color: theme.light }}>Cancel</Text>
                                 </View>
                             </TouchableHighlight>
@@ -125,7 +125,7 @@ const EditBucket = ({ navigation }) => {
                                 }}
                             >
                                 <View style={[styles.modalOption]}>
-                                    <MaterialIcons name="delete" size={24} color={theme.red} />
+                                    <MaterialIcons name="delete" size={20} color={theme.red} />
                                     <Text style={{ color: theme.light }}>Delete</Text>
                                 </View>
                             </TouchableHighlight>

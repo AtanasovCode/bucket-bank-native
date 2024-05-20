@@ -94,7 +94,7 @@ const Payments = ({ navigation, bucket, theme }) => {
                                                     }}
                                                 >
                                                     <View style={[styles.modalOption]}>
-                                                        <MaterialCommunityIcons name="cancel" size={24} color={theme.light} />
+                                                        <MaterialCommunityIcons name="cancel" size={20} color={theme.light} />
                                                         <Text style={{ color: theme.light }}>Cancel</Text>
                                                     </View>
                                                 </TouchableHighlight>
@@ -109,7 +109,7 @@ const Payments = ({ navigation, bucket, theme }) => {
                                                     }}
                                                 >
                                                     <View style={[styles.modalOption]}>
-                                                        <MaterialIcons name="delete" size={24} color={theme.red} />
+                                                        <MaterialIcons name="delete" size={20} color={theme.red} />
                                                         <Text style={{ color: theme.light }}>Delete</Text>
                                                     </View>
                                                 </TouchableHighlight>
@@ -162,7 +162,7 @@ const Payments = ({ navigation, bucket, theme }) => {
                                         <View style={[styles.moreInfo]}>
                                             <TouchableHighlight style={[styles.info]}>
                                                 <View style={[styles.moreInfoWrapper]}>
-                                                    <Feather name="edit-3" size={24} color={theme.light} />
+                                                    <Feather name="edit-3" size={20} color={theme.light} />
                                                     <Text style={[{ color: theme.light }]}>Edit</Text>
                                                 </View>
                                             </TouchableHighlight>
@@ -174,7 +174,7 @@ const Payments = ({ navigation, bucket, theme }) => {
                                                 }}
                                             >
                                                 <View style={[styles.moreInfoWrapper]}>
-                                                    <MaterialIcons name="delete" size={24} color={theme.red} />
+                                                    <MaterialIcons name="delete" size={20} color={theme.red} />
                                                     <Text style={[{ color: theme.light }]}>Delete</Text>
                                                 </View>
                                             </TouchableHighlight>
