@@ -67,56 +67,6 @@ const Payments = ({ navigation, bucket, theme }) => {
                     {bucket.payments && bucket.payments.length > 0 ? (
                         sortedPayments.map((item) => (
                             <View key={item.id} style={[styles.paymentContainer]}>
-                                <Modal
-                                    animationType="fade"
-                                    visible={modalVisible}
-                                    transparent={true}
-                                    style={{ alignItem: "center", justifyContent: "center" }}
-                                    onRequestClose={() => {
-                                        setModalVisible(!modalVisible);
-                                    }}
-                                >
-                                    <View style={[styles.modalContainer]}>
-                                        <View style={[styles.modalWrapper, { backgroundColor: theme.inactive }]}>
-                                            <Text style={[styles.modalTitle, { color: theme.light }]}>Delete Payment</Text>
-                                            <Text style={[styles.modalDescription, { color: theme.light }]}>
-                                                Are you sure you want to delete the payment made on
-                                                <Text style={[styles.bucketName, { color: theme.text }]}> {item.date}</Text>,
-                                                payment amount 
-                                                <Text style={[styles.bucketName, { color: theme.text }]}> {formatMoney(item.amount)} {currency}</Text>
-                                            </Text>
-
-                                            <View style={styles.modalChoices}>
-                                                <TouchableHighlight
-                                                    style={styles.modalOption}
-                                                    onPress={() => {
-                                                        setModalVisible(!modalVisible);
-                                                    }}
-                                                >
-                                                    <View style={[styles.modalOption]}>
-                                                        <MaterialCommunityIcons name="cancel" size={20} color={theme.light} />
-                                                        <Text style={{ color: theme.light }}>Cancel</Text>
-                                                    </View>
-                                                </TouchableHighlight>
-                                                <TouchableHighlight
-                                                    style={styles.modalOption}
-                                                    onPress={() => {
-                                                        navigation.navigate({
-                                                            name: "Dashboard",
-                                                            params: { delete: true, id: selectedID },
-                                                            merge: true,
-                                                        });
-                                                    }}
-                                                >
-                                                    <View style={[styles.modalOption]}>
-                                                        <MaterialIcons name="delete" size={20} color={theme.red} />
-                                                        <Text style={{ color: theme.light }}>Delete</Text>
-                                                    </View>
-                                                </TouchableHighlight>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </Modal>
                                 <View style={[styles.paymentWrapper]}>
                                     {
                                         item.withdrawal ?
@@ -170,7 +120,6 @@ const Payments = ({ navigation, bucket, theme }) => {
                                                 style={[styles.info]}
                                                 onPress={() => {
                                                     setModalVisible(!modalVisible);
-                                                    setVisiblePopoverId(null);
                                                 }}
                                             >
                                                 <View style={[styles.moreInfoWrapper]}>
@@ -202,6 +151,56 @@ const Payments = ({ navigation, bucket, theme }) => {
                     screen="Payment"
                 />
             </View>
+            <Modal
+                animationType="fade"
+                visible={modalVisible}
+                transparent={true}
+                style={{ alignItems: "center", justifyContent: "center" }}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={[styles.modalContainer]}>
+                    <View style={[styles.modalWrapper, { backgroundColor: theme.inactive }]}>
+                        <Text style={[styles.modalTitle, { color: theme.light }]}>Delete Payment</Text>
+                        <Text style={[styles.modalDescription, { color: theme.light }]}>
+                            Are you sure you want to delete the payment made on
+                            <Text style={[styles.bucketName, { color: theme.text }]}>
+                                {sortedPayments.find((item) => item.id === visiblePopoverId)?.date || "N/A"}
+                            </Text>,
+                            payment amount
+                            <Text style={[styles.bucketName, { color: theme.text }]}>
+                                {formatMoney(sortedPayments.find((item) => item.id === visiblePopoverId)?.amount || 0)} {currency}
+                            </Text>
+                        </Text>
+
+                        <View style={styles.modalChoices}>
+                            <TouchableHighlight
+                                style={styles.modalOption}
+                                onPress={() => {
+                                    setModalVisible(!modalVisible);
+                                    setVisiblePopoverId(null);
+                                }}
+                            >
+                                <View style={[styles.modalOption]}>
+                                    <MaterialCommunityIcons name="cancel" size={20} color={theme.light} />
+                                    <Text style={{ color: theme.light }}>Cancel</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                                style={styles.modalOption}
+                                onPress={() => {}}
+                            >
+                                <View style={[styles.modalOption]}>
+                                    <MaterialIcons name="delete" size={20} color={theme.red} />
+                                    <Text style={{ color: theme.light }}>Delete</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
         </View>
     );
 };
