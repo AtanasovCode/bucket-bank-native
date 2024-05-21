@@ -21,6 +21,7 @@ const width = Dimensions.get("window").width;
 
 const Payments = ({ navigation, bucket, theme }) => {
 
+    const [buckets, setBuckets] = useState();
     const [currency, setCurrency] = useState("$");
     const [modalVisible, setModalVisible] = useState(false);
     const [visiblePopoverId, setVisiblePopoverId] = useState(null);
@@ -37,8 +38,21 @@ const Payments = ({ navigation, bucket, theme }) => {
         }
     };
 
+    const getBuckets = async () => {
+        try {
+            const value = await AsyncStorage.getItem("buckets");
+            if (value !== null) {
+                const parsedValue = JSON.parse(value);
+                setBuckets(parsedValue);
+            }
+        } catch (e) {
+            console.log("Error getting data:", e);
+        }
+    };
+
     useEffect(() => {
         getData();
+        getBuckets();
     }, []);
 
     const parseLocaleDateString = (dateString) => {
@@ -49,6 +63,48 @@ const Payments = ({ navigation, bucket, theme }) => {
     const sortedPayments = bucket.payments
         ? [...bucket.payments].sort((a, b) => parseLocaleDateString(b.date).getTime() - parseLocaleDateString(a.date).getTime())
         : [];
+
+    const saveData = async (value) => {
+        try {
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem("buckets", jsonValue)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const deletePayment = async (id) => {
+        // Find the bucket with the selectedID (you need to ensure selectedID is available in your scope)
+        const selectedID = bucket.id;  // Assuming bucket is passed as a prop and has an id field
+
+        // Filter out the payment with the given id
+        const updatedPayments = bucket.payments.filter((item) => item.id !== id);
+        const paymentToDelete = bucket.payments.find((item) => item.id === id);
+
+        if (!paymentToDelete) {
+            console.error("Payment not found");
+            return;
+        }
+
+        console.log(updatedPayments);
+
+        // Create the updated bucket object
+        const updatedBucket = {
+            ...bucket,
+            saved: parseFloat(bucket.saved) - parseFloat(paymentToDelete.amount),
+            payments: updatedPayments,
+        };
+
+        // Update the bucket within the buckets array
+        const updatedBuckets = buckets.map((bucket) =>
+            bucket.id === selectedID ? updatedBucket : bucket
+        );
+
+        // Save the updated buckets
+        await saveData(updatedBuckets);
+        setBuckets(updatedBuckets);  // Update state with new buckets
+    };
+
 
     return (
         <View style={[styles.container, { width: width }]}>
@@ -165,13 +221,9 @@ const Payments = ({ navigation, bucket, theme }) => {
                         <Text style={[styles.modalTitle, { color: theme.light }]}>Delete Payment</Text>
                         <Text style={[styles.modalDescription, { color: theme.light }]}>
                             Are you sure you want to delete the payment made on
-                            <Text style={[styles.bucketName, { color: theme.text }]}>
-                                {sortedPayments.find((item) => item.id === visiblePopoverId)?.date || "N/A"}
-                            </Text>,
+                            <Text style={[styles.bucketName, { color: theme.text }]}> {sortedPayments.find((item) => item.id === visiblePopoverId)?.date || "N/A"} </Text>,
                             payment amount
-                            <Text style={[styles.bucketName, { color: theme.text }]}>
-                                {formatMoney(sortedPayments.find((item) => item.id === visiblePopoverId)?.amount || 0)} {currency}
-                            </Text>
+                            <Text style={[styles.bucketName, { color: theme.text }]}> {sortedPayments.find((item) => item.id === visiblePopoverId)?.withdrawal ? "-" : ""}{formatMoney(sortedPayments.find((item) => item.id === visiblePopoverId)?.amount || 0)} {currency}</Text>
                         </Text>
 
                         <View style={styles.modalChoices}>
@@ -189,13 +241,18 @@ const Payments = ({ navigation, bucket, theme }) => {
                             </TouchableHighlight>
                             <TouchableHighlight
                                 style={styles.modalOption}
-                                onPress={() => {}}
+                                onPress={() => {
+                                    deletePayment(visiblePopoverId);
+                                    setModalVisible(false);
+                                    setVisiblePopoverId(null);
+                                }}
                             >
                                 <View style={[styles.modalOption]}>
                                     <MaterialIcons name="delete" size={20} color={theme.red} />
                                     <Text style={{ color: theme.light }}>Delete</Text>
                                 </View>
                             </TouchableHighlight>
+
                         </View>
                     </View>
                 </View>
