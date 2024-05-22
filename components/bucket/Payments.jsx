@@ -25,6 +25,7 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
     const [currency, setCurrency] = useState("$");
     const [modalVisible, setModalVisible] = useState(false);
     const [visiblePopoverId, setVisiblePopoverId] = useState(null);
+    const [visiblePopover, setVisiblePopover] = useState(false);
 
     const getData = async () => {
         try {
@@ -86,8 +87,6 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
             return;
         }
 
-        console.log(updatedPayments);
-
         // Create the updated bucket object
         const updatedBucket = {
             ...bucket,
@@ -120,7 +119,7 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
             </View>
             <View style={{ flex: 1 }}>
                 <ScrollView style={{ flex: 1 }}>
-                    {bucket.payments && bucket.payments.length > 0 ? (
+                    {sortedPayments && sortedPayments.length > 0 ? (
                         sortedPayments.map((item) => (
                             <View key={item.id} style={[styles.paymentContainer]}>
                                 <View style={[styles.paymentWrapper]}>
@@ -150,12 +149,15 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
                                             borderRadius: 12,
                                         }}
                                         arrowSize={{ width: 26, height: 22 }}
-                                        isVisible={visiblePopoverId === item.id}
+                                        isVisible={visiblePopoverId === item.id && visiblePopover ? true : false}
                                         onRequestClose={() => setVisiblePopoverId(null)}
                                         from={(
                                             <TouchableHighlight
                                                 style={[styles.editIconContainer]}
-                                                onPress={() => setVisiblePopoverId(item.id)}
+                                                onPress={() => {
+                                                    setVisiblePopoverId(item.id);
+                                                    setVisiblePopover(true);
+                                                }}
                                             >
                                                 <Entypo
                                                     name="dots-three-vertical"
@@ -176,6 +178,7 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
                                                 style={[styles.info]}
                                                 onPress={() => {
                                                     setModalVisible(!modalVisible);
+                                                    setVisiblePopover(false);
                                                 }}
                                             >
                                                 <View style={[styles.moreInfoWrapper]}>
@@ -327,21 +330,20 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, .2)"
     },
     modalWrapper: {
-        paddingTop: "10%",
-        paddingBottom: "10%",
-        paddingLeft: "5%",
-        paddingRight: "5%",
+        paddingVertical: "10%",
+        paddingHorizontal: "4%",
         width: width * 0.75,
         borderRadius: 16,
         borderWidth: 1,
     },
     modalTitle: {
-        fontSize: 18,
+        fontSize: 22,
         textAlign: "center",
         marginBottom: "5%",
     },
     modalDescription: {
         textAlign: "center",
+        fontSize: 14,
     },
     bucketName: {
         fontWeight: "500",
