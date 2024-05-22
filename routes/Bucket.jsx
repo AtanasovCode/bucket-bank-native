@@ -128,7 +128,7 @@ const Bucket = ({ navigation, route }) => {
                 setBucket(selectedBucket);
             }
         } catch (e) {
-            console.log("Error getting data");
+            console.log(e);
         }
     }
 
@@ -180,7 +180,9 @@ const Bucket = ({ navigation, route }) => {
 
     const handleTabChange = (value) => {
         const index = value === "overview" ? 0 : 1;
-        flatListRef.current.scrollToIndex({ index: index, animated: true })
+        if (flatListRef.current) {
+            flatListRef.current.scrollToIndex({ index: index, animated: true })
+        }
     }
 
     return (

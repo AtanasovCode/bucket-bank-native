@@ -90,7 +90,11 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
         // Create the updated bucket object
         const updatedBucket = {
             ...bucket,
-            saved: parseFloat(bucket.saved) - parseFloat(paymentToDelete.amount),
+            saved: paymentToDelete.withdrawal ?
+                parseFloat(bucket.saved) + parseFloat(paymentToDelete.amount)
+                :
+                parseFloat(bucket.saved) - parseFloat(paymentToDelete.amount)
+            ,
             payments: updatedPayments,
         };
 
@@ -150,7 +154,10 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
                                         }}
                                         arrowSize={{ width: 26, height: 22 }}
                                         isVisible={visiblePopoverId === item.id && visiblePopover ? true : false}
-                                        onRequestClose={() => setVisiblePopoverId(null)}
+                                        onRequestClose={() => {
+                                            setVisiblePopoverId(null);
+                                            setVisiblePopover(false);
+                                        }}
                                         from={(
                                             <TouchableHighlight
                                                 style={[styles.editIconContainer]}

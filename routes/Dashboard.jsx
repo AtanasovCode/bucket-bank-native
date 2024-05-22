@@ -49,7 +49,7 @@ const Dashboard = ({ navigation, route }) => {
         try {
             await AsyncStorage.setItem(key, JSON.stringify(value));
         } catch (e) {
-            console.log("Error saving data");
+            console.log("Error saving data:", e);
         }
     };
 
@@ -141,6 +141,7 @@ const Dashboard = ({ navigation, route }) => {
         </View>
     );
 
+
     return (
         <SafeAreaView style={[styles.container, { minHeight: height, width: width }]}>
             <StatusBar style={dark ? "light" : "dark"} />
@@ -164,7 +165,7 @@ const Dashboard = ({ navigation, route }) => {
                 style={[styles.bucketsWrapper, {}]}
                 data={buckets}
                 renderItem={renderItem}
-                ListEmptyComponent={loading ? <Text>Loading...</Text> : ListEmptyComponent}
+                ListEmptyComponent={loading ? <Text>Loading...</Text> : <ListEmptyComponent />}
                 keyExtractor={(item) => item.id.toString()}
                 ListHeaderComponent={
                     <>
