@@ -19,7 +19,7 @@ import Popover from "react-native-popover-view/dist/Popover";
 
 const width = Dimensions.get("window").width;
 
-const Payments = ({ navigation, bucket, theme }) => {
+const Payments = ({ navigation, bucket, setBucket, theme }) => {
 
     const [buckets, setBuckets] = useState();
     const [currency, setCurrency] = useState("$");
@@ -100,8 +100,8 @@ const Payments = ({ navigation, bucket, theme }) => {
             bucket.id === selectedID ? updatedBucket : bucket
         );
 
-        // Save the updated buckets
-        await saveData(updatedBuckets);
+        saveData(updatedBuckets);
+        setBucket(updatedBucket);
         setBuckets(updatedBuckets);  // Update state with new buckets
     };
 

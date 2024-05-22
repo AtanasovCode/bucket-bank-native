@@ -160,6 +160,7 @@ const Bucket = ({ navigation, route }) => {
             setBucket={setBucket}
             navigation={navigation}
             theme={theme}
+            selectedID={selectedID}
         />
     ];
 
