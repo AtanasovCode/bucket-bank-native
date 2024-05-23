@@ -125,78 +125,86 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
                 <ScrollView style={{ flex: 1 }}>
                     {sortedPayments && sortedPayments.length > 0 ? (
                         sortedPayments.map((item) => (
-                            <View key={item.id} style={[styles.paymentContainer]}>
-                                <View style={[styles.paymentWrapper]}>
-                                    {
-                                        item.withdrawal ?
-                                            <MaterialCommunityIcons
-                                                name="bank-minus"
-                                                size={22}
-                                                color={theme.red}
-                                            />
-                                            :
-                                            <MaterialCommunityIcons
-                                                name="bank-plus"
-                                                size={22}
-                                                color={theme.money}
-                                            />
-                                    }
-                                    <Text style={[styles.text, { color: theme.text }]}>{item.date}</Text>
-                                </View>
-                                <View style={[styles.paymentWrapper, { gap: 12 }]}>
-                                    <Text style={[styles.text, { color: item.withdrawal ? theme.red : theme.money, fontFamily: "monospace" }]}>
-                                        {item.withdrawal ? "-" : "+"} {formatMoney(item.amount)} {currency}
-                                    </Text>
-                                    <Popover
-                                        popoverStyle={{
-                                            backgroundColor: theme.inactive,
-                                            borderRadius: 12,
-                                        }}
-                                        arrowSize={{ width: 26, height: 22 }}
-                                        isVisible={visiblePopoverId === item.id && visiblePopover ? true : false}
-                                        onRequestClose={() => {
-                                            setVisiblePopoverId(null);
-                                            setVisiblePopover(false);
-                                        }}
-                                        from={(
-                                            <TouchableHighlight
-                                                style={[styles.editIconContainer]}
-                                                onPress={() => {
-                                                    setVisiblePopoverId(item.id);
-                                                    setVisiblePopover(true);
-                                                }}
-                                            >
-                                                <Entypo
-                                                    name="dots-three-vertical"
-                                                    size={16}
-                                                    color={theme.light}
+                            <TouchableHighlight
+                                key={item.id} style={{flex: 1, marginBottom: "4%"}}
+                                onLongPress={() => {
+                                    setVisiblePopover(true);
+                                    setVisiblePopoverId(item.id);
+                                }}
+                            >
+                                <View style={[styles.paymentContainer]}>
+                                    <View style={[styles.paymentWrapper]}>
+                                        {
+                                            item.withdrawal ?
+                                                <MaterialCommunityIcons
+                                                    name="bank-minus"
+                                                    size={22}
+                                                    color={theme.red}
                                                 />
-                                            </TouchableHighlight>
-                                        )}
-                                    >
-                                        <View style={[styles.moreInfo]}>
-                                            <TouchableHighlight style={[styles.info]}>
-                                                <View style={[styles.moreInfoWrapper]}>
-                                                    <Feather name="edit-3" size={20} color={theme.light} />
-                                                    <Text style={[{ color: theme.light }]}>Edit</Text>
-                                                </View>
-                                            </TouchableHighlight>
-                                            <TouchableHighlight
-                                                style={[styles.info]}
-                                                onPress={() => {
-                                                    setModalVisible(!modalVisible);
-                                                    setVisiblePopover(false);
-                                                }}
-                                            >
-                                                <View style={[styles.moreInfoWrapper]}>
-                                                    <MaterialIcons name="delete" size={20} color={theme.red} />
-                                                    <Text style={[{ color: theme.light }]}>Delete</Text>
-                                                </View>
-                                            </TouchableHighlight>
-                                        </View>
-                                    </Popover>
+                                                :
+                                                <MaterialCommunityIcons
+                                                    name="bank-plus"
+                                                    size={22}
+                                                    color={theme.money}
+                                                />
+                                        }
+                                        <Text style={[styles.text, { color: theme.text }]}>{item.date}</Text>
+                                    </View>
+                                    <View style={[styles.paymentWrapper, { gap: 12 }]}>
+                                        <Text style={[styles.text, { color: item.withdrawal ? theme.red : theme.money, fontFamily: "monospace" }]}>
+                                            {item.withdrawal ? "-" : "+"} {formatMoney(item.amount)} {currency}
+                                        </Text>
+                                        <Popover
+                                            popoverStyle={{
+                                                backgroundColor: theme.inactive,
+                                                borderRadius: 12,
+                                            }}
+                                            arrowSize={{ width: 20, height: 12 }}
+                                            isVisible={visiblePopoverId === item.id && visiblePopover ? true : false}
+                                            onRequestClose={() => {
+                                                setVisiblePopoverId(null);
+                                                setVisiblePopover(false);
+                                            }}
+                                            from={(
+                                                <TouchableHighlight
+                                                    style={[styles.editIconContainer]}
+                                                    onPress={() => {
+                                                        setVisiblePopoverId(item.id);
+                                                        setVisiblePopover(true);
+                                                    }}
+                                                >
+                                                    <Entypo
+                                                        name="dots-three-vertical"
+                                                        size={16}
+                                                        color={theme.light}
+                                                    />
+                                                </TouchableHighlight>
+                                            )}
+                                        >
+                                            <View style={[styles.moreInfo]}>
+                                                <TouchableHighlight style={[styles.info]}>
+                                                    <View style={[styles.moreInfoWrapper]}>
+                                                        <Feather name="edit-3" size={20} color={theme.light} />
+                                                        <Text style={[{ color: theme.light }]}>Edit</Text>
+                                                    </View>
+                                                </TouchableHighlight>
+                                                <TouchableHighlight
+                                                    style={[styles.info]}
+                                                    onPress={() => {
+                                                        setModalVisible(!modalVisible);
+                                                        setVisiblePopover(false);
+                                                    }}
+                                                >
+                                                    <View style={[styles.moreInfoWrapper]}>
+                                                        <MaterialIcons name="delete" size={20} color={theme.red} />
+                                                        <Text style={[{ color: theme.light }]}>Delete</Text>
+                                                    </View>
+                                                </TouchableHighlight>
+                                            </View>
+                                        </Popover>
+                                    </View>
                                 </View>
-                            </View>
+                            </TouchableHighlight>
                         ))
                     ) : (
                         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 22 }}>
@@ -289,7 +297,6 @@ const styles = StyleSheet.create({
     paymentContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginBottom: "7%",
         marginLeft: "6%",
         marginRight: "6%",
     },
@@ -337,7 +344,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, .2)"
     },
     modalWrapper: {
-        paddingVertical: "10%",
+        paddingVertical: "8%",
         paddingHorizontal: "4%",
         width: width * 0.75,
         borderRadius: 16,
@@ -357,7 +364,6 @@ const styles = StyleSheet.create({
     },
     modalChoices: {
         flexDirection: "row",
-        gap: 16,
         marginTop: "10%",
         alignItems: "center",
         justifyContent: "flex-end",
@@ -367,6 +373,7 @@ const styles = StyleSheet.create({
         gap: 6,
         alignItems: "center",
         justifyContent: "center",
+        marginLeft: "5%",
     },
 })
 
