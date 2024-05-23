@@ -34,7 +34,12 @@ const Bucket = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState("overview");
 
     useEffect(() => {
-        if (route.params?.date && route.params?.amount !== undefined && route.params?.withdrawal === true || route.params?.withdrawal === false) {
+        if (route.params?.date
+            && route.params?.amount !== undefined
+            && route.params?.withdrawal !== undefined
+            && route.params?.edit !== undefined
+            && route.params?.id !== undefined
+        ) {
             const newPayment = {
                 id: Crypto.randomUUID(),
                 date: route.params.date,
@@ -42,14 +47,42 @@ const Bucket = ({ navigation, route }) => {
                 withdrawal: route.params.withdrawal,
             };
 
-            const newSavedValue = route.params.withdrawal
-                ? parseFloat(bucket.saved) - parseFloat(route.params.amount)
-                : parseFloat(bucket.saved) + parseFloat(route.params.amount);
+            const paymentToEdit = bucket.payments.find((item) => item.id === route.params.id);
+
+            const editedPayment = {
+                ...paymentToEdit,
+                amount: route.params.amount,
+                date: route.params.date,
+                withdrawal: route.params.withdrawal,
+            };
+
+            let updatedPayments;
+            let newSavedValue;
+
+            if (route.params.edit) {
+                // Edit existing payment
+                updatedPayments = bucket.payments.map((payment) =>
+                    payment.id === route.params.id ? editedPayment : payment
+                );
+                // Adjust saved value based on the difference between the old and new amounts
+                const oldAmount = parseFloat(paymentToEdit.amount);
+                const newAmount = parseFloat(route.params.amount);
+                const amountDifference = newAmount - oldAmount;
+                newSavedValue = route.params.withdrawal
+                    ? parseFloat(bucket.saved) - amountDifference
+                    : parseFloat(bucket.saved) + amountDifference;
+            } else {
+                // Add new payment
+                updatedPayments = [newPayment, ...bucket.payments];
+                newSavedValue = route.params.withdrawal
+                    ? parseFloat(bucket.saved) - parseFloat(route.params.amount)
+                    : parseFloat(bucket.saved) + parseFloat(route.params.amount);
+            }
 
             const updatedBucket = {
                 ...bucket,
                 saved: newSavedValue,
-                payments: [newPayment, ...bucket.payments],
+                payments: updatedPayments,
                 complete: newSavedValue >= bucket.goal,
             };
 
@@ -72,7 +105,8 @@ const Bucket = ({ navigation, route }) => {
 
             updateBuckets();
         }
-    }, [route.params?.date, route.params?.amount, route.params?.withdrawal]);
+    }, [route.params]);
+
 
 
     useEffect(() => {

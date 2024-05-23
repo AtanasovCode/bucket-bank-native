@@ -29,6 +29,8 @@ const AddPayment = ({ navigation, route }) => {
     const [payment, setPayment] = useState();
     const [withdrawal, setWithdrawal] = useState(false);
     const [title, setTitle] = useState("New Payment");
+    const [edit, setEdit] = useState(false);
+    const [id, setId] = useState(null);
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
@@ -59,12 +61,19 @@ const AddPayment = ({ navigation, route }) => {
 
 
     useEffect(() => {
-        if (route.params?.amount !== undefined && route.params?.date !== undefined && route.params?.withdrawal !== undefined) {
-            console.log(route.params.withdrawal);
+        if (route.params?.amount !== undefined
+            && route.params?.date !== undefined
+            && route.params?.withdrawal !== undefined
+            && route.params?.id !== undefined
+            && route.params?.edit !== undefined
+            && route.params?.id !== undefined
+        ) {
             setPayment(route.params.amount);
             setDate(parseLocaleDateString(route.params.date));
             setWithdrawal(route.params.withdrawal);
-            setTitle("Edit Payment")
+            setTitle("Edit Payment");
+            setEdit(route.params.edit);
+            setId(route.params.id);
         }
     }, [route.params]);
 
@@ -133,7 +142,13 @@ const AddPayment = ({ navigation, route }) => {
                         if (inputs) {
                             navigation.navigate({
                                 name: "Bucket",
-                                params: { date: date.toLocaleDateString(), amount: payment, withdrawal: withdrawal },
+                                params: {
+                                    date: date.toLocaleDateString(),
+                                    amount: payment,
+                                    withdrawal: withdrawal,
+                                    edit: edit,
+                                    id: id,
+                                },
                                 merge: true,
                             })
                         }

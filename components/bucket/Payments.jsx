@@ -190,7 +190,13 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
 
                                                         navigation.navigate({
                                                             name: "Payment",
-                                                            params: { edit: true, date: item.date, amount: item.amount, withdrawal: item.withdrawal },
+                                                            params: {
+                                                                edit: true,
+                                                                id: item.id,
+                                                                date: item.date,
+                                                                amount: item.amount,
+                                                                withdrawal: item.withdrawal
+                                                            },
                                                             merge: true,
                                                         })
                                                     }}
