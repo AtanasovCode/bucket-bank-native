@@ -61,8 +61,7 @@ const DashboardData = ({ theme, buckets, currency }) => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: "5%",
-        paddingBottom: "5%",
+        marginBottom: "4%",
     },
     wrapper: {
         flexDirection: "row",
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         textAlign: "center",
-        marginBottom: "10%",
+        marginBottom: "5%",
     },
 });
 
