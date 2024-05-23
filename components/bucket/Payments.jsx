@@ -126,7 +126,7 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
                     {sortedPayments && sortedPayments.length > 0 ? (
                         sortedPayments.map((item) => (
                             <TouchableHighlight
-                                key={item.id} style={{flex: 1, marginBottom: "4%"}}
+                                key={item.id} style={{ flex: 1, marginBottom: "4%" }}
                                 onLongPress={() => {
                                     setVisiblePopover(true);
                                     setVisiblePopoverId(item.id);
@@ -182,7 +182,19 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
                                             )}
                                         >
                                             <View style={[styles.moreInfo]}>
-                                                <TouchableHighlight style={[styles.info]}>
+                                                <TouchableHighlight
+                                                    style={[styles.info]}
+                                                    onPress={() => {
+                                                        setVisiblePopover(false);
+                                                        setVisiblePopoverId(null);
+
+                                                        navigation.navigate({
+                                                            name: "Payment",
+                                                            params: { edit: true, date: item.date, amount: item.amount, withdrawal: item.withdrawal },
+                                                            merge: true,
+                                                        })
+                                                    }}
+                                                >
                                                     <View style={[styles.moreInfoWrapper]}>
                                                         <Feather name="edit-3" size={20} color={theme.light} />
                                                         <Text style={[{ color: theme.light }]}>Edit</Text>

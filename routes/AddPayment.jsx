@@ -17,7 +17,7 @@ import { lightTheme, darkTheme } from "../Colors";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const AddPayment = ({ navigation }) => {
+const AddPayment = ({ navigation, route }) => {
 
     const { colors, dark } = useTheme()
 
@@ -28,6 +28,7 @@ const AddPayment = ({ navigation }) => {
     const [date, setDate] = useState(new Date());
     const [payment, setPayment] = useState();
     const [withdrawal, setWithdrawal] = useState(false);
+    const [title, setTitle] = useState("New Payment");
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
@@ -51,6 +52,22 @@ const AddPayment = ({ navigation }) => {
         showMode('date');
     };
 
+    const parseLocaleDateString = (dateString) => {
+        const [day, month, year] = dateString.split('/').map(Number);
+        return new Date(year, month - 1, day);
+    };
+
+
+    useEffect(() => {
+        if (route.params?.amount !== undefined && route.params?.date !== undefined && route.params?.withdrawal !== undefined) {
+            console.log(route.params.withdrawal);
+            setPayment(route.params.amount);
+            setDate(parseLocaleDateString(route.params.date));
+            setWithdrawal(route.params.withdrawal);
+            setTitle("Edit Payment")
+        }
+    }, [route.params]);
+
     useEffect(() => {
         date && payment ? setInputs(true) : setInputs(false);
     }, [date, payment])
@@ -60,7 +77,7 @@ const AddPayment = ({ navigation }) => {
             <View>
                 <Header back={true} navigation={navigation} />
                 <Text style={[styles.title, { color: theme.light }]}>
-                    New Payment
+                    {title}
                 </Text>
                 <View>
                     <View style={[styles.wrapper]}>
@@ -70,7 +87,7 @@ const AddPayment = ({ navigation }) => {
                         <TouchableHighlight
                             style={[
                                 styles.input,
-                                { backgroundColor: theme.inactive}]}
+                                { backgroundColor: theme.inactive }]}
                             onPress={showDatepicker}
                         >
                             <Text style={{ color: theme.text }}>{date.toLocaleDateString()}</Text>
@@ -89,6 +106,7 @@ const AddPayment = ({ navigation }) => {
                             placeholderTextColor={dark ? theme.light : "#ada6a6"}
                             placeholder="Enter payment"
                             keyboardType="numeric"
+                            value={payment}
                             onChangeText={(value) => {
                                 setPayment(value)
                             }}
