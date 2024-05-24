@@ -75,8 +75,8 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
     }
 
     const deletePayment = async (id) => {
-        // Find the bucket with the selectedID (you need to ensure selectedID is available in your scope)
-        const selectedID = bucket.id;  // Assuming bucket is passed as a prop and has an id field
+
+        const selectedID = bucket.id;
 
         // Filter out the payment with the given id
         const updatedPayments = bucket.payments.filter((item) => item.id !== id);
@@ -103,9 +103,12 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
             bucket.id === selectedID ? updatedBucket : bucket
         );
 
+        setVisiblePopover(false);
+        setVisiblePopoverId(null);
+        setModalVisible(false);
         saveData(updatedBuckets);
         setBucket(updatedBucket);
-        setBuckets(updatedBuckets);  // Update state with new buckets
+        setBuckets(updatedBuckets);
     };
 
 
@@ -279,8 +282,6 @@ const Payments = ({ navigation, bucket, setBucket, theme }) => {
                                 style={styles.modalOption}
                                 onPress={() => {
                                     deletePayment(visiblePopoverId);
-                                    setModalVisible(false);
-                                    setVisiblePopoverId(null);
                                 }}
                             >
                                 <View style={[styles.modalOption]}>

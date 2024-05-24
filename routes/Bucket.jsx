@@ -236,30 +236,32 @@ const Bucket = ({ navigation, route }) => {
                     </Text>
             }
             <View style={[styles.tabContainer]}>
-                <TouchableHighlight style={[
-                    styles.tab,
-                    { backgroundColor: selectedTab === "overview" ? theme.accent : theme.inactive }]}
+                <TouchableHighlight style={[styles.tab]}
                     onPress={() => {
                         setSelectedTab("overview");
                         handleTabChange("overview");
                     }}
                 >
-                    <Text style={[styles.text, { color: selectedTab === "overview" ? "#000" : theme.text }]}>
+                    <Text style={[styles.text, { color: theme.text }]}>
                         Overview
                     </Text>
                 </TouchableHighlight>
-                <TouchableHighlight style={[
-                    styles.tab,
-                    { backgroundColor: selectedTab === "payments" ? theme.accent : theme.inactive }]}
+                <TouchableHighlight style={[styles.tab]}
                     onPress={() => {
                         setSelectedTab("payments")
                         handleTabChange("payments");
                     }}
                 >
-                    <Text style={[styles.text, { color: selectedTab === "payments" ? "#000" : theme.text }]}>
+                    <Text style={[styles.text, { color: theme.text }]}>
                         Payments
                     </Text>
                 </TouchableHighlight>
+                <View style={[styles.tabBorder, {
+                    backgroundColor: theme.accent,
+                    left: selectedTab === "overview" ? 0 : "50%"
+                }]}>
+
+                </View>
             </View>
 
             <FlatList
@@ -283,14 +285,13 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     bucketWrapper: {
-        marginBottom: "10%",
+        marginBottom: "6%",
     },
     title: {
         fontSize: 32,
         fontWeight: "700",
         textAlign: "center",
-        marginLeft: "6%",
-        marginRight: "6%",
+        marginHorizontal: "6%",
     },
     subTitle: {
         fontSize: 14,
@@ -300,16 +301,16 @@ const styles = StyleSheet.create({
     money: {},
     tabContainer: {
         flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 20,
-        marginLeft: "6%",
-        marginRight: "6%",
     },
     tab: {
-        padding: 8,
         flex: 1,
-        borderRadius: 16,
+        paddingVertical: "3%",
+    },
+    tabBorder: {
+        width: width * 0.5,
+        height: "4%",
+        position: "absolute",
+        bottom: 0,
     },
     text: {
         fontSize: 15,
