@@ -6,6 +6,7 @@ import {
     Text,
     TouchableHighlight,
     FlatList,
+    Animated,
     useColorScheme,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";

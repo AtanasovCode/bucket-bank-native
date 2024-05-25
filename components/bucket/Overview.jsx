@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     View,
     Text,
+    Animated,
 } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
 import { formatMoney } from "../Utils";
@@ -45,6 +46,33 @@ const Overview = ({
         getData();
     }, [])
 
+
+    const widthAnim = useRef(new Animated.Value(0)).current;
+
+    const animateWidth = (targetWidth) => {
+        Animated.timing(widthAnim, {
+            toValue: targetWidth,
+            duration: 725,
+            useNativeDriver: false
+        }).start();
+    };
+
+
+    useEffect(() => {
+        console.log(`progress width: ${saved / goal * (width - width * 0.12)}`);
+        console.log(`width: ${width}`);
+        if (goal && saved >= 0) {
+            if ((saved / goal) * 100 <= 100) {
+                const targetWidth = (saved / goal) * (width - width * 0.12);
+                animateWidth(targetWidth);
+            } else {
+                const targetWidth = width - width * 0.12;
+                animateWidth(targetWidth);
+            }
+        }
+    }, [saved, goal]);
+
+
     return (
         <View style={[styles.container, { width: width }]}>
             <View style={[styles.wrapper]}>
@@ -83,7 +111,7 @@ const Overview = ({
                     <Text style={[{ color: theme.money }]}>{getProgress(saved, goal)}</Text>
                 </View>
                 <View style={[styles.progressBar, { backgroundColor: theme.inactive }]}>
-                    <View style={[styles.progress, { width: getProgress(saved, goal), backgroundColor: theme.accent }]}></View>
+                    <Animated.View style={[styles.progress, { width: widthAnim, backgroundColor: theme.accent }]}></Animated.View>
                 </View>
             </View>
         </View>
