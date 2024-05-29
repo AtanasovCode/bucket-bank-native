@@ -59,7 +59,7 @@ const Overview = ({
 
 
     useEffect(() => {
-        console.log(`progress width: ${saved / goal * (width - width * 0.12)}`);
+        console.log(`percent: ${saved / goal}`);
         console.log(`width: ${width}`);
         if (goal && saved >= 0) {
             if ((saved / goal) * 100 <= 100) {
