@@ -4,12 +4,12 @@ import { formatMoney } from '../Utils';
 
 const DataItem = ({ iconComponent, text, theme, flex, total, currency }) => {
     return (
-        <View style={[styles.dataWrapper, { backgroundColor: theme.inactive, flex: flex }]}>
-            <View style={styles.dataTitle}>
+        <View className="p-[5%] items-center justify-center rounded-xl" style={{ backgroundColor: theme.inactive, flex: flex}}>
+            <View className="flex-row items-center justify-center mb-[5%] gap-2">
                 {iconComponent}
                 <Text style={{ color: theme.light }}>{text}</Text>
             </View>
-            <Text style={[styles.total, { color: theme.light }]}>
+            <Text className="text-xl text-center" style={{ color: theme.light }}>
                 {
                     currency ? `${formatMoney(total)} ${currency}` : (total)
                 }
